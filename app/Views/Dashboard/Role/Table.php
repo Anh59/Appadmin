@@ -10,6 +10,7 @@
                 <th>User ID</th>
                 <th>Username</th>
                 <th>Roles</th>
+                <th>Permissions</th>
             </tr>
         </thead>
         <tbody>
@@ -18,18 +19,24 @@
                 <td><?= $user['id'] ?></td>
                 <td><?= $user['username'] ?></td>
                 <td>
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                    <label class="form-check-label" for="flexCheckIndeterminate">
+                        Indeterminate checkbox
+                    </label>
+                    </div>
+                </td>
+                <td>
+                    
                     <?php foreach ($roles as $role): ?>
                      
                       <div><?=$role['url']?></div>
+                
 
-                       <?php dd($role)
-                        ?> 
-                    <div>
-                        <input type="checkbox" name="roles[<?= $user['id'] ?>][]" value="<?= $role['id'] ?>" <?= in_array($role['id'], $user['roles']) ? 'checked' : '' ?>>
-                        <?= $role['description'] ?>
-                    </div>
                     <?php endforeach; ?>
                 </td>
+
+                <td></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

@@ -1,16 +1,15 @@
 <?= $this->extend('layout/index'); ?>
 <?= $this->section('content'); ?>
 
-<h1>Danh sách Group</h1>
-<form action="<?= route_to('Table_Create') ?>" method="get" style="display:inline;">
-    <button type="submit" class="btn btn-success">ADD</button>
-</form>
+<h1>Danh sách Group và Quyền</h1>
+
 <table id="table" class="display" style="width:100%">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Roles</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -21,15 +20,17 @@
             <td><?= $group['name'] ?></td>
             <td><?= $group['description'] ?></td>
             <td>
-                <a href="<?= site_url('Dashborad/group-edit/' . $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
-                
+                <?php foreach ($groupRoles as $groupRole):?>
 
-                <form action="<?= site_url('Dashborad/group-delete/' . $group['id']) ?>" method="post" style="display:inline;">
-                    <?= csrf_field() ?>
-                    <!-- <input type="hidden" name="_method" value="DELETE"> -->
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này?')">Delete</button>
-                </form>
-
+                   
+                    <?php if ($groupRole['group_id'] == $group['id']): ?>
+                        
+                        <?= $groupRole['role_id'] ?><br>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </td>
+            <td>
+                <a href="<?= site_url('Dashborad/Table-groupRole-edit/' . $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
             </td>
         </tr>
         <?php endforeach; ?>

@@ -317,6 +317,24 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<?= route_to('Table_GroupRole')?>" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Danh Sách Group Role
+               
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?= route_to('Table_Permissions')?>" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Danh Sách Permissions
+               
+              </p>
+            </a>
+          </li>
 
           <li class="nav-item">
             <a href="<?= route_to('Table_User')?>" class="nav-link">

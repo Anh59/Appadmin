@@ -28,8 +28,15 @@ $routes->group('Dashborad', function (RouteCollection $routes) {
     $routes->get('table-role','RoleController::table',['as'=> 'Table_Role']);
     $routes->post('Table-roles', 'RoleController::assignRoles', ['as' => 'Table_roles']);
 
+    $routes->get('test','RoleController::index',['as'=> 'Test_Role']);
 
-
+    //Group_Role
+    $routes->get('table-groupRole','GroupRoleController::table',['as'=> 'Table_GroupRole']);
+    $routes->get('Table-groupRole-edit/(:num)','GroupRoleController::edit/$1',['as'=> 'Table_GroupRole_Edit']);
+    $routes->post('Table-groupRole-update/(:num)','GroupRoleController::update/$1',['as'=> 'Table_GroupRole_update']);
+    
+    //permissions
+    $routes->get('table-permissions','PermissionsController::table',['as'=> 'Table_Permissions']);
 
     //User
     $routes->get('table-user','TableUserController::tableuser',['as'=> 'Table_User']);

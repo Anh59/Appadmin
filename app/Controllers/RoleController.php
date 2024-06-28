@@ -3,9 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\RoleModel;
-use App\Models\UserModel;
-
+use App\Models\{UserModel, RoleModel,GroupModel};
 class RoleController extends BaseController
 {
     public function table()
@@ -41,5 +39,14 @@ class RoleController extends BaseController
         }
 
         return redirect()->route('Table_User')->with('message', 'Vai trò đã được cập nhật thành công');
+    }
+
+
+    public function _construct(){
+       //$this->group = new GroupModel();
+
+    }
+    public function index(){
+        //return view('Dashboard/Role/test',['groups'=>group->fillAll()]);
     }
 }
