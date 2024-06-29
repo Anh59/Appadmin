@@ -1,19 +1,23 @@
 <?= $this->extend('layout/index'); ?>
+
 <?= $this->section('content'); ?>
 
 <h1>Create New Group</h1>
 
 <form action="<?= base_url('Dashborad/table-store') ?>" method="post">
     <?= csrf_field() ?>
-    <div>
+
+    <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" required>
+        <input type="text" class="form-control" id="name" name="name" required>
     </div>
-    <div>
+
+    <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" name="description" id="description" required>
+        <input type="text" class="form-control" id="description" name="description" required>
     </div>
-    <button type="submit">Create</button>
+
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
 
 <?= $this->endSection(); ?>

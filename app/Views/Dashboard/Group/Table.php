@@ -3,7 +3,7 @@
 
 <h1>Danh sách Group</h1>
 <form action="<?= route_to('Table_Create') ?>" method="get" style="display:inline;">
-    <button type="submit" class="btn btn-success">ADD</button>
+    <button type="submit" class="btn btn-success">+ Create</button>
 </form>
 <table id="table" class="display" style="width:100%">
     <thead>

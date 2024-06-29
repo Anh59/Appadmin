@@ -58,7 +58,8 @@ class GroupRoleController extends BaseController
         foreach ($roleIds as $roleId) {
             $groupRoleModel->insert(['group_id' => $id, 'role_id' => $roleId]);
         }
-
+        
+        session()->setFlashdata('success', 'Group roles updated successfully.');
         return redirect()->route('Table_GroupRole');
     }
 }

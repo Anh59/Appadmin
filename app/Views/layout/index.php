@@ -247,26 +247,7 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <!-- <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul> -->
+           
           </li>
          
           <li class="nav-item menu-open">
@@ -347,17 +328,8 @@
           </li>
 
           
-          <!-- <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
+ 
+            <!-- <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Layout Options
@@ -573,7 +545,7 @@
                 </a>
               </li>
             </ul>
-          </li> -->
+          </li>  -->
           <li class="nav-header">EXAMPLES</li>
           <!-- <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
@@ -978,6 +950,18 @@
     </div>
     <!-- /.content-header -->
 
+    <!-- thông báo  -->
+    <?php if (session()->has('success')): ?>
+        <div class="alert alert-success" role="alert">
+            <?= session('success') ?>
+        </div>
+    <?php elseif (session()->has('error')): ?>
+        <div class="alert alert-danger" role="alert">
+            <?= session('error') ?>
+        </div>
+    <?php endif; ?>
+
+
     <!-- Main content -->
     <section class="content">
     <?= $this->renderSection('content'); ?>
@@ -1037,7 +1021,18 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 
-
+<script>
+    setTimeout(function() {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            alert.classList.remove('show');
+            alert.classList.add('fade');
+            setTimeout(function() {
+                alert.style.display = 'none';
+            }, 1000); // Thời gian để fade out
+        });
+    }, 5000); // Thời gian chờ trước khi ẩn thông báo (5000ms = 5s)
+</script>
 <!-- Thêm thư viện jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
 <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>    

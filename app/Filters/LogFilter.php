@@ -25,7 +25,11 @@ class LogFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        //
+        //kiểm tra đã đăng nhập hay chưa
+        if(!session()->get('logged_in')){
+            return redirect()->to('/login');
+        }
+
     }
 
     /**

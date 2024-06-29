@@ -1,20 +1,22 @@
 <?= $this->extend('layout/index'); ?>
 <?= $this->section('content'); ?>
 
-<h1>Edit New Group</h1>
 <h1>Edit Group</h1>
 
 <form action="<?= site_url('Dashborad/group-update/' . $group['id']) ?>" method="post">
     <?= csrf_field() ?>
-    <div>
+
+    <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" value="<?= $group['name'] ?>" required>
+        <input type="text" class="form-control" id="name" name="name" value="<?= $group['name'] ?>" required>
     </div>
-    <div>
+
+    <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" name="description" id="description" value="<?= $group['description'] ?>" required>
+        <input type="text" class="form-control" id="description" name="description" value="<?= $group['description'] ?>" required>
     </div>
-    <button type="submit">Update</button>
+
+    <button type="submit" class="btn btn-primary">Update</button>
 </form>
 
 <?= $this->endSection(); ?>
