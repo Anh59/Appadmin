@@ -7,9 +7,10 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class PermissionsController extends BaseController
 {
-    public function index()
+    public function table()
     {
         //
+        return view('Dashboard/permissions/table');
     }
 
 

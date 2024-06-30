@@ -5,18 +5,18 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-    
+// $routes->get('/', 'Home::index');
+  
 
 // $routes->get('login','UserController::index');
 // $routes->get('sign','UserController::sign');
 // $routes->get('tableuser','UserController::tableuser');
-$routes->get('table','Home::table');
+    
 
 $routes->group('Dashborad', ['filter' => 'log'],function (RouteCollection $routes) {
 
     // login
-    
+    $routes->get('table','Home::table');  
     //Group
     $routes->get('table-group','GroupController::table',['as'=>'Table_Group']);
     $routes->get('table-create','GroupController::create',['as'=> 'Table_Create']);

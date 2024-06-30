@@ -38,7 +38,7 @@ class UserController extends Controller
                 'logged_in' => true,
             ]);
 
-            return redirect()->to('table'); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
+            return redirect()->to('Dashborad/table'); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
         } else {
             // Đăng nhập thất bại
             return redirect()->back()->with('error', 'Invalid email or password');

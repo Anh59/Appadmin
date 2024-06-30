@@ -52,7 +52,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= route_to('Admin.Home')?>" class="nav-link">Home</a>
+        <a href="<?= route_to('Admin.Home')?>" c  lass="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -238,8 +238,8 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="<?= route_to('Admin.Home')?>" class="nav-link active">
+          <li class="nav-item">
+            <a href="<?= route_to('Admin.Home')?>" class="nav-link ">
             <i class="nav-icon fas fa-home"></i>
 
               <p>
@@ -250,8 +250,8 @@
            
           </li>
          
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item ">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Account
@@ -260,7 +260,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= route_to('Account_internal')?>" class="nav-link active">
+                <a href="<?= route_to('Account_internal')?>" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Account internal </p>
                 </a>
