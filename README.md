@@ -1,4 +1,4 @@
-# CodeIgniter 4 Application Starter
+
 ## Yêu cầu 
 1. Màn hình quản lý danh sách group quyền(add/edit/delete). Datatable
 2. Màn hình quản lý danh sách role(add/edit/delete). Datatable
