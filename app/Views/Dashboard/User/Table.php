@@ -32,7 +32,7 @@
             
             $('#table').DataTable({
                 ajax: {
-                    url: '<?= base_url('Dashborad/tableuser_list') ?>',
+                    url: '<?= route_to('Table_User_List') ?>',
                     type: 'GET',
                     dataSrc: function (json) {
                         return json;

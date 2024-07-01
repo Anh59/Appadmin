@@ -21,10 +21,10 @@
             <td><?= $group['name'] ?></td>
             <td><?= $group['description'] ?></td>
             <td>
-                <a href="<?= site_url('Dashborad/group-edit/' . $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
+                <a href="<?= route_to('Group_edit' , $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
                 
 
-                <form action="<?= site_url('Dashborad/group-delete/' . $group['id']) ?>" method="post" style="display:inline;">
+                <form action="<?= route_to('Group_delete' , $group['id']) ?>" method="post" style="display:inline;">
                     <?= csrf_field() ?>
                     <!-- <input type="hidden" name="_method" value="DELETE"> -->
                     <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này?')">Delete</button>

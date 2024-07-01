@@ -62,4 +62,36 @@ class GroupRoleController extends BaseController
         session()->setFlashdata('success', 'Group roles updated successfully.');
         return redirect()->route('Table_GroupRole');
     }
+    public function delete($id)
+    {
+        $groupRoleModel = new GroupRoleModel();
+        $roleIds = $this->request->getPost('roles');
+    
+        // Kiểm tra xem các quyền có được chọn hay không
+        if ($roleIds && is_array($roleIds)) {
+            $success = true;
+            foreach ($roleIds as $roleId) {
+                // Xóa quyền dựa trên group_id và role_id
+                if (!$groupRoleModel->where('group_id', $id)->where('role_id', $roleId)->delete()) {
+                    $success = false;
+                    break;
+                }
+            }
+    
+            if ($success) {
+                session()->setFlashdata('success', 'Đã xóa thành công các quyền nhóm đã chọn.');
+            } else {
+                session()->setFlashdata('error', 'Không thể xóa các quyền nhóm đã chọn.');
+            }
+        } else {
+            session()->setFlashdata('error', 'Không có quyền nào được chọn để xóa.');
+        }
+    
+        return redirect()->route('Table_GroupRole');
+    }
+    
+
+    public function Update_Session(){
+        
+    }
 }

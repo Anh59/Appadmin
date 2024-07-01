@@ -8,45 +8,39 @@ class RoleController extends BaseController
 {
     public function table()
     {
-        $userModel = new UserModel();
+ // Lấy danh sách người dùng và vai trò từ cơ sở dữ liệu
         $roleModel = new RoleModel();
-
-        // Lấy danh sách người dùng và vai trò từ cơ sở dữ liệu
-        $data['users'] = $userModel->findAll();
         $data['roles'] = $roleModel->findAll();
-
         return view('Dashboard/Role/Table', $data);
     }
-
-    public function assignRoles()
+    public function edit($id){
+        $roleModel = new RoleModel();
+        $data['roles'] = $roleModel->find($id);
+        return view('Dashboard/Role/edit', $data);
+    }
+    public function update($id)
     {
-        $userModel = new UserModel();
-        $roles = $this->request->getPost('roles');
-
-        // Kiểm tra nếu mảng 'roles' tồn tại
-        if ($roles && is_array($roles)) {
-            foreach ($roles as $userId => $userRoles) {
-                // Xóa các vai trò hiện tại
-                $userModel->removeRoles($userId);
-
-                // Gán vai trò mới
-                if (is_array($userRoles)) {
-                    foreach ($userRoles as $roleId) {
-                        $userModel->assignRole($userId, $roleId);
-                    }
-                }
-            }
+        $roleModel = new RoleModel();
+        $data=[
+            'url'=>$this->request->getPost('url'),
+            'description'=>$this->request->getPost('description'),
+        ];
+        if ($roleModel->update($id, $data)) {
+            session()->setFlashdata('success', 'Cập nhật quyền thành công.');
+        } else {
+            session()->setFlashdata('error', 'Cập nhật quyền thất bại.');
         }
 
-        return redirect()->route('Table_User')->with('message', 'Vai trò đã được cập nhật thành công');
+        return redirect()->route('Table_Role');
     }
 
-
-    public function _construct(){
-       //$this->group = new GroupModel();
-
-    }
-    public function index(){
-        //return view('Dashboard/Role/test',['groups'=>group->fillAll()]);
+    public function delete($id){
+        $roleModel = new RoleModel();
+        if ($roleModel->delete($id)) {
+            session()->setFlashdata('success', 'Xóa quyền thành công.');
+        } else {
+            session()->setFlashdata('error', 'Xóa quyền thất bại.');
+        }
+        return redirect()->route('Table_Role');
     }
 }

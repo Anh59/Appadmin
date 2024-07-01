@@ -3,7 +3,7 @@
 
 <h1>Edit Group</h1>
 
-<form action="<?= site_url('Dashborad/group-update/' . $group['id']) ?>" method="post">
+<form action="<?= route_to('Group_update', $group['id']) ?>" method="post">
     <?= csrf_field() ?>
 
     <div class="form-group">

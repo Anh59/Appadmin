@@ -10,6 +10,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Roles</th>
+            <!-- <th>Description_role</th> -->
             <th>Actions</th>
         </tr>
     </thead>
@@ -25,12 +26,19 @@
                    
                     <?php if ($groupRole['group_id'] == $group['id']): ?>
                         
-                        <?= $groupRole['role_id'] ?><br>
+                        <?= $groupRole['role_id'] ?>
                     <?php endif; ?>
+
                 <?php endforeach; ?>
             </td>
+        
             <td>
-                <a href="<?= site_url('Dashborad/Table-groupRole-edit/' . $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
+                <a href="<?= route_to('Table_GroupRole_Edit' , $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
+                <form action="<?= route_to('Table_GroupRole_delete' , $group['id']) ?>" method="post" style="display:inline;">
+                    <?= csrf_field() ?>
+                    <!-- <input type="hidden" name="_method" value="DELETE"> -->
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này?')">Delete</button>
+                </form>
             </td>
         </tr>
         <?php endforeach; ?>

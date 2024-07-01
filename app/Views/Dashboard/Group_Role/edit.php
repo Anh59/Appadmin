@@ -3,7 +3,7 @@
 
 <h1>Chỉnh sửa Quyền cho Group</h1>
 
-<form action="<?= site_url('Dashborad/Table-groupRole-update/' . $group['id']) ?>" method="post">
+<form action="<?= route_to('Table_GroupRole_update' , $group['id']) ?>" method="post">
     <?= csrf_field() ?>
 
     <div class="form-group">
@@ -15,6 +15,20 @@
         <label for="description">Mô tả</label>
         <input type="text" class="form-control" id="description" name="description" value="<?= $group['description'] ?>" disabled>
     </div>
+
+    <div class="form-group">
+        <label for="name">Table</label>
+        <select class="form-control form-control-lg">
+            <option>Group</option>
+            <option>Group Role</option>
+            <option>User</option>
+            <option>Role</option>
+        </select>
+    </div>
+    
+
+  
+
 
     <div class="form-group">
         <label for="roles">Quyền</label>

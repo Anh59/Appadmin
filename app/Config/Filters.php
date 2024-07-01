@@ -36,7 +36,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'log'           => LogFilter::class,//kiểm tra xem đăng nhập hay chưa
-        'auth'  => LogFilter::class,// kiểm tra role
+        'auth'          => LogFilter::class,// Lấy các giá trị Role
     ];
 
     /**

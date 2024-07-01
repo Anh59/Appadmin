@@ -4,7 +4,7 @@
 
 <h1>Create New Group</h1>
 
-<form action="<?= base_url('Dashborad/table-store') ?>" method="post">
+<form action="<?= route_to('Table_Store') ?>" method="post">
     <?= csrf_field() ?>
 
     <div class="form-group">
