@@ -31,14 +31,15 @@ class UserController extends Controller
         if ($user && password_verify($password, $user['password'])) {
             // Đăng nhập thành công, lưu thông tin vào session
             $session = session();
-            $session->set([
+            $session->set('user',[
                 'user_id' => $user['id'],
                 'username' => $user['username'],
                 'email' => $user['email'],
+                'group_id' => $user['group_id'],
                 'logged_in' => true,
             ]);
 
-            return redirect()->to('Dashborad/table'); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
+            return redirect()->to('Dashboard/table'); // Chuyển hướng đến trang dashboard sau khi đăng nhập thành công
         } else {
             // Đăng nhập thất bại
             return redirect()->back()->with('error', 'Invalid email or password');

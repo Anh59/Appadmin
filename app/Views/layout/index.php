@@ -217,7 +217,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php echo session()->get('username'); ?></a>
+          <a href="#" class="d-block"><?php echo session()->get('user')['username']; ?></a>
         </div>
       </div>
 

@@ -3,7 +3,7 @@
 
 <h1>Chỉnh sửa Quyền cho Group</h1>
 
-<form action="<?= route_to('Table_GroupRole_update' , $group['id']) ?>" method="post">
+<form action="<?= route_to('Table_GroupRole_Update' , $group['id']) ?>" method="post">
     <?= csrf_field() ?>
 
     <div class="form-group">

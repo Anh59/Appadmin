@@ -8,8 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\RoleModel;
 use App\Models\GroupRoleModel;
 use App\Models\UserModel;
-
-class LogFilter implements FilterInterface
+class PerermissionsFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -27,54 +26,38 @@ class LogFilter implements FilterInterface
      * @return RequestInterface|ResponseInterface|string|void
      */
     public function before(RequestInterface $request, $arguments = null)
-    {   
+    {
+        //
         $session = session();
-         // Lấy session hiện tại
-     /// Kiểm tra xem người dùng đã đăng nhập hay chưa
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
         if (!$session->get('user')) {
             // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
             return redirect()->to('/login');
-        } 
-       
+        }
+
         $userdata = $session->get('user'); // Lấy thông tin người dùng từ session
-    
-    
+
         $userModel = new UserModel();
         $groupRoleModel = new GroupRoleModel();
         $roleModel = new RoleModel();
-
-        $user = $userModel->find($userdata['user_id']); 
-        // Lấy thông tin người dùng từ cơ sở dữ liệu
-        //dd($user);
-        $groupRoles = $groupRoleModel->where('group_id', $user['group_id'])->findAll(); // Lấy tất cả các quyền của nhóm người dùng
-        //dd($groupRoles);
+        $user = $userModel->find($userdata['user_id']); // Lấy thông tin người dùng từ cơ sở dữ liệu
+        $groupRoles = $groupRoleModel->where('group_id', $userdata['group_id'])->findAll(); // Lấy tất cả các quyền của nhóm người dùng
         $roleUrls = [];
+
         foreach ($groupRoles as $groupRole) {
             $role = $roleModel->find($groupRole['role_id']);
-            $roleUrls[] = $role['url'];
+            $roleUrls[] = $role['url']; // Lưu các quyền vào mảng roleUrls (chú ý: sử dụng 'url' thay vì 'role_id')
         }
-        //dd($roleUrls);
-        // Lấy URL hiện tại
-        $currentUrl = $request->getPath();
 
+        // Lấy router service
         
-        //dd($currentUrl);
-        // if (!in_array($currentUrl, $roleUrls)) {
-        //     // Nếu URL hiện tại không nằm trong danh sách quyền, chuyển hướng về trang chủ
-        //     return redirect()->back()->with('error', 'Bạn không có quyền truy cập vào trang này.');
-        // }
-        $hasPermission = false;
-        foreach ($roleUrls as $urlPattern) {
-            // Chuyển đổi mẫu URL thành regex
-            $urlPatternRegex = str_replace(['(:num)', '(:any)'], ['\d+', '.+'], $urlPattern);
-            if (preg_match("#^{$urlPatternRegex}$#", $currentUrl)) {
-                $hasPermission = true;
-                break;
-            }
-        }
+        // dd($arguments);
 
-        if (!$hasPermission) {
-            // Nếu URL hiện tại không nằm trong danh sách quyền, chuyển hướng về trang chủ
+        //Kiểm tra tên route hiện tại với danh sách quyền
+        if (!in_array($arguments[0], $roleUrls)) {
+
+            // Nếu tên route hiện tại không nằm trong danh sách quyền, chuyển hướng về trang chủ
             return redirect()->to('/')->with('error', 'Bạn không có quyền truy cập vào trang này.');
         }
     }
