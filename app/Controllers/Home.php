@@ -11,4 +11,7 @@ class Home extends BaseController
     public function table(){
         return view('table');
     }
+    public function Errors(){
+        return view('errors');
+    }
 }

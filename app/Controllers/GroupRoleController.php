@@ -32,15 +32,18 @@ class GroupRoleController extends BaseController
         $groupModel = new GroupModel();
         $roleModel = new RoleModel();
         $groupRoleModel = new GroupRoleModel();
+        $userModel = new UserModel();
 
         $group = $groupModel->find($id);
         $roles = $roleModel->findAll();
         $groupRoles = $groupRoleModel->where('group_id', $id)->findAll();
-
+        $currentUser = $userModel->find(session()->get('user')['user_id']);
+        
         $data = [
             'group' => $group,
             'roles' => $roles,
             'groupRoles' => $groupRoles,
+            'currentUser' => $currentUser,
         ];
 
         return view('Dashboard/Group_Role/edit', $data);
@@ -50,7 +53,7 @@ class GroupRoleController extends BaseController
     {
         $groupRoleModel = new GroupRoleModel();
         $roleIds = $this->request->getPost('roles');
-
+      
         // Xóa các quyền hiện tại
         $groupRoleModel->where('group_id', $id)->delete();
 
@@ -64,29 +67,19 @@ class GroupRoleController extends BaseController
     }
     public function delete($id)
     {
+        $groupModel = new GroupModel();
         $groupRoleModel = new GroupRoleModel();
-        $roleIds = $this->request->getPost('roles');
-    
-        // Kiểm tra xem các quyền có được chọn hay không
-        if ($roleIds && is_array($roleIds)) {
-            $success = true;
-            foreach ($roleIds as $roleId) {
-                // Xóa quyền dựa trên group_id và role_id
-                if (!$groupRoleModel->where('group_id', $id)->where('role_id', $roleId)->delete()) {
-                    $success = false;
-                    break;
-                }
-            }
-    
-            if ($success) {
-                session()->setFlashdata('success', 'Đã xóa thành công các quyền nhóm đã chọn.');
-            } else {
-                session()->setFlashdata('error', 'Không thể xóa các quyền nhóm đã chọn.');
-            }
+
+        // Xóa tất cả các quyền liên quan đến group
+        $groupRoleModel->where('group_id', $id)->delete();
+
+        // Xóa group
+        if ($groupModel->delete($id)) {
+            session()->setFlashdata('success', 'Nhóm và các quyền liên quan đã được xóa thành công.');
         } else {
-            session()->setFlashdata('error', 'Không có quyền nào được chọn để xóa.');
+            session()->setFlashdata('error', 'Không thể xóa nhóm.');
         }
-    
+
         return redirect()->route('Table_GroupRole');
     }
     

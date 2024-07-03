@@ -2,6 +2,9 @@
 <?= $this->section('content'); ?>
 
 <h1>Assign Roles to Users</h1>
+<form action="<?= route_to('Table_Role_Create') ?>" method="get" style="display:inline;">
+    <button type="submit" class="btn btn-success">+ Create</button>
+</form>
 <form action="<?= route_to('Table_roles') ?>" method="post">
     <?= csrf_field() ?>
     <table id="usertable" class="display" style="width:100%">

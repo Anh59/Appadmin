@@ -6,7 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-  
+$routes->get('errors','Home::Errors');  
 
 // $routes->get('login','UserController::index');
 // $routes->get('sign','UserController::sign');
@@ -51,22 +51,21 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
     // Permissions
     $routes->group('permissions', function (RouteCollection $routes) {
         $routes->get('table-permissions', 'PermissionsController::table', ['as' => 'Table_Permissions', 'filter' => 'Perermissions:Table_Permissions']);
-        $routes->get('table-permissions-create', 'PermissionsController::create', ['as' => 'Table_Permissions_Create', 'filter' => 'Perermissions:Table_Permissions_Create']);
-        $routes->post('table-permissions-store', 'PermissionsController::store', ['as' => 'Table_Permissions_Store', 'filter' => 'Perermissions:Table_Permissions_Store']);
-        $routes->get('table-permissions-edit/(:num)', 'PermissionsController::edit/$1', ['as' => 'Table_Permissions_Edit', 'filter' => 'Perermissions:Table_Permissions_Edit']);
-        $routes->post('table-permissions-update/(:num)', 'PermissionsController::update/$1', ['as' => 'Table_Permissions_Update', 'filter' => 'Perermissions:Table_Permissions_Update']);
-        $routes->post('table-permissions-delete/(:num)', 'PermissionsController::delete/$1', ['as' => 'Table_Permissions_Delete', 'filter' => 'Perermissions:Table_Permissions_Delete']);
+        $routes->get('tableuser_list', 'PermissionsController::tableuser_list', ['as' => 'Table_User_List', 'filter' => 'Perermissions:Table_User_List']);
+        // $routes->get('table-permissions-create', 'PermissionsController::create', ['as' => 'Table_Permissions_Create', 'filter' => 'Perermissions:Table_Permissions_Create']);
+        // $routes->post('table-permissions-store', 'PermissionsController::store', ['as' => 'Table_Permissions_Store', 'filter' => 'Perermissions:Table_Permissions_Store']);
+        // $routes->get('table-permissions-edit/(:num)', 'PermissionsController::edit/$1', ['as' => 'Table_Permissions_Edit', 'filter' => 'Perermissions:Table_Permissions_Edit']);
+        // $routes->post('table-permissions-update/(:num)', 'PermissionsController::update/$1', ['as' => 'Table_Permissions_Update', 'filter' => 'Perermissions:Table_Permissions_Update']);
+        // $routes->post('table-permissions-delete/(:num)', 'PermissionsController::delete/$1', ['as' => 'Table_Permissions_Delete', 'filter' => 'Perermissions:Table_Permissions_Delete']);
     });
 
     // User
     $routes->group('User', function (RouteCollection $routes) {
-        $routes->get('table-user', 'TableUserController::tableuser', ['as' => 'Table_User', 'filter' => 'Perermissions:Table_User']);
-        $routes->get('tableuser_list', 'TableUserController::tableuser_list', ['as' => 'Table_User_List', 'filter' => 'Perermissions:Table_User_List']);
-        $routes->get('table-user-create', 'TableUserController::create', ['as' => 'Table_User_Create', 'filter' => 'Perermissions:Table_User_Create']);
-        $routes->post('table-user-store', 'TableUserController::store', ['as' => 'Table_User_Store', 'filter' => 'Perermissions:Table_User_Store']);
-        $routes->get('table-user-edit/(:num)', 'TableUserController::edit/$1', ['as' => 'Table_User_Edit', 'filter' => 'Perermissions:Table_User_Edit']);
-        $routes->post('table-user-update/(:num)', 'TableUserController::update/$1', ['as' => 'Table_User_Update', 'filter' => 'Perermissions:Table_User_Update']);
-        $routes->post('table-user-delete/(:num)', 'TableUserController::delete/$1', ['as' => 'Table_User_Delete', 'filter' => 'Perermissions:Table_User_Delete']);
+         $routes->get('table-user', 'TableUserController::tableuser', ['as' => 'Table_User', 'filter' => 'Perermissions:Table_User']);
+         $routes->post('change_user_group', 'TableUserController::changeUserGroup', ['as' => 'change_user_group']);
+        // $routes->get('table-user-edit/(:num)', 'TableUserController::edit/$1', ['as' => 'Table_User_Edit', 'filter' => 'Perermissions:Table_User_Edit']);
+        // $routes->post('table-user-update/(:num)', 'TableUserController::update/$1', ['as' => 'Table_User_Update', 'filter' => 'Perermissions:Table_User_Update']);
+        // $routes->post('table-user-delete/(:num)', 'TableUserController::delete/$1', ['as' => 'Table_User_Delete', 'filter' => 'Perermissions:Table_User_Delete']);
     });
 
 });

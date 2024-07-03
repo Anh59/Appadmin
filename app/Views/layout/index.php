@@ -52,7 +52,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= route_to('Admin.Home')?>" c  lass="nav-link">Home</a>
+        <a href="<?= route_to('Admin.Home')?>" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -239,7 +239,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="<?= route_to('Admin.Home')?>" class="nav-link ">
+            <a href="<?= route_to('Dashboard_table')?>" class="nav-link ">
             <i class="nav-icon fas fa-home"></i>
 
               <p>

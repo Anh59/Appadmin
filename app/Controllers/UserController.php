@@ -60,7 +60,8 @@ class UserController extends Controller
             'email' => $this->request->getPost('email'),
             'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'role' => 'user', // Ví dụ: mặc định là user, có thể điều chỉnh
-            'group_id' => 3, // Ví dụ: mặc định là group_id 1, có thể điều chỉnh
+            'group_id' => 2,
+            'super_admin' =>0,
             'created_at' => date('Y-m-d H:i:s'),
         ];
 

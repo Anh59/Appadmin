@@ -12,7 +12,7 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = ['username', 'email', 'password','group_id', 'created_at'];
+    protected $allowedFields = ['username', 'email', 'password','group_id', 'super_admin','created_at'];
 
     public function removeRoles($userId)
     {

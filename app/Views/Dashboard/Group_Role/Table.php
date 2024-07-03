@@ -10,7 +10,6 @@
             <th>Name</th>
             <th>Description</th>
             <th>Roles</th>
-            <!-- <th>Description_role</th> -->
             <th>Actions</th>
         </tr>
     </thead>
@@ -21,23 +20,17 @@
             <td><?= $group['name'] ?></td>
             <td><?= $group['description'] ?></td>
             <td>
-                <?php foreach ($groupRoles as $groupRole):?>
-
-                   
+                <?php foreach ($groupRoles as $groupRole): ?>
                     <?php if ($groupRole['group_id'] == $group['id']): ?>
-                        
                         <?= $groupRole['role_id'] ?>
                     <?php endif; ?>
-
                 <?php endforeach; ?>
             </td>
-        
             <td>
                 <a href="<?= route_to('Table_GroupRole_Edit' , $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
-                <form action="<?= route_to('Table_GroupRole_delete' , $group['id']) ?>" method="post" style="display:inline;">
+                <form action="<?= route_to('Table_GroupRole_Delete' , $group['id']) ?>" method="post" style="display:inline;">
                     <?= csrf_field() ?>
-                    <!-- <input type="hidden" name="_method" value="DELETE"> -->
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này?')">Delete</button>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này và các quyền liên quan?')">Delete</button>
                 </form>
             </td>
         </tr>
@@ -45,7 +38,7 @@
     </tbody>
 </table>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
