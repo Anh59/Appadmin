@@ -6,11 +6,11 @@
 <table id="table" class="display" style="width:100%">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Roles</th>
-            <th>Actions</th>
+            <th>STT</th>
+            <th>CHỨC VỤ</th>
+            <th>MÔ TẢ CHỨC VỤ</th>
+            <th>QUYỀN</th>
+            <th>CHỨC NĂNG</th>
         </tr>
     </thead>
     <tbody>
@@ -27,10 +27,10 @@
                 <?php endforeach; ?>
             </td>
             <td>
-                <a href="<?= route_to('Table_GroupRole_Edit' , $group['id']) ?>"><span class="badge badge-pill badge-primary">Edit</span></a>
+                <a href="<?= route_to('Table_GroupRole_Edit' , $group['id']) ?>"><span class="badge badge-pill badge-primary">Sửa</span></a>
                 <form action="<?= route_to('Table_GroupRole_Delete' , $group['id']) ?>" method="post" style="display:inline;">
                     <?= csrf_field() ?>
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này và các quyền liên quan?')">Delete</button>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhóm này và các quyền liên quan?')">Xóa</button>
                 </form>
             </td>
         </tr>
@@ -40,10 +40,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#table').DataTable();
-    });
+<script src="<?= base_url('js/datatable.js') ?>">
+   
 </script>
 
 <?= $this->endSection(); ?>

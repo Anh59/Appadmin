@@ -7,18 +7,18 @@
     <?= csrf_field() ?>
 
     <div class="form-group">
-        <label for="name">Tên Group</label>
+        <label for="name">Chức vụ</label>
         <input type="text" class="form-control" id="name" name="name" value="<?= $group['name'] ?>" disabled>
     </div>
 
     <div class="form-group">
-        <label for="description">Mô tả</label>
+        <label for="description">Mô tả chức vụ</label>
         <input type="text" class="form-control" id="description" name="description" value="<?= $group['description'] ?>" disabled>
     </div>
 
     <!-- Hiển thị danh sách quyền -->
     <div class="form-group">
-        <label for="roles">Quyền</label>
+        <label for="roles">Danh sách quyền</label>
         <?php foreach ($roles as $role): ?>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="roles[]" value="<?= $role['id'] ?>" 

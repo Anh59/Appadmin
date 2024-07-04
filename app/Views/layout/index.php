@@ -185,15 +185,15 @@
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        
-          <a href="logout" class="dropdown-item">
-            <i class="fas fa-sign-out-alt mr-2"></i>Logout 
-        
-          </a>
+         
           <a href="Admin/Profile" class="dropdown-item">
             <i class="far fa-user"></i> Profile 
         
           </a>
-         
+          <a href="logout" class="dropdown-item">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout 
+        
+          </a>
         
       </li>
 
@@ -243,14 +243,14 @@
             <i class="nav-icon fas fa-home"></i>
 
               <p>
-                Dashboard
+                Trang chủ
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
            
           </li>
          
-          <li class="nav-item ">
+          <!-- <li class="nav-item ">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-user"></i>
               <p>
@@ -278,13 +278,13 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
       
           <li class="nav-item">
             <a href="<?= route_to('Table_Group')?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Danh Sách Group
+                Quản trị chức vụ
                
               </p>
             </a>
@@ -293,7 +293,7 @@
             <a href="<?= route_to('Table_Role')?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Danh Sách Role
+                Quản trị quyền
                
               </p>
             </a>
@@ -302,7 +302,7 @@
             <a href="<?= route_to('Table_GroupRole')?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Danh Sách Group Role
+                Quản trị phân quyền
                
               </p>
             </a>
@@ -311,7 +311,7 @@
             <a href="<?= route_to('Table_Permissions')?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Danh Sách Permissions
+                Danh Sách thông tin 
                
               </p>
             </a>
@@ -321,7 +321,7 @@
             <a href="<?= route_to('Table_User')?>" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Danh sách user
+                Quản trị tài khoản
                
               </p>
             </a>
@@ -937,8 +937,10 @@
                     
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0"><?= isset($pageTitle) ? $pageTitle : 'APP DISCUSS 3.2' ?></h1>
-                </div><!-- /.col -->
+                  <!-- tùy chỉnh tiêu đề theo phần truy cập -->
+                    <h1 class="m-0"><?= isset($pageTitle) ? $pageTitle : '' ?></h1>
+                </div>
+                <!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?= route_to('Admin.Home')?>">Home</a></li>

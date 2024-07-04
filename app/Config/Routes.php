@@ -63,9 +63,11 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
     $routes->group('User', function (RouteCollection $routes) {
          $routes->get('table-user', 'TableUserController::tableuser', ['as' => 'Table_User', 'filter' => 'Perermissions:Table_User']);
          $routes->post('change_user_group', 'TableUserController::changeUserGroup', ['as' => 'change_user_group']);
-        // $routes->get('table-user-edit/(:num)', 'TableUserController::edit/$1', ['as' => 'Table_User_Edit', 'filter' => 'Perermissions:Table_User_Edit']);
-        // $routes->post('table-user-update/(:num)', 'TableUserController::update/$1', ['as' => 'Table_User_Update', 'filter' => 'Perermissions:Table_User_Update']);
-        // $routes->post('table-user-delete/(:num)', 'TableUserController::delete/$1', ['as' => 'Table_User_Delete', 'filter' => 'Perermissions:Table_User_Delete']);
+         $routes->get('table-user-create', 'TableUserController::create', ['as' => 'Table_User_Create', 'filter' => 'Perermissions:Table_User_Create']);
+         $routes->post('table-user-store', 'TableUserController::store', ['as' => 'Table_User_Store', 'filter' => 'Perermissions:Table_User_Store']);
+         $routes->get('table-user-edit/(:num)', 'TableUserController::editUser/$1', ['as' => 'Table_User_Edit', 'filter' => 'Perermissions:Table_User_Edit']);
+         $routes->post('table-user-update/(:num)', 'TableUserController::updateUser/$1', ['as' => 'Table_User_Update', 'filter' => 'Perermissions:Table_User_Update']);
+         $routes->post('table-user-delete/(:num)', 'TableUserController::deleteUser/$1', ['as' => 'Table_User_Delete', 'filter' => 'Perermissions:Table_User_Delete']);
     });
 
 });
