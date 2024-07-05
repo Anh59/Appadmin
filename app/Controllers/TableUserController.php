@@ -106,6 +106,7 @@ class TableUserController extends BaseController
                 'username' => $postData['username'],
                 'email' => $postData['email'],
                 'group_id' => $postData['group_id'],
+                'password' => password_hash('1', PASSWORD_DEFAULT), 
                 'super_admin' => false // or other default value
             ];
     

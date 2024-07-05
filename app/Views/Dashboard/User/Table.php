@@ -47,8 +47,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
 <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>
-<script src="<?= base_url('js/datatable.js') ?>">
-    
+<script src="<?= base_url('js/datatable.js') ?>"></script>
+    <script>
     function changeUserGroup(userId, groupId) {
         $.ajax({
             url: '<?= route_to('change_user_group') ?>',
