@@ -48,11 +48,15 @@ class PerermissionsFilter implements FilterInterface
         }
         $groupRoles = $groupRoleModel->where('group_id', $userdata['group_id'])->findAll(); // Lấy tất cả các quyền của nhóm người dùng
         $roleUrls = [];
-
+        
+        
+        ///thay tránh bị sự dụng ảnh hưởng hiệu suất 
         foreach ($groupRoles as $groupRole) {
             $role = $roleModel->find($groupRole['role_id']);
             $roleUrls[] = $role['url']; // Lưu các quyền vào mảng roleUrls (chú ý: sử dụng 'url' thay vì 'role_id')
         }
+        // ////
+
 
         // Lấy router service
         
@@ -64,6 +68,7 @@ class PerermissionsFilter implements FilterInterface
             // Nếu tên route hiện tại không nằm trong danh sách quyền, chuyển hướng về trang chủ
             return redirect()->to('errors')->with('error', 'Bạn không có quyền truy cập vào trang này.');
         }
+
     }
 
     /**

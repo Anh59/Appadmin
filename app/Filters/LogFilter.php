@@ -77,6 +77,9 @@ class LogFilter implements FilterInterface
             // Nếu URL hiện tại không nằm trong danh sách quyền, chuyển hướng về trang chủ
             return redirect()->to('/')->with('error', 'Bạn không có quyền truy cập vào trang này.');
         }
+
+
+    
     }
 
     /**

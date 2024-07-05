@@ -78,7 +78,7 @@ class TableUserController extends BaseController
                 $user['username'] = $postData['username'];
                 $user['email'] = $postData['email'];
                 $user['group_id'] = $postData['group_id'];
-
+    
                 if ($userModel->save($user)) {
                     return redirect()->route('Table_User')->with('success', 'Cập nhật người dùng thành công');
                 } else {
