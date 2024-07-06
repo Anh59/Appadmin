@@ -38,6 +38,7 @@ class UserController extends Controller
                 'username' => $user['username'],
                 'email' => $user['email'],
                 'group_id' => $user['group_id'],
+              
                 'logged_in' => true,
             ]);
 

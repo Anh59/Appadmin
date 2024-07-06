@@ -44,6 +44,12 @@ class PerermissionsFilter implements FilterInterface
         $user = $userModel->find($userdata['user_id']); // Lấy thông tin người dùng từ cơ sở dữ liệu
         
         if($user['super_admin']){
+            $session->set('Dashboard_table', true);
+            $session->set('Table_Group', true);
+            $session->set('Table_Role', true);
+            $session->set('Table_GroupRole', true);
+            $session->set('Table_Permissions', true);
+            $session->set('Table_User', true);
             return;
         }
         $groupRoles = $groupRoleModel->where('group_id', $userdata['group_id'])->findAll(); // Lấy tất cả các quyền của nhóm người dùng
@@ -56,12 +62,32 @@ class PerermissionsFilter implements FilterInterface
             $roleUrls[] = $role['url']; // Lưu các quyền vào mảng roleUrls (chú ý: sử dụng 'url' thay vì 'role_id')
         }
         // ////
-
+        $session->set('roleUrls', $roleUrls);
 
         // Lấy router service
         
-        // dd($arguments);
+         //dd($arguments);
 
+        foreach($roleUrls as $key => $value) {
+            if($value === 'Dashboard_table'){
+                $session->set('Dashboard_table', true);
+            }
+            if($value === 'Table_Group'){
+                $session->set('Table_Group', true);
+            }
+            if($value === 'Table_Role'){
+                $session->set('Table_Role', true);
+            }
+            if($value === 'Table_GroupRole'){
+                $session->set('Table_GroupRole', true);
+            }
+            if($value === 'Table_Permissions'){
+                $session->set('Table_Permissions', true);
+            }
+            if($value === 'Table_User'){
+                $session->set('Table_User', true);
+            }
+                }
         //Kiểm tra tên route hiện tại với danh sách quyền
         if (!in_array($arguments[0], $roleUrls)) {
 
@@ -69,6 +95,10 @@ class PerermissionsFilter implements FilterInterface
             return redirect()->to('errors')->with('error', 'Bạn không có quyền truy cập vào trang này.');
         }
 
+        // dd($roleUrls);
+        
+       
+        // if($arguments[0]);
     }
 
     /**

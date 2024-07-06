@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.5.2/css/dataTables.dateTime.min.css">
 
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
@@ -238,67 +239,66 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          
-          <li class="nav-item">
-            <a href="<?= route_to('Dashboard_table')?>" class="nav-link ">
-            <i class="nav-icon fas fa-home"></i>
-
-              <p>
-                Trang chủ
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
+               <?php $session = session();?>
+               
            
-          </li>
+                      <?php if ($session->get('Dashboard_table') === true ): ?>
+                        <li class="nav-item">
+                            <a href="<?= route_to('Dashboard_table') ?>" class="nav-link">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>Trang chủ<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                        </li>
+                      <?php endif; ?>
 
-          <li class="nav-item">
-            <a href="<?= route_to('Table_Group')?>" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Quản trị chức vụ
-               
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= route_to('Table_Role')?>" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Quản trị quyền
-               
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= route_to('Table_GroupRole')?>" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Quản trị phân quyền
-               
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="<?= route_to('Table_Permissions')?>" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Danh Sách thông tin 
-               
-              </p>
-            </a>
-          </li>
+                      <?php if ($session->get('Table_Group') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Group') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị chức vụ</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
 
-          <li class="nav-item">
-            <a href="<?= route_to('Table_User')?>" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Quản trị tài khoản
-               
-              </p>
-            </a>
-          </li>
+                      <?php if ($session->get('Table_Role') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Role') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị quyền</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
 
-          
+                      <?php if ($session->get('Table_GroupRole') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_GroupRole') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị phân quyền</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+
+                      <?php if ($session->get('Table_Permissions') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Permissions') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Danh Sách thông tin</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+
+                      <?php if ($session->get('Table_User') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_User') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị tài khoản</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+
+
+
+         
  
             <!-- <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
