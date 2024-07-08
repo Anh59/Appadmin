@@ -1,3 +1,6 @@
+## Công nghệ sử dụng 
+code php + CodeIgniter 4 + Datatable js
+ 
 
 ## Yêu cầu 
 1. Màn hình quản lý danh sách group quyền(add/edit/delete). Datatable
