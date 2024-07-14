@@ -5,6 +5,7 @@ Kiến thức cần có
 - Framework CodeIgniter 
 - PHP
 - JavaScript
+- Bootstrap
 
 
 ## Yêu cầu 
