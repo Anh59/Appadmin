@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Admin (v2)</title>
+  <title>APP Admin | Admin </title>
   <base href="/">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
@@ -17,7 +17,7 @@
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>APP </b>Admin LTE</a>
+      <a href="../../index2.html" class="h1"><b>APP </b>Admin </a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
