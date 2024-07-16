@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- <title>APP DISCUSS 3.2 | Dashboard</title> -->
-    <!-- thay đổi tiêu đêf theo trang theo hành động -->
-    <title><?= isset($pageTitle) ? $pageTitle : 'APP DISCUSS 3.2' ?></title>
+    <!-- thay đổi tiêu đề theo trang theo hành động -->
+    <title><?= isset($pageTitle) ? $pageTitle : 'APP ADMIN' ?></title>
 
     <base href="/">
   <!-- Google Font: Source Sans Pro -->
