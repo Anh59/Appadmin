@@ -17,6 +17,7 @@ Kiến thức cần có
 6. Middleware check quyền trước khi load các page
 
 ## Kết quả 
-Đã đặt được các yêu cầu trên 
+1. Đã đặt được các yêu cầu trên 
+2. Thay đổi chức vụ cấp quyền cho chức vụ thành công
 ## Nhược điểm 
 cookie đã chạy được và xóa khi đăng xuất nhưng vẫn đề tự mất đi trong 3 phút vẫn đang lỗi chưa mất
