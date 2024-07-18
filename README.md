@@ -15,3 +15,8 @@ Kiến thức cần có
 4. Màn hình quản lý danh sách user
 5. Poup cấp quyền group user
 6. Middleware check quyền trước khi load các page
+
+## Kết quả 
+Đã đặt được các yêu cầu trên 
+## Nhược điểm 
+cookie đã chạy được và xóa khi đăng xuất nhưng vẫn đề tự mất đi trong 3 phút vẫn đang lỗi chưa mất
