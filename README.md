@@ -19,5 +19,8 @@ Kiến thức cần có
 ## Kết quả 
 1. Đã đặt được các yêu cầu trên 
 2. Thay đổi chức vụ cấp quyền cho chức vụ thành công
+3. Đã có sự kết hợp thay đổi trực tiếp 
+4. Đã xử lý tài khoản có quyền truy cập gì thì mới hiện lên quyền của tài khoản đó tai giao diện
 ## Nhược điểm 
-cookie đã chạy được và xóa khi đăng xuất nhưng vẫn đề tự mất đi trong 3 phút vẫn đang lỗi chưa mất
+1. cookie đã chạy được và xóa khi đăng xuất nhưng vẫn đề tự mất đi trong 3 phút vẫn đang lỗi chưa mất
+2. khi thay đổi chức vụ của nhân viên thì nhân viên logout tài khoản và login lại thì chức vụ mới được cập nhật lại
