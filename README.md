@@ -7,7 +7,7 @@ Kiến thức cần có
 - JavaScript
 - Bootstrap
 - Datatable.js
-
+- Editor Datatable
 
 ## Yêu cầu 
 1. Màn hình quản lý danh sách group quyền(add/edit/delete). Datatable
