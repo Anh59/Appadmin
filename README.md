@@ -6,6 +6,7 @@ Kiến thức cần có
 - PHP
 - JavaScript
 - Bootstrap
+- Datatable.js
 
 
 ## Yêu cầu 
