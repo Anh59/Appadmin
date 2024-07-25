@@ -29,4 +29,5 @@ Kiến thức cần có
 1. cookie đã chạy được và xóa khi đăng xuất nhưng vẫn đề tự mất đi trong 3 phút vẫn đang lỗi chưa mất
 2. khi thay đổi chức vụ của nhân viên thì nhân viên logout tài khoản và login lại thì chức vụ mới được cập nhật lại
 3. Giao diện chưa được chỉnh cho kĩ càng vẫn còn chưa chỉnh chu
-4. Chưa cập nhật loading hiệu ứng 
+4. Chưa cập nhật loading hiệu ứng server khi chạy update 
+5. Chức năng chức vụ thừa 
