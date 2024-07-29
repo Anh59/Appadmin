@@ -24,7 +24,7 @@ Kiến thức cần có
 3. Đã có sự kết hợp thay đổi trực tiếp 
 4. Đã xử lý tài khoản có quyền truy cập gì thì mới hiện lên quyền của tài khoản đó tai giao diện
 5. Thay đổi xử lý các yêu cầu của chức năng
-
+6. Các chức vụ nhân viên và quản lý admin đều ổn
 ## Nhược điểm 
 1. cookie đã chạy được và xóa khi đăng xuất nhưng vẫn đề tự mất đi trong 3 phút vẫn đang lỗi chưa mất
 2. khi thay đổi chức vụ của nhân viên thì nhân viên logout tài khoản và login lại thì chức vụ mới được cập nhật lại
