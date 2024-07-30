@@ -18,6 +18,8 @@ Kiến thức cần có
 5. Poup cấp quyền group user
 6. Middleware check quyền trước khi load các page
 
+## Project đang được xây dựng 1 phần được làm bằng API còn hầu như được kết nối trực tiếp
+
 ## Kết quả 
 1. Đã đặt được các yêu cầu trên 
 2. Thay đổi chức vụ cấp quyền cho chức vụ thành công
