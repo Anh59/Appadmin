@@ -33,3 +33,4 @@ Kiến thức cần có
 3. Giao diện chưa được chỉnh cho kĩ càng vẫn còn chưa chỉnh chu
 4. Chưa cập nhật loading hiệu ứng server khi chạy update 
 5. Chức năng chức vụ thừa có thể bỏ và thêm 1 tác vụ vào chức năng phân quản lý phân quyền 
+6. Chưa được tối ưu hóa các câu lệnh truy vấn
