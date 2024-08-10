@@ -35,4 +35,4 @@ Kiến thức cần có
 5. Chức năng chức vụ thừa có thể bỏ và thêm 1 tác vụ vào chức năng phân quản lý phân quyền 
 6. Chưa được tối ưu hóa các câu lệnh truy vấn dẫn đến khi thực hiện truy vẫn với số lượng lớn dẫn đến bị display ,trì hoãn dẫn đến website báo lỗi
 7. Chưa có hệ thống bảo mật dẫn đến lỗi , hack truy cập dễ dàng để phá hoại dữ liệu
-8. chưa câp nhật thêm tài khoản user 
+8. chưa câp nhật quản lý tài khoản user  
