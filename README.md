@@ -37,3 +37,4 @@ Kiến thức cần có
 7. Chưa có hệ thống bảo mật dẫn đến lỗi , hack truy cập dễ dàng để phá hoại dữ liệu
 8. chưa câp nhật quản lý tài khoản user người sử dụng trên trang web
 9. cần sắp xếp lại các file code cho khoa học hơn chia riêng các view backend -fontend xây dựng server báo lỗi
+10. viêt auto test
