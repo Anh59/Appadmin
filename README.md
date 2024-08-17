@@ -38,4 +38,4 @@ Kiến thức cần có
 8. chưa câp nhật quản lý tài khoản user người sử dụng trên trang web
 9. cần sắp xếp lại các file code cho khoa học hơn chia riêng các view backend -fontend xây dựng server báo lỗi
 10. viêt auto test và set up môi trường code lại từ đầu , xây dựng lại hệ thống tài liệu 
-11. xây dưng các use case diagram 
+11. xây dưng các use case diagram sơ đồ database
