@@ -38,4 +38,4 @@ Kiến thức cần có
 8. chưa câp nhật quản lý tài khoản user người sử dụng trên trang web
 9. cần sắp xếp lại các file code cho khoa học hơn chia riêng các view backend -fontend xây dựng server báo lỗi
 10. viêt auto test và set up môi trường code lại từ đầu , xây dựng lại hệ thống tài liệu 
-11. xây dưng các use case diagram sơ đồ database , mô tả  chức năng hoạt động và quy trình thực hiện của use khi truy cập website, đồng thời nhân viên cũng cần phải có hướng dẫn chi tiết để sử dụng quản lý thông tin website tour du lịch 
+11. xây dưng các use case diagram sơ đồ database , mô tả  chức năng hoạt động và quy trình thực hiện của use khi truy cập website, đồng thời nhân viên cũng cần phải có hướng dẫn chi tiết để sử dụng quản lý thông tin website tour du lịch , đặt vé khách hàng
