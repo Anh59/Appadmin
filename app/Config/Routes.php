@@ -1,7 +1,7 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-
+// điều chỉnh hiệu ứng 
 /**
  * @var RouteCollection $routes
  */
