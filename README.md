@@ -41,3 +41,5 @@ Kiến thức cần có
 11. xây dưng các use case diagram sơ đồ database , mô tả  chức năng hoạt động và quy trình thực hiện của use khi truy cập website, đồng thời nhân viên cũng cần phải có hướng dẫn chi tiết để sử dụng quản lý thông tin website tour du lịch , đặt vé khách hàng dịch vụ vé
 12. Thống kê giá trị khách hàng , chuyến đi , hàng hóa lưu chuyển thanh toán QR, Xử lý giao nhận khách hàng , phản hồi khách hàng , dịch vụ thông tin cá nhân và công ty và nhóm làm việc kinh doanh hằng ngày 
 13. Lên báo cáo chi tiết về tiếp thị khách hàng và quảng cáo , tư vấn thuê KOL , Tiktoker review,Facebook,Zalo, Telegram ,Instagram,...và các nền tảng khác trên mạng xã hội
+14. Xây dựng quy trinh giám sát đối với các tài khoản trong hệ thống ngoại trừ Admin và CEO
+15. 
