@@ -42,4 +42,4 @@ Kiến thức cần có
 12. Thống kê giá trị khách hàng , chuyến đi , hàng hóa lưu chuyển thanh toán QR, Xử lý giao nhận khách hàng , phản hồi khách hàng , dịch vụ thông tin cá nhân và công ty và nhóm làm việc kinh doanh hằng ngày 
 13. Lên báo cáo chi tiết về tiếp thị khách hàng và quảng cáo , tư vấn thuê KOL , Tiktoker review,Facebook,Zalo, Telegram ,Instagram,...và các nền tảng khác trên mạng xã hội
 14. Xây dựng quy trinh giám sát đối với các tài khoản trong hệ thống ngoại trừ Admin và CEO
-15. 
+15. Tester
