@@ -44,3 +44,4 @@ Kiến thức cần có
 14. Xây dựng quy trinh giám sát đối với các tài khoản trong hệ thống ngoại trừ Admin và CEO
 15. Tester các use case , php test code sơ đồ phân tích
 16. 
+17. 
