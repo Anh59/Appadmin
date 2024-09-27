@@ -54,6 +54,6 @@ Kiến thức cần có
 24. 
 25. 
 26. use case
-27. 
+27. mô tả 
 28. 
 29. Cập nhật tài liệu 
