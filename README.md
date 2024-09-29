@@ -55,5 +55,5 @@ Kiến thức cần có
 25. 
 26. use case
 27. mô tả 
-28. 
+28. Vẽ sơ đồ activity
 29. Cập nhật tài liệu 
