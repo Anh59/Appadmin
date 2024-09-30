@@ -57,3 +57,4 @@ Kiến thức cần có
 27. mô tả 
 28. Vẽ sơ đồ activity
 29. Cập nhật tài liệu 
+30. sơ đồ activity diagram
