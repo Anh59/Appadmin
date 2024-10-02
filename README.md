@@ -60,3 +60,4 @@ Kiến thức cần có
 30. sơ đồ activity diagram
 
 110. sơ đồ phân loại các chức năng tour 
+210. Buồn quá 
