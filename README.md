@@ -62,3 +62,4 @@ Kiến thức cần có
 110. sơ đồ phân loại các chức năng tour 
 210. xây dựng sơ đồ toàn diện
 310. Lên kế hoạch xây dựng sơ đồ ERD
+410. Sơ đồ cơ sở dữ liệu 
