@@ -65,3 +65,4 @@ Kiến thức cần có
 410. Sơ đồ cơ sở dữ liệu 
 510. học 
 610. từ vựng
+710. Báo cáo
