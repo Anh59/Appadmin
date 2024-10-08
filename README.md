@@ -66,3 +66,4 @@ Kiến thức cần có
 510. học 
 610. từ vựng
 710. Báo cáo
+810. xây dựng báo cáo chi tiết
