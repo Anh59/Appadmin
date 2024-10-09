@@ -67,3 +67,4 @@ Kiến thức cần có
 610. từ vựng
 710. Báo cáo
 810. xây dựng báo cáo chi tiết
+910. git up loading
