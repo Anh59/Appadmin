@@ -68,3 +68,4 @@ Kiến thức cần có
 710. Báo cáo
 810. xây dựng báo cáo chi tiết
 910. git up loading
+1010. update code reading
