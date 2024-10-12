@@ -70,3 +70,4 @@ Kiến thức cần có
 910. git up loading
 1010. update code reading
 1110. reading
+1210. test
