@@ -71,3 +71,4 @@ Kiến thức cần có
 1010. update code reading
 1110. reading
 1210. test
+1310. code
