@@ -5,8 +5,26 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('errors','Home::Errors');  
+$routes->group('Customer', function ($routes) {
+    $routes->get('Customer_Register', 'CustomerController::register', ['as' => 'Customer_Register']);
+    $routes->post('Customer_Register', 'CustomerController::registerPost', ['as' => 'Customer_Register_Post']);
+    
+    $routes->get('verify-otp', 'CustomerController::verifyOtp', ['as' => 'Customer_Verify_Otp']);
+    $routes->post('verify-otp', 'CustomerController::verifyOtpPost', ['as' => 'Customer_Verify_Otp_Post']);
+    
+    $routes->get('login', 'CustomerController::login', ['as' => 'Customer_Login']);
+    $routes->post('login', 'CustomerController::loginPost', ['as' => 'Customer_Login_Post']);
+    
+    $routes->get('forgot-password', 'CustomerController::forgotPassword', ['as' => 'Customer_Forgot_Password']);
+    $routes->post('forgot-password', 'CustomerController::forgotPasswordPost', ['as' => 'Customer_Forgot_Password_Post']);
+    
+    $routes->get('reset-password/(:any)', 'CustomerController::resetPassword/$1', ['as' => 'Customer_Reset_Password']);
+    $routes->post('reset-password/(:any)', 'CustomerController::resetPasswordPost/$1', ['as' => 'Customer_Reset_Password_Post']);
+    
+    $routes->get('change-password', 'CustomerController::changePassword', ['as' => 'Customer_Change_Password']);
+    $routes->post('change-password', 'CustomerController::changePasswordPost', ['as' => 'Customer_Change_Password_Post']);
+});
+
 
 // $routes->get('login','UserController::index');
 // $routes->get('sign','UserController::sign');
@@ -77,8 +95,8 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
 
 $routes->get('login', 'UserController::loginForm');
 $routes->post('login', 'UserController::login');
-$routes->get('register', 'UserController::registerForm');
-$routes->post('register', 'UserController::register');
+// $routes->get('register', 'UserController::registerForm');
+// $routes->post('register', 'UserController::register');
 $routes->get('logout', 'UserController::logout');
 
 
