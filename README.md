@@ -72,3 +72,4 @@ Kiến thức cần có
 1110. reading
 1210. test
 1310. code
+1510. đăng ký
