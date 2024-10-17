@@ -2,165 +2,243 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CustomerModel;
-use CodeIgniter\I18n\Time;
 
 class CustomerController extends BaseController
 {
     public function register()
     {
-        return view('customer/register'); // Gọi view đăng ký
+        return view('customer/customers_register');
     }
 
-    public function registerPost()
+    public function processRegistration()
     {
-        helper('text');
-
-        // Lấy dữ liệu từ form đăng ký
-        $data = $this->request->getPost();
-
-        // Tạo OTP
-        $otp = random_string('numeric', 6); // Mã OTP gồm 6 số
-        $otpExpiration = Time::now()->addMinutes(5); // OTP hết hạn sau 5 phút
-
-        // Lưu thông tin người dùng vào cơ sở dữ liệu
         $customerModel = new CustomerModel();
-        $customerModel->insert([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'address' => $data['address'],
-            'otp' => $otp,
-            'otp_expiration' => $otpExpiration,
-            'is_verified' => false,
-            'password' => password_hash($data['password'], PASSWORD_BCRYPT),
-            'created_at' => Time::now(),
+        $validation = \Config\Services::validation();
+        
+        // Quy tắc xác thực bao gồm mật khẩu mạnh và số điện thoại hợp lệ
+        $validation->setRules([
+            'name' => 'required',
+            'email' => 'required|valid_email|is_unique[customers.email]',
+            'phone' => 'required|numeric|min_length[10]|max_length[15]',
+            'address' => 'required',
+            'password' => 'required|min_length[8]|regex_match[/(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])/]', // Kiểm tra độ mạnh mật khẩu
+        ], [
+            'password' => [
+                'regex_match' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái, số và ký tự đặc biệt.'
+            ],
+            'email' => [
+                'is_unique' => 'Email đã tồn tại trong hệ thống.'
+            ],
+            'phone' => [
+                'numeric' => 'Số điện thoại chỉ được chứa số.',
+                'min_length' => 'Số điện thoại phải có ít nhất 10 số.',
+                'max_length' => 'Số điện thoại không được vượt quá 15 số.'
+            ]
         ]);
 
+        if (!$this->validate($validation->getRules())) {
+            return $this->response->setJSON(['status' => 'error', 'errors' => $this->validator->getErrors()]);
+        }
+    
+        // Generate OTP
+        $otp = rand(100000, 999999);
+        $otp_expiration = date('Y-m-d H:i:s', strtotime('+5 minutes')); // 5 phút hết hạn
+    
+        // Lưu dữ liệu khách hàng kèm OTP
+        $customerModel->save([
+            'name' => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+            'phone' => $this->request->getPost('phone'),
+            'address' => $this->request->getPost('address'),
+            'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'otp' => $otp,
+            'otp_expiration' => $otp_expiration,
+            'is_verified' => false,
+        ]);
+    
         // Gửi OTP qua email
-        $emailService = \Config\Services::email();
-        $emailService->setTo($data['email']);
-        $emailService->setSubject('Xác nhận đăng ký');
-        $emailService->setMessage("Mã OTP của bạn là: $otp");
-        $emailService->send();
-
-        return redirect()->to('Customer/verify-otp');
+        $this->_sendOTP($this->request->getPost('email'), $otp);
+    
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Đăng ký thành công. Vui lòng kiểm tra email để xác thực OTP.', 'email' => $this->request->getPost('email')]);
     }
-
-    public function verifyOtp()
+    
+    public function verifyOTP()
     {
-        return view('Customer/verify_otp'); // Gọi view xác nhận OTP
-    }
-
-    public function verifyOtpPost()
-    {
+        $customerModel = new CustomerModel();
+        $email = $this->request->getPost('email');
         $otp = $this->request->getPost('otp');
-        $email = $this->request->getPost('email');
-
-        $customerModel = new CustomerModel();
+    
         $customer = $customerModel->where('email', $email)->first();
+    
+        if ($customer) {
+            if ($customer['otp'] == $otp && strtotime($customer['otp_expiration']) > time()) {
+                // OTP hợp lệ, xác thực tài khoản
+                $customerModel->update($customer['id'], ['is_verified' => true, 'otp' => null, 'otp_expiration' => null]);
+                return $this->response->setJSON(['status' => 'success', 'message' => 'Tài khoản xác thực thành công.']);
+            } else if (strtotime($customer['otp_expiration']) <= time()) {
+                // OTP hết hạn, xóa tài khoản
+                $customerModel->delete($customer['id']);
+                return $this->response->setJSON(['status' => 'error', 'message' => 'OTP đã hết hạn. Tài khoản của bạn đã bị xóa.']);
+            }
+        }
+    
+        return $this->response->setJSON(['status' => 'error', 'message' => 'OTP không hợp lệ hoặc đã hết hạn.']);
+    }
 
-        if ($customer && $customer['otp'] === $otp && Time::now()->isBefore($customer['otp_expiration'])) {
-            $customerModel->update($customer['id'], [
-                'is_verified' => true,
-                'otp' => null,
-                'otp_expiration' => null,
+    private function _sendOTP($email, $otp)
+    {
+        $emailService = \Config\Services::email();
+        $emailService->setTo($email);
+        $emailService->setSubject('Mã OTP của bạn');
+        $emailService->setMessage('Mã OTP của bạn là: ' . $otp);
+        if (!$emailService->send()) {
+            // Ghi lỗi nếu gửi email thất bại
+            log_message('error', 'Gửi email thất bại: ' . $emailService->printDebugger(['headers']));
+        }
+    }
+
+
+            public function login()
+        {
+            return view('customer/customers_sign');
+        }
+
+        public function processLogin()
+                {
+                    // Lấy dữ liệu đầu vào
+                    $email = $this->request->getPost('email');
+                    $password = $this->request->getPost('password');
+                    
+                    // Kiểm tra thông tin tài khoản
+                    $customerModel = new CustomerModel();
+                    $customer = $customerModel->where('email', $email)->first();
+
+                    if ($customer) {
+                        // Kiểm tra nếu tài khoản đã được xác thực OTP
+                        if ($customer['is_verified']) {
+                            // Kiểm tra mật khẩu
+                            if (password_verify($password, $customer['password'])) {
+                                // Đăng nhập thành công
+                                session()->set('customer_id', $customer['id']);
+                                return $this->response->setJSON(['status' => 'success', 'message' => 'Đăng nhập thành công!']);
+                            } else {
+                                return $this->response->setJSON(['status' => 'error', 'message' => 'Mật khẩu không đúng.']);
+                            }
+                        } else {
+                            return $this->response->setJSON(['status' => 'error', 'message' => 'Tài khoản chưa được xác thực. Vui lòng kiểm tra email.']);
+                        }
+                    } else {
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'Email không tồn tại.']);
+                    }
+                }
+
+
+        public function logout()
+        {
+            session()->destroy(); // Xóa session khi đăng xuất
+            return redirect()->to('/login');
+        }
+
+        public function test()
+        {
+            return view('test');
+        }
+
+        public function forgotPassword()
+        {
+            return view('customer/customers_forgotpassword'); // Giao diện quên mật khẩu
+        }
+        
+        public function processForgotPassword()
+        {
+            $customerModel = new CustomerModel();
+            $validation = \Config\Services::validation();
+        
+            $validation->setRules([
+                'email' => 'required|valid_email',
+            ], [
+                'email' => [
+                    'valid_email' => 'Email không hợp lệ.'
+                ]
             ]);
-            return redirect()->to('/login')->with('success', 'Tài khoản đã được xác nhận');
-        } else {
-            return redirect()->back()->with('error', 'OTP không hợp lệ hoặc đã hết hạn');
+        
+            if (!$this->validate($validation->getRules())) {
+                return $this->response->setJSON(['status' => 'error', 'errors' => $this->validator->getErrors()]);
+            }
+        
+            // Kiểm tra xem email có tồn tại không
+            $email = $this->request->getPost('email');
+            $customer = $customerModel->where('email', $email)->first();
+        
+            if ($customer) {
+                // Generate OTP
+                $otp = rand(100000, 999999);
+                $otp_expiration = date('Y-m-d H:i:s', strtotime('+5 minutes')); // 5 phút hết hạn
+        
+                // Cập nhật OTP và thời gian hết hạn vào cơ sở dữ liệu
+                $customerModel->update($customer['id'], ['otp' => $otp, 'otp_expiration' => $otp_expiration]);
+        
+                // Gửi OTP qua email
+                $this->_sendOTP($email, $otp);
+        
+                return $this->response->setJSON(['status' => 'success', 'message' => 'Đã gửi mã OTP đến email của bạn.','email' => $email ]);
+            } else {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Email không tồn tại.']);
+            }
         }
-    }
 
-    public function login()
-    {
-        return view('customer/login'); // Gọi view đăng nhập
-    }
+        public function pass_verifyOTP()
+            {
+                $customerModel = new CustomerModel();
+                $email = $this->request->getPost('email');
+                $otp = $this->request->getPost('otp');
 
-    public function loginPost()
-    {
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
+                // Tìm tài khoản theo email
+                $customer = $customerModel->where('email', $email)->first();
 
-        $customerModel = new CustomerModel();
-        $customer = $customerModel->where('email', $email)->first();
+                if ($customer) {
+                    // Kiểm tra OTP và thời gian hết hạn
+                    if ($customer['otp'] == $otp && strtotime($customer['otp_expiration']) > time()) {
+                        return $this->response->setJSON(['status' => 'success', 'message' => 'OTP xác thực thành công.', 'email' => $email]);
+                    } else if (strtotime($customer['otp_expiration']) <= time()) {
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'OTP đã hết hạn.']);
+                    } else {
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'OTP không hợp lệ.']);
+                    }
+                } else {
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Không tìm thấy tài khoản với email này.']);
+                }
+            }
 
-        if ($customer && $customer['is_verified'] && password_verify($password, $customer['password'])) {
-            session()->set(['isLoggedIn' => true, 'user' => $customer]);
-            return redirect()->to('/dashboard');
-        } else {
-            return redirect()->back()->with('error', 'Thông tin đăng nhập không chính xác hoặc tài khoản chưa được xác nhận');
-        }
-    }
+        public function resetPassword()
+            {
+                $customerModel = new CustomerModel();
+                $email = $this->request->getPost('email');
+                $newPassword = $this->request->getPost('new_password');
+                $confirmPassword = $this->request->getPost('confirm_password');
 
-    public function forgotPassword()
-    {
-        return view('customer/forgot_password'); // Gọi view quên mật khẩu
-    }
+                if ($newPassword !== $confirmPassword) {
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Mật khẩu và xác nhận mật khẩu không khớp.']);
+                }
 
-    public function forgotPasswordPost()
-    {
-        helper('text');
-        $email = $this->request->getPost('email');
+                $customer = $customerModel->where('email', $email)->first();
+                if ($customer) {
+                    // Cập nhật mật khẩu mới
+                    $customerModel->update($customer['id'], [
+                        'password' => password_hash($newPassword, PASSWORD_DEFAULT),
+                        'otp' => null,
+                        'otp_expiration' => null // Xóa OTP sau khi cập nhật mật khẩu
+                    ]);
 
-        $customerModel = new CustomerModel();
-        $customer = $customerModel->where('email', $email)->first();
+                    return $this->response->setJSON(['status' => 'success', 'message' => 'Mật khẩu đã được đặt lại thành công.']);
+                }
 
-        if ($customer) {
-            $token = random_string('alnum', 32);
-            $customerModel->update($customer['id'], ['reset_token' => $token]);
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Không tìm thấy tài khoản.']);
+            }
 
-            // Gửi email với đường link đặt lại mật khẩu
-            $emailService = \Config\Services::email();
-            $emailService->setTo($email);
-            $emailService->setSubject('Đặt lại mật khẩu');
-            $emailService->setMessage("Nhấn vào đường link sau để đặt lại mật khẩu: " . base_url("/reset-password/$token"));
-            $emailService->send();
 
-            return redirect()->to('/login')->with('success', 'Hãy kiểm tra email để đặt lại mật khẩu');
-        } else {
-            return redirect()->back()->with('error', 'Email không tồn tại trong hệ thống');
-        }
-    }
-
-    public function resetPassword($token)
-    {
-        return view('customer/reset_password', ['token' => $token]); // Gọi view đặt lại mật khẩu
-    }
-
-    public function resetPasswordPost($token)
-    {
-        $customerModel = new CustomerModel();
-        $customer = $customerModel->where('reset_token', $token)->first();
-
-        if ($customer) {
-            $newPassword = password_hash($this->request->getPost('password'), PASSWORD_BCRYPT);
-            $customerModel->update($customer['id'], ['password' => $newPassword, 'reset_token' => null]);
-
-            return redirect()->to('/login')->with('success', 'Mật khẩu đã được cập nhật');
-        } else {
-            return redirect()->back()->with('error', 'Token không hợp lệ');
-        }
-    }
-
-    public function changePassword()
-    {
-        return view('customer/change_password'); // Gọi view thay đổi mật khẩu
-    }
-
-    public function changePasswordPost()
-    {
-        $currentPassword = $this->request->getPost('current_password');
-        $newPassword = $this->request->getPost('new_password');
-
-        $customerModel = new CustomerModel();
-        $customer = $customerModel->find(session()->get('user')['id']);
-
-        if (password_verify($currentPassword, $customer['password'])) {
-            $customerModel->update($customer['id'], ['password' => password_hash($newPassword, PASSWORD_BCRYPT)]);
-            return redirect()->to('/profile')->with('success', 'Mật khẩu đã được cập nhật');
-        } else {
-            return redirect()->back()->with('error', 'Mật khẩu hiện tại không đúng');
-        }
-    }
+        
 }

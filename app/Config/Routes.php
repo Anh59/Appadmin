@@ -5,24 +5,27 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->group('Customer', function ($routes) {
-    $routes->get('Customer_Register', 'CustomerController::register', ['as' => 'Customer_Register']);
-    $routes->post('Customer_Register', 'CustomerController::registerPost', ['as' => 'Customer_Register_Post']);
+$routes->group('api_Customers', function($routes) {
+   
+
+    $routes->get('customers_register','CustomerController::register', ['as' => 'Customers_Register']);
+    $routes->post('customers_register','CustomerController::processRegistration', ['as' => 'Customers_processRegistration']);
+    $routes->post('customers_verify_otp', 'CustomerController::verifyOTP', ['as' => 'Customers_verifyOTP']);
+
+    $routes->get('customers_sign','CustomerController::login',['as' => 'Customers_sign']);
+    $routes->post('customers_sign','CustomerController::processLogin',['as' => 'Customers_processLogin']);
+
+    $routes->get('testEmail', 'CustomerController::testEmail', ['as' => 'testEmail']);
     
-    $routes->get('verify-otp', 'CustomerController::verifyOtp', ['as' => 'Customer_Verify_Otp']);
-    $routes->post('verify-otp', 'CustomerController::verifyOtpPost', ['as' => 'Customer_Verify_Otp_Post']);
-    
-    $routes->get('login', 'CustomerController::login', ['as' => 'Customer_Login']);
-    $routes->post('login', 'CustomerController::loginPost', ['as' => 'Customer_Login_Post']);
-    
-    $routes->get('forgot-password', 'CustomerController::forgotPassword', ['as' => 'Customer_Forgot_Password']);
-    $routes->post('forgot-password', 'CustomerController::forgotPasswordPost', ['as' => 'Customer_Forgot_Password_Post']);
-    
-    $routes->get('reset-password/(:any)', 'CustomerController::resetPassword/$1', ['as' => 'Customer_Reset_Password']);
-    $routes->post('reset-password/(:any)', 'CustomerController::resetPasswordPost/$1', ['as' => 'Customer_Reset_Password_Post']);
-    
-    $routes->get('change-password', 'CustomerController::changePassword', ['as' => 'Customer_Change_Password']);
-    $routes->post('change-password', 'CustomerController::changePasswordPost', ['as' => 'Customer_Change_Password_Post']);
+
+    $routes->get('customers_forgot_password', 'CustomerController::forgotPassword',['as' => 'customes_forgot_password']);
+    $routes->post('customers_forgot_password', 'CustomerController::processForgotPassword',['as'=>'Customers_processForgotPassword']);
+    $routes->post('customers_pass_verify_otp', 'CustomerController::pass_verifyOTP',['as'=>'Customers_processPassVerifyOTP']);
+    $routes->post('customers_reset_password', 'CustomerController::resetPassword',['as' => 'Customes_resetPassword']);
+
+    $routes->get('google_login', 'GoogleController::googleLogin', ['as' => 'google_login']);
+    $routes->get('google_callback', 'GoogleController::googleCallback', ['as' => 'google_callback']);
+
 });
 
 
@@ -91,6 +94,8 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
 });
 
 
+$routes->get('/','Home::index');
+$routes->get('errors','Home::Errors');
 
 
 $routes->get('login', 'UserController::loginForm');
