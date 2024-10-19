@@ -91,6 +91,8 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
          $routes->post('table-user-delete/(:num)', 'TableUserController::deleteUser/$1', ['as' => 'Table_User_Delete', 'filter' => 'Perermissions:Table_User_Delete']);
     });
 
+    
+
 });
 
 
@@ -104,4 +106,14 @@ $routes->post('login', 'UserController::login');
 // $routes->post('register', 'UserController::register');
 $routes->get('logout', 'UserController::logout');
 
+//trang chủ 
+$routes->get('about', 'Home::index1');
+$routes->get('index', 'Home::index2');
+$routes->get('blog', 'Home::index3');
+$routes->get('contact', 'Home::index4');
+$routes->get('elements', 'Home::index5');
+$routes->get('layout', 'Home::index6');
+$routes->get('test', 'Home::index7');
+$routes->get('single_listing', 'Home::index9');
+$routes->get('offers', 'Home::index8');
 
