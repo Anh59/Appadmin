@@ -296,6 +296,23 @@
                       </li>
                       <?php endif; ?>
 
+                      <?php if ($session->get('Table_Customers') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Customers') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị tài khoản khách hàng</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+                      <?php if ($session->get('Table_Tours') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Tours') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị Tour</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+
 
 
          

@@ -2,31 +2,29 @@
 <?= $this->extend('Home/layout-home'); ?>
 
 <?= $this->section('title') ?>
-single_listing
+Offers
 <?= $this->endSection() ?>
 
 <?= $this->section('Home-css') ?>
-<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/plugins/colorbox/colorbox.css'); ?>">
-<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/single_listing_styles.css'); ?>">
-<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/single_listing_responsive.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/offers_styles.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/offers_responsive.css'); ?>">
 <?= $this->endSection() ?>
 
 
 <?= $this->section('Home-content'); ?>
 
-
 	<!-- Home -->
 
 	<div class="home">
-		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/single_background.jpg'); ?>"></div>
+		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
 		<div class="home_content">
-			<div class="home_title">the offers</div>
+			<div class="home_title">our offers</div>
 		</div>
 	</div>
 
 	<!-- Offers -->
 
-	<div class="listing">
+	<div class="offers">
 
 		<!-- Search -->
 
@@ -344,246 +342,142 @@ single_listing
 			</div>	
 		</div>
 
-		<!-- Single Listing -->
+		<!-- Offers -->
 
 		<div class="container">
 			<div class="row">
+				<div class="col-lg-1 temp_col"></div>
+				<div class="col-lg-11">
+					
+					<!-- Offers Sorting -->
+					<div class="offers_sorting_container">
+						<ul class="offers_sorting">
+							<li>
+								<span class="sorting_text">price</span>
+								<i class="fa fa-chevron-down"></i>
+								<ul>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }' data-parent=".price_sorting"><span>show all</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "price" }' data-parent=".price_sorting"><span>ascending</span></li>
+								</ul>
+							</li>
+							<li>
+								<span class="sorting_text">location</span>
+								<i class="fa fa-chevron-down"></i>
+								<ul>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>default</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'><span>alphabetical</span></li>
+								</ul>
+							</li>
+							<li>
+								<span class="sorting_text">stars</span>
+								<i class="fa fa-chevron-down"></i>
+								<ul>
+									<li class="filter_btn" data-filter="*"><span>show all</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "stars" }'><span>ascending</span></li>
+									<li class="filter_btn" data-filter=".rating_3"><span>3</span></li>
+									<li class="filter_btn" data-filter=".rating_4"><span>4</span></li>
+									<li class="filter_btn" data-filter=".rating_5"><span>5</span></li>
+								</ul>
+							</li>
+							<li class="distance_item">
+								<span class="sorting_text">distance from center</span>
+								<i class="fa fa-chevron-down"></i>
+								<ul>
+									<li class="num_sorting_btn"><span>distance</span></li>
+									<li class="num_sorting_btn"><span>distance</span></li>
+									<li class="num_sorting_btn"><span>distance</span></li>
+								</ul>
+							</li>
+							<li>
+								<span class="sorting_text">reviews</span>
+								<i class="fa fa-chevron-down"></i>
+								<ul>
+									<li class="num_sorting_btn"><span>review</span></li>
+									<li class="num_sorting_btn"><span>review</span></li>
+									<li class="num_sorting_btn"><span>review</span></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="col-lg-12">
-					<div class="single_listing">
-						
-						<!-- Hotel Info -->
+					<!-- Offers Grid -->
 
-						<div class="hotel_info">
+					
 
+						<!-- Offers Item -->
 
-							<!-- Title -->
-							<div class="hotel_title_container d-flex flex-lg-row flex-column">
-								<div class="hotel_title_content">
-									<h1 class="hotel_title"><?= $tour['name']; ?></h1>
-									<div class="rating_r rating_r_<?= round($tour['rating']); ?> hotel_rating">
-										<?php for ($i = 0; $i < 5; $i++): ?>
-											<i class="fa <?= $i < round($tour['rating']) ? 'fa-star' : 'fa-star-o'; ?>"></i>
-										<?php endfor; ?>
-									</div>
-									<div class="hotel_location"><?= isset($tour['location']) ? $tour['location'] : 'Unknown location'; ?></div>
-								</div>
-								<div class="hotel_title_button ml-lg-auto text-lg-right">
-									<div class="button book_button trans_200">
-										<a href="#">book<span></span><span></span><span></span></a>
-									</div>
-									<div class="hotel_map_link_container">
-										<div class="hotel_map_link">See Location on Map</div>
-									</div>
-								</div>
-							</div>
-
-<!-- Listing Image (Ảnh chính của tour) -->
-			<div class="hotel_image">
-				<!-- Kiểm tra nếu có ảnh, nếu không có dùng ảnh mặc định -->
-				<?php if (!empty($tour['image_url'])): ?>
-					<img src="<?= $tour['image_url']; ?>" alt="Image of <?= $tour['name']; ?>">
-				<?php else: ?>
-					<img src="<?= base_url('default-image.jpg'); ?>" alt="No image available">
-				<?php endif; ?>
-				<div class="hotel_review_container d-flex flex-column align-items-center justify-content-center">
-					<div class="hotel_review">
-						<div class="hotel_review_content">
-							<div class="hotel_review_title"><?= $tour['review_title']; ?></div>
-							<div class="hotel_review_subtitle"><?= $tour['review_count']; ?> reviews</div>
-						</div>
-						<div class="hotel_review_rating text-center"><?= number_format($tour['rating'], 1); ?></div>
-					</div>
-				</div>
-			</div>
-
-<!-- Gallery (Các ảnh phụ của tour) -->
-				<div class="hotel_gallery">
-					<div class="hotel_slider_container">
-						<div class="owl-carousel owl-theme hotel_slider">
-							<?php if (!empty($tour['gallery_images'])): ?>
-								<?php foreach ($tour['gallery_images'] as $image): ?>
-									<div class="owl-item">
-										<a class="colorbox cboxElement" href="<?= base_url($image['image_url']); ?>">
-											<img src="<?= base_url($image['image_url']); ?>" alt="Image of <?= $tour['name']; ?>">
-										</a>
-									</div>
-								<?php endforeach; ?>
-							<?php else: ?>
-								<p>No images available for this tour.</p>
-							<?php endif; ?>
-						</div>
-
-						<!-- Slider Navs -->
-						<div class="hotel_slider_nav hotel_slider_prev">
-										<svg version="1.1" id="Layer_6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-											width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
-											<defs>
-												<linearGradient id='hotel_grad_prev'>
-													<stop offset='0%' stop-color='#fa9e1b'/>
-													<stop offset='100%' stop-color='#8d4fff'/>
-												</linearGradient>
-											</defs>
-											<path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
-											M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
-											C22.545,2,26,5.541,26,9.909V23.091z"/>
-											<polygon class="nav_arrow" fill="#F3F6F9" points="15.044,22.222 16.377,20.888 12.374,16.885 16.377,12.882 15.044,11.55 9.708,16.885 11.04,18.219 
-											11.042,18.219 "/>
-										</svg>
-									</div>
-									
-									<!-- Hotel Slider Nav - Next -->
-									<div class="hotel_slider_nav hotel_slider_next">
-										<svg version="1.1" id="Layer_7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-										width="28px" height="33px" viewBox="0 0 28 33" enable-background="new 0 0 28 33" xml:space="preserve">
-											<defs>
-												<linearGradient id='hotel_grad_next'>
-													<stop offset='0%' stop-color='#fa9e1b'/>
-													<stop offset='100%' stop-color='#8d4fff'/>
-												</linearGradient>
-											</defs>
-										<path class="nav_path" fill="#F3F6F9" d="M19,0H9C4.029,0,0,4.029,0,9v15c0,4.971,4.029,9,9,9h10c4.97,0,9-4.029,9-9V9C28,4.029,23.97,0,19,0z
-										M26,23.091C26,27.459,22.545,31,18.285,31H9.714C5.454,31,2,27.459,2,23.091V9.909C2,5.541,5.454,2,9.714,2h8.571
-										C22.545,2,26,5.541,26,9.909V23.091z"/>
-										<polygon class="nav_arrow" fill="#F3F6F9" points="13.044,11.551 11.71,12.885 15.714,16.888 11.71,20.891 13.044,22.224 18.379,16.888 17.048,15.554 
-										17.046,15.554 "/>
-										</svg>
-									</div>
-					</div>
-				</div>
-
-<!-- Hotel Info Text -->
-<div class="hotel_info_text">
-    <p><?= $tour['description']; ?></p>
-</div>
-
-
-<!-- Hotel Info Tags -->
-<div class="hotel_info_tags">
-	<ul class="hotel_icons_list">
-		<li class="hotel_icons_item"><img src="<?= base_url('Home-css/images/post.png'); ?>" alt=""></li>
-		<li class="hotel_icons_item"><img src="<?= base_url('Home-css/images/compass.png'); ?>" alt=""></li>
-		<li class="hotel_icons_item"><img src="<?= base_url('Home-css/images/bicycle.png'); ?>" alt=""></li>
-		<li class="hotel_icons_item"><img src="<?= base_url('Home-css/images/sailboat.png'); ?>" alt=""></li>
-	</ul>
-</div>
-</div>
-
-
-
-
-						
-						<!-- Rooms -->
-
-						<div class="rooms">
-    <!-- Hiển thị thông tin các phòng -->
-    <?php if (!empty($tour['rooms'])): ?>
-        <?php foreach ($tour['rooms'] as $room): ?>
-            <!-- Room -->
-            <div class="room">
+						<div class="offers_grid">
+    <?php if (!empty($tours)): ?>
+        <?php foreach ($tours as $tour): ?>
+            <div class="offers_item">
                 <div class="row">
-                    <div class="col-lg-2">
-                        <div class="room_image">
-                            <img src="<?= base_url('Home-css/images/room_'.$room['id'].'.jpg'); ?>" alt="Room Image">
+                    <div class="col-lg-1 temp_col"></div>
+                    <div class="col-lg-3 col-1680-4">
+                        <div class="offers_image_container">
+                            <?php if (!empty($tour['image_url'])): ?>
+                                <div class="offers_image_background" style="background-image:url('<?= $tour['image_url']; ?>')"></div>
+                            <?php else: ?>
+                                <div class="offers_image_background" style="background-image:url('<?= base_url('default-image.jpg'); ?>')"></div> <!-- Hình ảnh mặc định -->
+                            <?php endif; ?>
+                            <div class="offer_name">
+                                <a href="<?= base_url('tour/detail/' . $tour['id']); ?>"><?= $tour['name']; ?></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-7">
-                        <div class="room_content">
-                            <div class="room_title"><?= esc($room['name']); ?></div>
-                            <div class="room_price"><?= '$'.$room['price'].'/night'; ?></div>
-                            <div class="room_text"><?= esc($room['cancellation']); ?></div>
-                            <div class="room_extra"><?= esc($room['extra']); ?></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 text-lg-right">
-                        <div class="room_button">
-                            <div class="button book_button trans_200"><a href="#">book<span></span><span></span><span></span></a></div>
+                    <div class="col-lg-8">
+                        <div class="offers_content">
+                            <div class="offers_price">$<?= $tour['price_per_person']; ?><span>per person</span></div>
+                            <div class="rating_r rating_r_<?= round($tour['rating']); ?> offers_rating" data-rating="<?= round($tour['rating']); ?>">
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                    <i class="fa <?= $i < round($tour['rating']) ? 'fa-star' : 'fa-star-o'; ?>"></i>
+                                <?php endfor; ?>
+                            </div>
+                            <p class="offers_text"><?= $tour['description']; ?></p>
+                            <div class="button book_button">
+                                <a href="<?= base_url('tour/single_listing/' . $tour['id']); ?>">Book</a>
+                            </div>
+
+                            <div class="offer_reviews">
+                                <div class="offer_reviews_content">
+                                    <div class="offer_reviews_title"><?= $tour['review_title']; ?></div>
+                                    <div class="offer_reviews_subtitle"><?= $tour['review_count']; ?> reviews</div>
+                                </div>
+                                <div class="offer_reviews_rating text-center"><?= number_format($tour['rating'], 1); ?></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p>No rooms available for this tour.</p>
+        <p>No tours found.</p>
     <?php endif; ?>
 </div>
 
-<!-- Reviews Section -->
-<div class="reviews">
-    <div class="reviews_title">Reviews</div>
-    <div class="reviews_container">
-        <!-- Hiển thị đánh giá -->
-        <?php if (!empty($reviews)): ?>
-            <?php foreach ($reviews as $review): ?>
-                <div class="review">
-                    <div class="row">
-                        <div class="col-lg-1">
-                            <div class="review_image">
-                                <!-- Kiểm tra và hiển thị đúng đường dẫn ảnh của khách hàng -->
-                                <img src="<?= base_url(esc($review['reviewer_image'])); ?>" alt="Reviewer Image" style="max-width: 100px; height: auto;">
-                            </div>
-                        </div>
-                        <div class="col-lg-11">
-                            <div class="review_content">
-                                <div class="review_title_container">
-                                    <div class="review_title"><?= esc($review['title']); ?></div>
-                                    <div class="review_rating"><?= esc($review['rating']); ?></div>
-                                </div>
-                                <div class="review_text">
-                                    <p><?= esc($review['content']); ?></p>
-                                </div>
-                                <div class="review_name"><?= esc($review['reviewer_name']); ?></div>
-                                <div class="review_date"><?= esc($review['created_at']); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No reviews yet.</p>
-        <?php endif; ?>
-    </div>
-</div>
 
 
 
+						<!-- Offers Item -->
 
 
-
-						<!-- Location on Map -->
-
-						<div class="location_on_map">
-							<div class="location_on_map_title">location on map</div>
-
-							<!-- Google Map -->
-		
-							<div class="travelix_map">
-								<div id="google_map" class="google_map">
-									<div class="map_container">
-										<div id="map"></div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
 				</div>
+
 			</div>
 		</div>		
 	</div>
 
 	<!-- Footer -->
-	
 
 
 	<?= $this->endSection(); ?>
 	<?= $this->section('Home-scripts') ?>
 	
+	<script src="<?= base_url('Home-css/plugins/Isotope/isotope.pkgd.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
-	<script src="<?= base_url('Home-css/plugins/colorbox/jquery.colorbox-min.js'); ?>"></script>
-	<script src="<?= base_url('Home-css/plugins/OwlCarousel2-2.2.1/owl.carousel.js'); ?>"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
-	<script src="<?= base_url('Home-css/js/single_listing_custom.js'); ?>"></script>
-	
+	<script src="<?= base_url('Home-css/js/offers_custom.js'); ?>"></script>
 	<?= $this->endSection(); ?>
+
 
 

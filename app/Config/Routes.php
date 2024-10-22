@@ -90,6 +90,27 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
          $routes->post('table-user-update/(:num)', 'TableUserController::updateUser/$1', ['as' => 'Table_User_Update', 'filter' => 'Perermissions:Table_User_Update']);
          $routes->post('table-user-delete/(:num)', 'TableUserController::deleteUser/$1', ['as' => 'Table_User_Delete', 'filter' => 'Perermissions:Table_User_Delete']);
     });
+    $routes->group('Customers', function (RouteCollection $routes) {
+        $routes->get('table-customers', 'TableCustomersController::table', ['as' => 'Table_Customers', 'filter' => 'Perermissions:Table_Customers']);
+        $routes->get('table-customers-create', 'TableCustomersController::create', ['as' => 'Table_Customers_Create', 'filter' => 'Perermissions:Table_Customers_Create']);
+        $routes->post('table-customers-store', 'TableCustomersController::store', ['as' => 'Table_Customers_Store', 'filter' => 'Perermissions:Table_Customers_Store']);
+        $routes->get('table-customers-edit/(:num)', 'TableCustomersController::edit/$1', ['as' => 'Table_Customers_Edit', 'filter' => 'Perermissions:Table_Customers_Edit']);
+        $routes->post('table-customers-update/(:num)', 'TableCustomersController::update/$1', ['as' => 'Table_Customers_Update', 'filter' => 'Perermissions:Table_Customers_Update']);
+        $routes->post('table-customers-delete/(:num)', 'TableCustomersController::delete/$1', ['as' => 'Table_Customers_Delete', 'filter' => 'Perermissions:Table_Customers_Delete']);
+        //$routes->post('table-customers-lock/(:num)', 'TableCustomersController::lockCustomer/$1', ['as' => 'Table_Customers_Lock', 'filter' => 'Perermissions:Table_Customers_Lock']);
+    });
+    
+    $routes->group('Tours', function (RouteCollection $routes) {
+        $routes->get('table-tours', 'ToursController::table', ['as' => 'Table_Tours', 'filter' => 'Perermissions:Table_Tours']);
+        $routes->get('table-tours-create', 'ToursController::create', ['as' => 'Table_Tours_Create', 'filter' => 'Perermissions:Table_Tours_Create']);
+        $routes->post('table-tours-store', 'ToursController::store', ['as' => 'Table_Tours_Store', 'filter' => 'Perermissions:Table_Tours_Store']);
+        $routes->get('table-tours-edit/(:num)', 'ToursController::edit/$1', ['as' => 'Table_Tours_Edit', 'filter' => 'Perermissions:Table_Tours_Edit']);
+        $routes->post('table-tours-update/(:num)', 'ToursController::update/$1', ['as' => 'Table_Tours_Update', 'filter' => 'Perermissions:Table_Tours_Update']);
+        $routes->post('table-tours-delete/(:num)', 'ToursController::delete/$1', ['as' => 'Table_Tours_Delete', 'filter' => 'Perermissions:Table_Tours_Delete']);
+    });
+    
+    
+    
 
     
 
@@ -107,13 +128,17 @@ $routes->post('login', 'UserController::login');
 $routes->get('logout', 'UserController::logout');
 
 //trang chủ 
-$routes->get('about', 'Home::index1');
-$routes->get('index', 'Home::index2');
-$routes->get('blog', 'Home::index3');
-$routes->get('contact', 'Home::index4');
-$routes->get('elements', 'Home::index5');
+$routes->get('index', 'Home::index1',['as'=>'Tour_index']);
+$routes->get('about', 'Home::index2',['as'=>'Tour_about']);
+$routes->get('blog', 'Home::index3',['as'=>'Tour_blog']);
+$routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
+$routes->get('elements', 'Home::index5',['as'=>'Tour_elements']);
 $routes->get('layout', 'Home::index6');
 $routes->get('test', 'Home::index7');
 $routes->get('single_listing', 'Home::index9');
 $routes->get('offers', 'Home::index8');
 
+$routes->group('tour', ['namespace' => 'App\Controllers'], function($routes) {
+    $routes->get('offers', 'SingleController::index',['as'=>'Tour_offers']); // Hiển thị danh sách các tour
+    $routes->get('detail/(:num)', 'SingleController::single_listing/$1'); // Hiển thị chi tiết tour với ID
+});

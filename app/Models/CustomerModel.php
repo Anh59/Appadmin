@@ -11,7 +11,7 @@ class CustomerModel extends Model
     protected $allowedFields = [
         'name', 'email', 'phone', 'address', 'otp', 
         'otp_expiration', 'is_verified', 'created_at','updated_at', 
-        'password', 'reset_token'
+        'password', 'reset_token','image_url'
     ];
     protected $useTimestamps = true;
     protected $validationRules = [

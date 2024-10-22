@@ -58,11 +58,11 @@
 						</div>
 						<div class="main_nav_container ml-auto">
 							<ul class="main_nav_list">
-								<li class="main_nav_item"><a href="index.html">home</a></li>
-								<li class="main_nav_item"><a href="#">about us</a></li>
-								<li class="main_nav_item"><a href="offers.html">offers</a></li>
-								<li class="main_nav_item"><a href="blog.html">news</a></li>
-								<li class="main_nav_item"><a href="contact.html">contact</a></li>
+								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_index') ?>">home</a></li>
+								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_about') ?>">about us</a></li>
+								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_offers') ?>">offers</a></li>
+								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_blog') ?>">news</a></li>
+								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_contact') ?>">contact</a></li>
 							</ul>
 						</div>
 						<div class="content_search ml-lg-0 ml-auto">
