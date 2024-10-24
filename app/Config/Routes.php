@@ -138,6 +138,8 @@ $routes->get('test', 'Home::index7');
 $routes->get('single_listing', 'Home::index9');
 $routes->get('offers', 'Home::index8');
 
+
+//xử lý hiênj thị dữ liệu tour
 $routes->group('tour', ['namespace' => 'App\Controllers'], function($routes) {
     $routes->get('offers', 'SingleController::index',['as'=>'Tour_offers']); // Hiển thị danh sách các tour
     $routes->get('detail/(:num)', 'SingleController::single_listing/$1'); // Hiển thị chi tiết tour với ID
