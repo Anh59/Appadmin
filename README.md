@@ -73,3 +73,5 @@ Kiến thức cần có
 1210. test
 1310. code
 1510. đăng ký
+
+2510. Xây dựng Người dùng đặt Tour, profile, danh sách đơn đặt , logout
