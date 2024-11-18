@@ -136,7 +136,8 @@ $routes->get('elements', 'Home::index5',['as'=>'Tour_elements']);
 $routes->get('layout', 'Home::index6');
 $routes->get('test', 'Home::index7');
 $routes->get('single_listing', 'Home::index9');
-$routes->get('offers', 'Home::index8');
+// $routes->get('offers', 'Home::index8');
+
 
 
 //xử lý hiênj thị dữ liệu tour

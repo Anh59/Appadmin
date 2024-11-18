@@ -41,14 +41,45 @@ Offers
 
 							<div class="search_tabs_container">
 								<div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
-									<div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start"><img src="<?= base_url('Home-css/images/suitcase.png'); ?>" alt=""><span>hotels</span></div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start"><img src="<?= base_url('Home-css/images/bus.png'); ?>" alt="">car rentals</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start"><img src="<?= base_url('Home-css/images/departure.png'); ?>" alt="">flights</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start"><img src="<?= base_url('Home-css/images/island.png'); ?>" alt="">trips</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start"><img src="<?= base_url('Home-css/images/cruise.png'); ?>" alt="">cruises</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start"><img src="<?= base_url('Home-css/images/diving.png'); ?>" alt="">activities</div>
-								</div>		
+									<!-- Trips Tab (Không thay đổi) -->
+									<div class="search_tab <?= empty($transportType) ? 'active' : ''; ?> d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="<?= base_url('Home-css/images/island.png'); ?>" alt="">
+										<span>Trips</span>
+									</div>
+									<!-- Hotels Tab (Không thay đổi) -->
+									<!-- <div class="search_tab <?= empty($transportType) ? 'active' : ''; ?> d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="<?= base_url('Home-css/images/suitcase.png'); ?>" alt="">
+										<span>hotels</span>
+									</div> -->
+
+									<!-- Car Rentals Tab -->
+									<a href="<?= base_url('/tour/offers?transport_type=ô tô'); ?>" class="search_tab <?= ($transportType == 'ô tô') ? 'active' : ''; ?> d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="<?= base_url('Home-css/images/bus.png'); ?>" alt="">
+										<span>Car Rentals</span>
+									</a>
+									
+									<!-- Flights Tab -->
+									<a href="<?= base_url('/tour/offers?transport_type=máy bay'); ?>" class="search_tab <?= ($transportType == 'máy bay') ? 'active' : ''; ?> d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="<?= base_url('Home-css/images/departure.png'); ?>" alt="">
+										<span>Flights</span>
+									</a>
+
+									
+
+									<!-- Cruises Tab -->
+									<a href="<?= base_url('/tour/offers?transport_type=tàu thủy'); ?>" class="search_tab <?= ($transportType == 'tàu thủy') ? 'active' : ''; ?> d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="<?= base_url('Home-css/images/cruise.png'); ?>" alt="">
+										<span>Cruises</span>
+									</a>
+
+									<!-- Activities Tab (Không thay đổi) -->
+										<!-- <div class="search_tab <?= empty($transportType) ? 'active' : ''; ?> d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+											<img src="<?= base_url('Home-css/images/diving.png'); ?>" alt="">
+											<span>Activities</span>
+										</div> -->
+								</div>
 							</div>
+
 
 							<!-- Search Panel -->
 
@@ -379,7 +410,7 @@ Offers
 									<li class="filter_btn" data-filter=".rating_5"><span>5</span></li>
 								</ul>
 							</li>
-							<li class="distance_item">
+							<!-- <li class="distance_item">
 								<span class="sorting_text">distance from center</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
@@ -387,14 +418,14 @@ Offers
 									<li class="num_sorting_btn"><span>distance</span></li>
 									<li class="num_sorting_btn"><span>distance</span></li>
 								</ul>
-							</li>
+							</li> -->
 							<li>
 								<span class="sorting_text">reviews</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
-									<li class="num_sorting_btn"><span>review</span></li>
-									<li class="num_sorting_btn"><span>review</span></li>
-									<li class="num_sorting_btn"><span>review</span></li>
+									<li class="num_sorting_btn"><span>5</span></li>
+									<li class="num_sorting_btn"><span>4</span></li>
+									<li class="num_sorting_btn"><span>3</span></li>
 								</ul>
 							</li>
 						</ul>
@@ -455,6 +486,30 @@ Offers
         <p>No tours found.</p>
     <?php endif; ?>
 </div>
+<!-- Hiển thị phân trang -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <?php if ($currentPage > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?= base_url('tour/offers?page=' . ($currentPage - 1)); ?>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="page-item <?= $i == $currentPage ? 'active' : ''; ?>">
+                <a class="page-link" href="<?= base_url('tour/offers?page=' . $i); ?>"><?= $i; ?></a>
+            </li>
+        <?php endfor; ?>
+        <?php if ($currentPage < $totalPages): ?>
+            <li class="page-item">
+                <a class="page-link" href="<?= base_url('tour/offers?page=' . ($currentPage + 1)); ?>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        <?php endif; ?>
+    </ul>
+</nav>
 
 
 

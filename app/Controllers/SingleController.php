@@ -11,37 +11,64 @@ use App\Models\RoomsModel;
 class SingleController extends BaseController
 {
     public function index(): string
-{
-    $tourModel = new \App\Models\ToursModel();
-    $imageModel = new \App\Models\ImagesModel();
-    $reviewModel = new \App\Models\ReviewsModel();
-
-    // Lấy danh sách tour từ database
-    $tours = $tourModel->findAll();
-
-    if (!empty($tours)) {
-        foreach ($tours as &$tour) {
-            // Lấy hình ảnh liên quan đến tour
-            $image = $imageModel->where('tour_id', $tour['id'])->first();
-            $tour['image_url'] = $image ? base_url($image['image_url']) : '';
-
-            // Lấy đánh giá cho tour
-            $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
-            if (!empty($reviews)) {
-                $tour['rating'] = array_sum(array_column($reviews, 'rating')) / count($reviews);
-                $tour['review_count'] = count($reviews);
-                $tour['review_title'] = 'Very good'; // Có thể tùy chỉnh theo yêu cầu
-            } else {
-                $tour['rating'] = 0; // Nếu không có đánh giá
-                $tour['review_count'] = 0; // Nếu không có đánh giá
-                $tour['review_title'] = 'No reviews yet'; // Thay đổi tiêu đề đánh giá nếu không có đánh giá
+    {
+        $tourModel = new \App\Models\ToursModel();
+        $imageModel = new \App\Models\ImagesModel();
+        $reviewModel = new \App\Models\ReviewsModel();
+        $transportModel = new \App\Models\TransportsModel();
+    
+        // Lấy thông tin lọc từ request
+        $transportType = $this->request->getGet('transport_type');
+    
+        // Lấy danh sách ID phương tiện theo loại
+        $tours = [];
+        if (!empty($transportType)) {
+            $transportIds = $transportModel->where('type', $transportType)->findColumn('id');
+    
+            if ($transportIds) {
+                // Tìm tour có transport_id phù hợp
+                $tours = $tourModel->whereIn('transport_id', $transportIds)->findAll();
+            }
+        } else {
+            $tours = $tourModel->findAll(); // Lấy tất cả tour nếu không có bộ lọc
+        }
+    
+        // Xử lý logic phân trang
+        $currentPage = $this->request->getGet('page') ?? 1;
+        $toursPerPage = 4;
+        $totalTours = count($tours);
+        $totalPages = ceil($totalTours / $toursPerPage);
+        $offset = ($currentPage - 1) * $toursPerPage;
+        $tours = array_slice($tours, $offset, $toursPerPage);
+    
+        // Lấy thêm thông tin cho từng tour (hình ảnh và đánh giá)
+        if (!empty($tours)) {
+            foreach ($tours as &$tour) {
+                $image = $imageModel->where('tour_id', $tour['id'])->first();
+                $tour['image_url'] = $image ? base_url($image['image_url']) : '';
+    
+                $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
+                if (!empty($reviews)) {
+                    $tour['rating'] = array_sum(array_column($reviews, 'rating')) / count($reviews);
+                    $tour['review_count'] = count($reviews);
+                    $tour['review_title'] = 'Rất tốt';
+                } else {
+                    $tour['rating'] = 0;
+                    $tour['review_count'] = 0;
+                    $tour['review_title'] = 'Chưa có đánh giá';
+                }
             }
         }
+    
+        // Truyền dữ liệu sang view
+        return view('Home/tour-offers', [
+            'tours' => $tours,
+            'totalPages' => $totalPages,
+            'currentPage' => $currentPage,
+            'transportType' => $transportType,
+        ]);
     }
-
-    // Truyền dữ liệu tours đến view
-    return view('Home/tour-offers', ['tours' => $tours]);
-}
+    
 
     // Trang chi tiết từng tour
 public function single_listing($id): string

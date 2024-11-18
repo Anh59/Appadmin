@@ -8,6 +8,6 @@ class TransportsModel extends Model
 {
     protected $table = 'transports';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'description', 'created_at', 'updated_at'];
+    protected $allowedFields = ['name', 'description', 'created_at', 'updated_at','type'];
     protected $useTimestamps = true; // Sử dụng tự động timestamp
 }
