@@ -10,4 +10,6 @@ class ToursModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['name', 'description', 'start_date', 'end_date', 'location', 'participants', 'price_per_person', 'transport_id', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
+
+
 }

@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Hình Ảnh</th>
             <th>Tên Tour</th>
             <th>Mô Tả</th>
             <th>Giá</th>
@@ -20,10 +21,23 @@
         <?php foreach ($tours as $tour): ?>
         <tr>
             <td><?= $tour['id'] ?></td>
-            <td><?= $tour['name'] ?></td>
-            <td><?= $tour['description'] ?></td>
-            <td><?= $tour['price_per_person'] ?></td>
             <td>
+                <?php if (!empty($tour['image_url'])): ?>
+                    <img src="<?= $tour['image_url'] ?>" alt="Tour Image" style="width: 100px; height: auto;">
+                <?php else: ?>
+                    <span>Không có ảnh</span>
+                <?php endif; ?>
+            </td>
+            <td><?= $tour['name'] ?></td>
+            <td>
+                <?php 
+                    $words = explode(' ', $tour['description']);
+                    $shortDescription = count($words) > 10 ? implode(' ', array_slice($words, 0, 10)) . '...' : $tour['description'];
+                ?>
+                <?= $shortDescription ?>
+            </td>
+            <td><?= $tour['price_per_person'] ?></td>
+            <td><a href="<?= route_to('Table_Tours_Details', $tour['id']) ?>" class="btn btn-info">Chi Tiết</a>
                 <a href="<?= route_to('Table_Tours_Edit', $tour['id']) ?>" class="btn btn-primary">Sửa</a>
                 <form action="<?= route_to('Table_Tours_Delete', $tour['id']) ?>" method="post" style="display:inline;">
                     <?= csrf_field() ?>

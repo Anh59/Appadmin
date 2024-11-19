@@ -7,6 +7,9 @@
   <!-- <title>APP DISCUSS 3.2 | Dashboard</title> -->
     <!-- thay đổi tiêu đề theo trang theo hành động -->
     <title><?= isset($pageTitle) ? $pageTitle : 'APP ADMIN' ?></title>
+    <!-- hiệu ứng silde-show của thông tin chi tiết tour -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
 
     <base href="/">
   <!-- Google Font: Source Sans Pro -->
@@ -1010,7 +1013,8 @@
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
-
+ <!-- hiệu ứng silde-show của thông tin chi tiết tour -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     setTimeout(function() {
         let alerts = document.querySelectorAll('.alert');

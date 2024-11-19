@@ -107,6 +107,8 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
         $routes->get('table-tours-edit/(:num)', 'ToursController::edit/$1', ['as' => 'Table_Tours_Edit', 'filter' => 'Perermissions:Table_Tours_Edit']);
         $routes->post('table-tours-update/(:num)', 'ToursController::update/$1', ['as' => 'Table_Tours_Update', 'filter' => 'Perermissions:Table_Tours_Update']);
         $routes->post('table-tours-delete/(:num)', 'ToursController::delete/$1', ['as' => 'Table_Tours_Delete', 'filter' => 'Perermissions:Table_Tours_Delete']);
+        $routes->get('table-tours-detail/(:num)', 'ToursController::details/$1', ['as' => 'Table_Tours_Details', 'filter' => 'Perermissions:Table_Tours_Details']);
+
     });
     
     
