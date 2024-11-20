@@ -82,6 +82,14 @@ public function store()
         return redirect()->back()->with('error', 'Phương tiện không hợp lệ.');
     }
 
+    // Lưu nhiều phòng (nếu có)
+    $roomIds = $this->request->getPost('room_ids'); // Dữ liệu từ checkbox
+
+    // Kiểm tra nếu không có phòng nào được chọn
+    if (empty($roomIds)) {
+        return redirect()->back()->with('error', 'Không thể tạo tour nếu chưa có phòng được chọn.');
+    }
+
     // Lưu thông tin tour
     $tourData = [
         'name' => $this->request->getPost('name'),
@@ -113,27 +121,19 @@ public function store()
         }
     }
 
-    // Lưu nhiều phòng (nếu có)
-    $roomIds = $this->request->getPost('room_ids'); // Dữ liệu từ checkbox
-
-    if (!empty($roomIds)) {
-        // Kiểm tra và gán phòng vào tour
-        foreach ($roomIds as $roomId) {
-            $room = $roomModel->find($roomId);
-            if ($room) {
-                // Gán phòng vào tour mới mà không thay đổi số lượng (quantity) của phòng
-                // Chỉ gán nếu phòng chưa có tour nào gán
-                if ($room['tour_id'] === null) {
-                    $roomModel->update($roomId, [
-                        'tour_id' => $tourId,  // Gán tour vào phòng
-                    ]);
-                }
-            }
+    // Gán phòng vào tour
+    foreach ($roomIds as $roomId) {
+        $room = $roomModel->find($roomId);
+        if ($room && $room['tour_id'] === null) {  // Chỉ gán nếu phòng chưa có tour nào gán
+            $roomModel->update($roomId, [
+                'tour_id' => $tourId,  // Gán tour vào phòng
+            ]);
         }
     }
 
     return redirect()->route('Table_Tours');
 }
+
 
 
 
@@ -159,8 +159,12 @@ public function edit($id)
         return redirect()->route('Table_Tours')->with('error', 'Tour không tồn tại.');
     }
 
-    // Lấy tất cả các phòng và phương tiện hiện có
-    $rooms = $roomModel->findAll();  // Lấy danh sách tất cả phòng
+    // Lấy các phòng chưa có tour nào hoặc đã được gán cho tour hiện tại
+    $rooms = $roomModel->where('tour_id', null)
+                       ->orWhere('tour_id', $id)
+                       ->findAll();
+
+    // Lấy tất cả phương tiện
     $transports = $transportModel->findAll();
 
     // Lấy các hình ảnh liên quan đến tour từ bảng images
@@ -178,6 +182,7 @@ public function edit($id)
         'selectedRoomIds' => $selectedRoomIds  // Truyền danh sách phòng đã chọn vào view
     ]);
 }
+
 
 
 
@@ -206,66 +211,69 @@ public function update($id)
     ];
     $tourModel->update($id, $tourData);
 
-    // Cập nhật hình ảnh
-    $images = $this->request->getFiles('image_url');
-    if (!empty($images['image_url'])) {
-        foreach ($images['image_url'] as $image) {
-            if ($image->isValid() && !$image->hasMoved()) {
-                $imageName = str_replace(' ', '_', $image->getName());
-                $image->move(FCPATH . 'uploads', $imageName);
-                $imageData = [
-                    'tour_id' => $id,
-                    'image_url' => 'uploads/' . $image->getName(),
-                ];
-                $imageModel->insert($imageData);
-            }
-        }
-    }
+    // Lấy các hình ảnh đã được chọn để xóa
+    $deleteImages = $this->request->getPost('delete_images') ?: [];
 
-    // Xóa các hình ảnh đã được chọn xóa trong form
-    $deleteImages = $this->request->getPost('delete_images');
+    // Xóa hình ảnh đã chọn trong form
     if (!empty($deleteImages)) {
         foreach ($deleteImages as $imageId) {
-            // Xóa hình ảnh khỏi cơ sở dữ liệu
             $image = $imageModel->find($imageId);
             if ($image) {
                 // Xóa ảnh từ thư mục
-                unlink(FCPATH . $image['image_url']);
+                if (file_exists(FCPATH . $image['image_url'])) {
+                    unlink(FCPATH . $image['image_url']);
+                }
                 // Xóa ảnh trong cơ sở dữ liệu
                 $imageModel->delete($imageId);
             }
         }
     }
 
-    // Cập nhật phòng đã chọn và xử lý mối quan hệ khóa ngoại
-    $roomIds = $this->request->getPost('room_ids');
-    if (!empty($roomIds)) {
-        // Đầu tiên, gỡ bỏ các phòng không còn được chọn
-        $roomModel->whereNotIn('id', $roomIds)
-                  ->where('tour_id', $id)
-                  ->set(['tour_id' => null]) // Gỡ phòng khỏi tour cũ
-                  ->update();
-
-        // Cập nhật lại các phòng còn lại
-        foreach ($roomIds as $roomId) {
-            $room = $roomModel->find($roomId);
-            if ($room) {
-                // Nếu phòng còn số lượng, gán lại tour_id
-                if ($room['quantity'] > 0) {
-                    $roomModel->update($roomId, ['tour_id' => $id]);
-                } else {
-                    return redirect()->back()->with('error', "Phòng {$room['name']} không còn phòng.");
-                }
+    // Lấy danh sách ảnh mới tải lên
+    $uploadedImages = [];
+    if ($this->request->getFiles('image_url')) {
+        $images = $this->request->getFileMultiple('image_url');
+        foreach ($images as $image) {
+            if ($image->isValid() && !$image->hasMoved()) {
+                $imageName = str_replace(' ', '_', $image->getName());
+                $image->move(FCPATH . 'uploads', $imageName);
+                $uploadedImages[] = [
+                    'tour_id' => $id,
+                    'image_url' => 'uploads/' . $imageName,
+                ];
             }
         }
-    } else {
-        // Nếu không có phòng nào được chọn, gỡ phòng khỏi tour
-        $roomModel->where('tour_id', $id)->set(['tour_id' => null])->update();
     }
 
-    return redirect()->route('Table_Tours');
-}
+    // Thêm ảnh mới vào cơ sở dữ liệu nếu có
+    if (!empty($uploadedImages)) {
+        $imageModel->insertBatch($uploadedImages);
+    }
 
+    // Lấy danh sách phòng đã chọn từ form
+    $roomIds = $this->request->getPost('room_ids');
+
+    if (empty($roomIds)) {
+        return redirect()->back()->with('error', 'Bạn phải chọn ít nhất một phòng cho tour.');
+    }
+
+    // Gỡ bỏ các phòng không còn được chọn
+    $roomModel->whereNotIn('id', $roomIds)
+              ->where('tour_id', $id)
+              ->set(['tour_id' => null]) // Gỡ phòng khỏi tour cũ
+              ->update();
+
+    // Cập nhật lại các phòng đã chọn
+    foreach ($roomIds as $roomId) {
+        $room = $roomModel->find($roomId);
+        if ($room) {
+            // Gán lại tour_id cho các phòng đã chọn
+            $roomModel->update($roomId, ['tour_id' => $id]);
+        }
+    }
+
+    return redirect()->route('Table_Tours')->with('success', 'Cập nhật tour thành công!');
+}
 
 
 

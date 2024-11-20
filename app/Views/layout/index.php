@@ -318,7 +318,41 @@
 
 
 
-         
+              <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>
+                      Charts
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="pages/charts/chartjs.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>ChartJS</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="pages/charts/flot.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Flot</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="pages/charts/inline.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Inline</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="pages/charts/uplot.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>uPlot</p>
+                      </a>
+                    </li>
+                  </ul>
+            </li>           
  
             <!-- <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -945,14 +979,31 @@
 
     <!-- thông báo  -->
     <?php if (session()->has('success')): ?>
-        <div class="alert alert-success" role="alert">
-            <?= session('success') ?>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "<?= session('success') ?>",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
+        </script>
     <?php elseif (session()->has('error')): ?>
-        <div class="alert alert-danger" role="alert">
-            <?= session('error') ?>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "<?= session('error') ?>",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
+        </script>
     <?php endif; ?>
+
 
 
     <!-- Main content -->
@@ -1015,7 +1066,10 @@
 <script src="dist/js/pages/dashboard.js"></script>
  <!-- hiệu ứng silde-show của thông tin chi tiết tour -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- <script>
     setTimeout(function() {
         let alerts = document.querySelectorAll('.alert');
         alerts.forEach(function(alert) {
@@ -1026,7 +1080,7 @@
             }, 1000); // Thời gian để fade out
         });
     }, 5000); // Thời gian chờ trước khi ẩn thông báo (5000ms = 5s)
-</script>
+</script> -->
 <!-- Thêm thư viện jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
 <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>    

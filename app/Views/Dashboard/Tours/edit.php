@@ -101,34 +101,4 @@
     }
 </script>
 
-
-<script>
-    // Hiển thị các ảnh đã chọn khi người dùng upload
-    document.getElementById('image_url').addEventListener('change', function(event) {
-        const preview = document.getElementById('image-preview');
-        const files = event.target.files;
-
-        // Lặp qua các ảnh đã chọn và tạo phần preview
-        Array.from(files).forEach(file => {
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.style.width = '100px'; // Kích thước ảnh preview
-            img.style.margin = '5px';
-            img.style.objectFit = 'cover';
-            preview.appendChild(img);
-        });
-    });
-
-    // Xóa ảnh khỏi giao diện khi nhấn nút "Xóa"
-    function removeImage(imageId) {
-        // Ẩn phần tử ảnh trong giao diện
-        const imageContainer = document.getElementById('image_' + imageId);
-        imageContainer.style.display = 'none';
-        
-        // Đánh dấu hình ảnh để xóa khi gửi form (chỉ xóa trên giao diện)
-        const hiddenInput = document.getElementById('delete_image_' + imageId);
-        hiddenInput.value = imageId;
-    }
-</script>
-
 <?= $this->endSection(); ?>
