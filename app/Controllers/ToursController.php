@@ -278,12 +278,37 @@ public function update($id)
 
 
 
-    public function delete($id)
-    {
-        $tourModel = new ToursModel();
-        $tourModel->delete($id);
+public function delete($id)
+{
+    $tourModel = new ToursModel();
+    $roomModel = new RoomsModel();
+    $imageModel = new ImagesModel();
 
-        return redirect()->route('Table_Tours');
+    // Kiểm tra tour có tồn tại không
+    $tour = $tourModel->find($id);
+    if (!$tour) {
+        return redirect()->route('Table_Tours')->with('error', 'Tour không tồn tại.');
     }
+
+    // Cập nhật các phòng thuộc tour này thành phòng trống (tour_id = null)
+    $roomModel->where('tour_id', $id)->set(['tour_id' => null])->update();
+
+    // Xóa các hình ảnh liên quan đến tour này
+    $images = $imageModel->where('tour_id', $id)->findAll();
+    if (!empty($images)) {
+        foreach ($images as $image) {
+            if (file_exists(FCPATH . $image['image_url'])) {
+                unlink(FCPATH . $image['image_url']); // Xóa file ảnh
+            }
+            $imageModel->delete($image['id']); // Xóa bản ghi trong database
+        }
+    }
+
+    // Xóa tour khỏi database
+    $tourModel->delete($id);
+
+    return redirect()->route('Table_Tours')->with('success', 'Xóa tour thành công!');
+}
+
     
 }
