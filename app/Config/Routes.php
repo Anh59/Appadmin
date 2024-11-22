@@ -50,7 +50,7 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
     });
 
     // Role
-    $routes->group('Role', function (RouteCollection $routes) {
+    $routes->group('Role', function (RouteCollection $routes) {  
         $routes->get('table-role', 'RoleController::table', ['as' => 'Table_Role', 'filter' => 'Perermissions:Table_Role']);
         $routes->get('table-role-create', 'RoleController::create', ['as' => 'Table_Role_Create', 'filter' => 'Perermissions:Table_Role_Create']);
         $routes->post('table-role-store', 'RoleController::store', ['as' => 'Table_Role_Store', 'filter' => 'Perermissions:Table_Role_Store']);
@@ -119,7 +119,7 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
 });
 
 
-$routes->get('/','Home::index');
+$routes->get('/',to: 'Home::index');
 $routes->get('errors','Home::Errors');
 
 

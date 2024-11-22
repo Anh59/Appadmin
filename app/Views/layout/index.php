@@ -308,14 +308,14 @@
                       </li>
                       <?php endif; ?>
                       
-                      <?php if ($session->get('Table_Tours') === true ): ?>
+                      <!-- <?php if ($session->get('Table_Tours') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Tours') ?>" class="nav-link">
                               <i class="nav-icon fas fa-th"></i>
                               <p>Quản trị Tour</p>
                           </a>
                       </li>
-                      <?php endif; ?>
+                      <?php endif; ?> -->
 
 
 
@@ -331,22 +331,32 @@
                     <li class="nav-item">
                       <a href="pages/charts/chartjs.html" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Phòng</p>
+                        <p>Phòng nghỉ</p>
                       </a>
                     </li>
+                    
                     <li class="nav-item">
                       <a href="pages/charts/flot.html" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Phương Tiện</p>
                       </a>
                     </li>
+                    
                     <li class="nav-item">
                       <a href="pages/charts/inline.html" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Chuyến Du lịch</p>
                       </a>
                     </li>
-                  
+
+                    <?php if ($session->get('Table_Tours') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Tours') ?>" class="nav-link">
+                              <i class="nav-icon fas fa-th"></i>
+                              <p>Quản trị Tour</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
                   </ul>
             </li>           
  
@@ -956,19 +966,31 @@
         
       <div class="container-fluid">
                     
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                  <!-- tùy chỉnh tiêu đề theo phần truy cập -->
-                    <h1 class="m-0"><?= isset($pageTitle) ? $pageTitle : '' ?></h1>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= route_to('Admin.Home')?>">Home</a></li>
-                    <li class="breadcrumb-item active"><?= isset($pageTitle) ? $pageTitle : 'APP DISCUSS 3.2' ?></li>
-                    </ol>
-                </div><!-- /.col -->
-                </div><!-- /.row -->
+      <div class="container-fluid">
+          <div class="row mb-2">
+          <div class="col-sm-6">
+              <!-- Tùy chỉnh tiêu đề theo phần truy cập -->
+              <h1 class="m-0"><!-- Icon quay lại -->
+                  <!-- <a href="javascript:history.back()" class="btn btn-link">
+                      <i class="fas fa-arrow-left"></i> 
+                  </a> -->
+                  <?= isset($pageTitle) ? $pageTitle : '' ?>
+              </h1>
+          </div>
+
+              <!-- /.col -->
+              <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                      <?php foreach ($breadcrumb as $crumb): ?>
+                          <li class="breadcrumb-item">
+                              <a href="<?= $crumb['url'] ?>"><?= $crumb['title'] ?></a>
+                          </li>
+                      <?php endforeach; ?>
+                  </ol>
+              </div><!-- /.col -->
+          </div><!-- /.row -->
+</div>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->

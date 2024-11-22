@@ -45,9 +45,19 @@ class Home extends BaseController
     {
         return view('Home/single_listing');
     }
-    public function table(){
-        return view('table');
+    public function table()
+    {
+        $data = [
+            'pageTitle' => 'Home',  // Tiêu đề của trang
+            'breadcrumb' => [
+                ['title' => 'Home', 'url' => route_to('Admin.Home')],
+            ]
+        ];
+    
+        // Trả về view table với dữ liệu breadcrumb và pageTitle
+        return view('table', $data);
     }
+    
     public function Errors(){
         return view('errors');
     }

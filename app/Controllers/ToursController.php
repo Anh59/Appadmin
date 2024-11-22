@@ -17,8 +17,17 @@ class ToursController extends Controller
                            ->join('images', 'images.tour_id = tours.id', 'left')
                            ->groupBy('tours.id') // Đảm bảo chỉ lấy một hình ảnh cho mỗi tour
                            ->findAll();
-    
-        return view('Dashboard/Tours/table', ['tours' => $tours]);
+        
+
+                           $data = [
+                            'tours' => $tours,
+                            'pageTitle' => 'Chuyến Du Lịch',  // Tiêu đề trang
+                            'breadcrumb' => [
+                                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+                                ['title' => 'Tours', 'url' => route_to('Table_Tours')],
+                            ]
+                        ];                 
+                        return view('Dashboard/Tours/table', $data);
     }
     
 
@@ -28,43 +37,71 @@ class ToursController extends Controller
         $imageModel = new ImagesModel();
         $roomModel = new RoomsModel();
         $transportModel = new TransportsModel();
-    
+        
         // Lấy thông tin tour
         $tour = $tourModel->find($id);
-    
+        
+        // Kiểm tra nếu tour không tồn tại
+        if (!$tour) {
+            // Nếu không tìm thấy tour, bạn có thể redirect hoặc báo lỗi
+            return redirect()->to(route_to('Admin.Tours'))->with('error', 'Tour not found');
+        }
+        
         // Lấy hình ảnh liên quan (giả sử bảng images có cột tour_id)
         $images = $imageModel->where('tour_id', $id)->findAll();
-    
+        
         // Lấy thông tin phòng liên quan (giả sử bảng rooms có cột tour_id)
         $rooms = $roomModel->where('tour_id', $id)->findAll();
-    
+        
         // Lấy thông tin phương tiện liên quan (sử dụng transport_id từ bảng tours)
         $transport = $transportModel->find($tour['transport_id']);
-    
-        return view('Dashboard/Tours/details', [
+        
+        // Đặt tiêu đề trang và breadcrumb
+        $data = [
             'tour' => $tour,
             'images' => $images,
             'rooms' => $rooms,
-            'transport' => $transport
-        ]);
+            'transport' => $transport,
+            'pageTitle' => 'Tour Detail - ' . $tour['name'],  // Tiêu đề trang chi tiết
+            'breadcrumb' => [
+                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Tours', 'url' => route_to('Table_Tours')],
+                ['title' => 'Tour Detail', 'url' => route_to('Table_Tours_Details', $id)],
+            ]
+        ];
+    
+        // Trả về view với dữ liệu đầy đủ
+        return view('Dashboard/Tours/details', $data);
     }
+    
     
     
 
     public function create()
-{
-    $roomModel = new RoomsModel();
-    $transportModel = new TransportsModel();    
-
-    // Lấy tất cả các phòng và phương tiện hiện có
-    $rooms = $roomModel->findAll();
-    $transports = $transportModel->findAll();
-
-    return view('Dashboard/Tours/create', [
-        'rooms' => $rooms,
-        'transports' => $transports
-    ]);
-}
+    {
+        $roomModel = new RoomsModel();
+        $transportModel = new TransportsModel();
+    
+        // Lấy tất cả các phòng và phương tiện hiện có
+        $rooms = $roomModel->findAll();
+        $transports = $transportModel->findAll();
+    
+        // Dữ liệu truyền vào view
+        $data = [
+            'rooms' => $rooms,
+            'transports' => $transports,
+            'pageTitle' => 'Tạo Mới Tour',  // Tiêu đề trang
+            'breadcrumb' => [
+                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Tours', 'url' => route_to('Table_Tours')],
+                ['title' => 'Tạo Mới Tour', 'url' => route_to('Table_Tours_Create')]
+            ]
+        ];
+    
+        // Trả về view tạo tour với dữ liệu breadcrumb và tiêu đề
+        return view('Dashboard/Tours/create', $data);
+    }
+    
 
 
 public function store()
@@ -174,14 +211,24 @@ public function edit($id)
     $selectedRooms = $roomModel->where('tour_id', $id)->findAll();
     $selectedRoomIds = array_column($selectedRooms, 'id');  // Lấy danh sách ID của các phòng đã được chọn
 
-    return view('Dashboard/Tours/edit', [
+    // Dữ liệu truyền vào view
+    $data = [
         'tour' => $tour,
         'rooms' => $rooms,  // Truyền danh sách phòng vào view
         'transports' => $transports,
         'images' => $images,  // Truyền hình ảnh vào view
-        'selectedRoomIds' => $selectedRoomIds  // Truyền danh sách phòng đã chọn vào view
-    ]);
+        'selectedRoomIds' => $selectedRoomIds,  // Truyền danh sách phòng đã chọn vào view
+        'pageTitle' => 'Chỉnh Sửa Tour',  // Tiêu đề trang
+        'breadcrumb' => [
+            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Tours', 'url' => route_to('Table_Tours')],
+            ['title' => 'Chỉnh Sửa Tour', 'url' => route_to('Table_Tours_Edit', $id)]  // Cập nhật breadcrumb cho trang chỉnh sửa
+        ]
+    ];
+
+    return view('Dashboard/Tours/edit', $data);
 }
+
 
 
 

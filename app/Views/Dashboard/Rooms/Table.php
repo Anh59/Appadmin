@@ -1,7 +1,7 @@
 <?= $this->extend('layout/index'); ?>
 <?= $this->section('content'); ?>
 
-
+<h1>Danh Sách Tour</h1>
 <form action="<?= route_to('Table_Tours_Create') ?>" method="get" style="display:inline;">
     <button type="submit" class="btn btn-success">+ Thêm Tour</button>
 </form>

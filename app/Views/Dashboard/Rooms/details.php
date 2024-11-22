@@ -12,6 +12,9 @@
  
 </style>
 <!-- Nút quay lại -->
+<a href="<?= Route_to('Table_Tours') ?>" class="btn btn-light" style="position: absolute; top: 10px; left: 10px;">
+    <i class="bi bi-arrow-left"></i> 
+</a>
 
 
 <h1>Chi Tiết Tour: <?= $tour['name'] ?></h1>
@@ -107,7 +110,6 @@
     </div>
 </div>
 
-<!-- Quay lại -->  <a href="<?= route_to('Table_Tours') ?>" class="btn btn-secondary">Quay Lại</a>
 
 
 <?= $this->endSection(); ?>

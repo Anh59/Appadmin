@@ -1,7 +1,7 @@
 <?= $this->extend('layout/index'); ?>
 <?= $this->section('content'); ?>
 
-
+<h1>Thêm Tour Mới</h1>
 
 <form action="<?= route_to('Table_Tours_Store') ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
