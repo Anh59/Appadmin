@@ -17,47 +17,86 @@ class TableCustomersController extends Controller
     public function table()
     {
         $data['customers'] = $this->customerModel->findAll();
+        
+        // Cập nhật breadcrumb và pageTitle
+        $data['pageTitle'] = 'Danh Sách Khách Hàng'; // Tiêu đề trang
+        $data['breadcrumb'] = [
+            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Khách Hàng', 'url' => route_to('Table_Customers')],
+        ];
+
         return view('Dashboard/Customer/table', $data);
     }
 
     public function create()
     {
-        return view('Dashboard/Customer/Create');
+        // Cập nhật breadcrumb và pageTitle
+        $data['pageTitle'] = 'Thêm Khách Hàng Mới'; // Tiêu đề trang
+        $data['breadcrumb'] = [
+            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Khách Hàng', 'url' => route_to('Table_Customers')],
+            ['title' => 'Thêm Khách Hàng', 'url' => route_to('Table_Customers_Create')],
+        ];
+
+        return view('Dashboard/Customer/Create', $data);
     }
 
     public function store()
     {
-        // Validate input here if needed
+        // Validate input if needed
         $this->customerModel->save($this->request->getPost());
-        return redirect()->to(route_to('Table_Customers'))->with('success', 'Khách hàng đã được thêm thành công.');
+
+        return redirect()
+            ->to(route_to('Table_Customers'))
+            ->with('success', 'Khách hàng đã được thêm thành công.');
     }
 
     public function edit($id)
     {
         $data['customer'] = $this->customerModel->find($id);
+
+        if (!$data['customer']) {
+            return redirect()
+                ->to(route_to('Table_Customers'))
+                ->with('error', 'Không tìm thấy khách hàng.');
+        }
+
+        // Cập nhật breadcrumb và pageTitle
+        $data['pageTitle'] = 'Chỉnh Sửa Khách Hàng'; // Tiêu đề trang
+        $data['breadcrumb'] = [
+            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Khách Hàng', 'url' => route_to('Table_Customers')],
+            ['title' => 'Chỉnh Sửa Khách Hàng', 'url' => route_to('Table_Customers_Edit', $id)],
+        ];
+
         return view('Dashboard/Customer/edit', $data);
     }
 
     public function update($id)
     {
-        // Validate input here if needed
+        // Validate input if needed
         $this->customerModel->update($id, $this->request->getPost());
-        return redirect()->to(route_to('Table_Customers'))->with('success', 'Thông tin khách hàng đã được cập nhật thành công.');
+
+        return redirect()
+            ->to(route_to('Table_Customers'))
+            ->with('success', 'Thông tin khách hàng đã được cập nhật thành công.');
     }
 
     public function delete($id)
     {
         $this->customerModel->delete($id);
-        return redirect()->to(route_to('Table_Customers'))->with('success', 'Khách hàng đã được xóa thành công.');
+
+        return redirect()
+            ->to(route_to('Table_Customers'))
+            ->with('success', 'Khách hàng đã được xóa thành công.');
     }
-    //khóa 
+
     public function lockCustomer($id)
     {
-        // Lấy thông tin khách hàng
         $customer = $this->customerModel->find($id);
-        
+
         if ($customer) {
-            // Cập nhật trạng thái của khách hàng (VD: "locked")
+            // Cập nhật trạng thái "locked"
             $this->customerModel->update($id, ['status' => 'locked']);
 
             // Gửi email thông báo khóa tài khoản
@@ -68,13 +107,18 @@ class TableCustomersController extends Controller
             $email->setMessage("Chào {$customer['name']},\n\nTài khoản của bạn đã bị khóa do vi phạm quy định. Vui lòng liên hệ với chúng tôi để biết thêm chi tiết.");
 
             if ($email->send()) {
-                return redirect()->to(route_to('Table_Customers'))->with('success', 'Tài khoản đã được khóa và email thông báo đã được gửi.');
+                return redirect()
+                    ->to(route_to('Table_Customers'))
+                    ->with('success', 'Tài khoản đã được khóa và email thông báo đã được gửi.');
             } else {
-                return redirect()->to(route_to('Table_Customers'))->with('error', 'Tài khoản đã được khóa nhưng không thể gửi email thông báo.');
+                return redirect()
+                    ->to(route_to('Table_Customers'))
+                    ->with('error', 'Tài khoản đã được khóa nhưng không thể gửi email thông báo.');
             }
         } else {
-            return redirect()->to(route_to('Table_Customers'))->with('error', 'Không tìm thấy khách hàng.');
+            return redirect()
+                ->to(route_to('Table_Customers'))
+                ->with('error', 'Không tìm thấy khách hàng.');
         }
     }
-    
 }
