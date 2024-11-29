@@ -1,7 +1,7 @@
 <?= $this->extend('layout/index'); ?>
 <?= $this->section('content'); ?>
 
-<h1>Sửa Tour</h1>
+<h2> <?= $tour['name'] ?></h2>
 
 <!-- Form chỉnh sửa tour -->
 <form action="<?= route_to('Table_Tours_Update', $tour['id']) ?>" method="post" enctype="multipart/form-data">

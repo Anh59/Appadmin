@@ -14,7 +14,7 @@
 <!-- Nút quay lại -->
 
 
-<h1>Chi Tiết Tour: <?= $tour['name'] ?></h1>
+<h2> <?= $tour['name'] ?></h2>
 
 <!-- Tab Nav -->
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -107,7 +107,7 @@
     </div>
 </div>
 
-<!-- Quay lại -->  <a href="<?= route_to('Table_Tours') ?>" class="btn btn-secondary">Quay Lại</a>
+<!-- Quay lại -->  
 
 
 <?= $this->endSection(); ?>
