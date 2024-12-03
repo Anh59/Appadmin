@@ -121,16 +121,16 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
         $routes->post('table-rooms-update/(:num)', 'RoomsController::update/$1', ['as' => 'Table_Rooms_Update']);
         $routes->post('table-rooms-delete/(:num)', 'RoomsController::delete/$1', ['as' => 'Table_Rooms_Delete']);
     });
-    $routes->group('Rooms', function (RouteCollection $routes) {
-        $routes->get('table-rooms', 'RoomsController::table', ['as' => 'Table_Rooms']);
-        $routes->get('table-rooms-create', 'RoomsController::create', ['as' => 'Table_Rooms_Create']);
-        $routes->get('table-rooms-detail/(:num)', 'RoomsController::details/$1', ['as' => 'Table_Rooms_Details']);
-        $routes->post('table-rooms-store', 'RoomsController::store', ['as' => 'Table_Rooms_Store']);
-        $routes->get('table-rooms-edit/(:num)', 'RoomsController::edit/$1', ['as' => 'Table_Rooms_Edit']);
-        $routes->post('table-rooms-update/(:num)', 'RoomsController::update/$1', ['as' => 'Table_Rooms_Update']);
-        $routes->post('table-rooms-delete/(:num)', 'RoomsController::delete/$1', ['as' => 'Table_Rooms_Delete']);
-    });
 
+    $routes->group('Transports', function (RouteCollection $routes) {
+        $routes->get('table-transports', 'TransportController::table', ['as' => 'Table_Transports']);
+        $routes->get('table-transports-create', 'TransportController::create', ['as' => 'Table_Transports_Create']);
+        $routes->get('table-transports-detail/(:num)', 'TransportController::details/$1', ['as' => 'Table_Transports_Details']);
+        $routes->post('table-transports-store', 'TransportController::store', ['as' => 'Table_Transports_Store']);
+        $routes->get('table-transports-edit/(:num)', 'TransportController::edit/$1', ['as' => 'Table_Transports_Edit']);
+        $routes->post('table-transports-update/(:num)', 'TransportController::update/$1', ['as' => 'Table_Transports_Update']);
+        $routes->post('table-transports-delete/(:num)', 'TransportController::delete/$1', ['as' => 'Table_Transports_Delete']);
+    });
     
 
 });

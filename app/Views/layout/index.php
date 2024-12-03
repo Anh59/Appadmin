@@ -337,12 +337,17 @@
                           </a>
                       </li>
                       <?php endif; ?>
-                    <li class="nav-item">
-                      <a href="pages/charts/flot.html" class="nav-link">
-                      <i class="fas fa-car nav-icon"></i>
-                        <p>Phương Tiện</p>
-                      </a>
-                    </li>
+
+                      <?php if ($session->get('Table_Transports') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Transports') ?>" class="nav-link">
+                          <i class="fas fa-car nav-icon"></i>
+                              <p>Phương Tiện</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+
+
                     
 
 
@@ -1034,6 +1039,7 @@
                 });
             });
         </script>
+
     <?php elseif (session()->has('error')): ?>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -1047,6 +1053,33 @@
             });
         </script>
     <?php endif; ?>
+
+    <script>
+    function confirmDelete(event, actionUrl) {
+        event.preventDefault(); // Ngừng form submit mặc định
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Nếu người dùng xác nhận, thực hiện xóa
+                const form = document.createElement('form');
+                form.action = actionUrl;
+                form.method = 'post';
+                form.innerHTML = '<?= csrf_field() ?>'; // Đảm bảo CSRF token được gửi đi
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+</script>
+
 
 
 
