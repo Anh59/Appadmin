@@ -123,6 +123,6 @@ class TransportController extends Controller
         $transportsModel = new TransportsModel();
         $transportsModel->delete($id);
 
-        return redirect()->route('Table_Transports')->with('Deleted', 'Phương tiện đã được xóa!');
+        return redirect()->route('Table_Transports')->with('success', 'Phương tiện đã được xóa!');
     }
 }

@@ -28,6 +28,31 @@ $routes->group('api_Customers', function($routes) {
 
 });
 
+$routes->get('index', 'Home::index1',['as'=>'Tour_index']);
+$routes->get('about', 'Home::index2',['as'=>'Tour_about']);
+$routes->get('blog', 'Home::index3',['as'=>'Tour_blog']);
+
+$routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
+
+$routes->get('elements', 'Home::index5',['as'=>'Tour_elements']);
+$routes->get('layout', 'Home::index6');
+$routes->get('test', 'Home::index7');
+$routes->get('booking', 'Home::index8',['as'=>'Tour_booking']);
+
+$routes->get('single_listing', 'Home::index9');
+
+
+
+$routes->post('Tour_booking', 'BookingController::createBooking');
+
+
+
+
+
+
+
+
+
 
 // $routes->get('login','UserController::index');
 // $routes->get('sign','UserController::sign');
@@ -147,14 +172,7 @@ $routes->post('login', 'UserController::login');
 $routes->get('logout', 'UserController::logout');
 
 //trang chủ 
-$routes->get('index', 'Home::index1',['as'=>'Tour_index']);
-$routes->get('about', 'Home::index2',['as'=>'Tour_about']);
-$routes->get('blog', 'Home::index3',['as'=>'Tour_blog']);
-$routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
-$routes->get('elements', 'Home::index5',['as'=>'Tour_elements']);
-$routes->get('layout', 'Home::index6');
-$routes->get('test', 'Home::index7');
-$routes->get('single_listing', 'Home::index9');
+
 // $routes->get('offers', 'Home::index8');
 
 

@@ -1059,13 +1059,14 @@
         event.preventDefault(); // Ngừng form submit mặc định
 
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Bạn có chắc không?",
+            text: "Bạn sẽ không thể hoàn nguyên hành động này!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Đúng, xóa nó đi!",
+            cancelButtonText: "Hủy"
         }).then((result) => {
             if (result.isConfirmed) {
                 // Nếu người dùng xác nhận, thực hiện xóa

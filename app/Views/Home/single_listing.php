@@ -474,38 +474,50 @@ single_listing
 						
 						<!-- Rooms -->
 
-						<div class="rooms">
-    <!-- Hiển thị thông tin các phòng -->
+<<div class="rooms">
     <?php if (!empty($tour['rooms'])): ?>
         <?php foreach ($tour['rooms'] as $room): ?>
-            <!-- Room -->
             <div class="room">
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="room_image">
-                            <img src="<?= base_url('Home-css/images/room_'.$room['id'].'.jpg'); ?>" alt="Room Image">
+                            <?php if (!empty($room['image_url'])): ?>
+                                <img src="<?= base_url($room['image_url']); ?>" alt="Room Image">
+                            <?php else: ?>
+                                <span>Không có ảnh</span>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="room_content">
                             <div class="room_title"><?= esc($room['name']); ?></div>
-                            <div class="room_price"><?= '$'.$room['price'].'/night'; ?></div>
+                            <div class="room_price"><?= $room['price'].'đ'.'/night'; ?></div>
                             <div class="room_text"><?= esc($room['cancellation']); ?></div>
                             <div class="room_extra"><?= esc($room['extra']); ?></div>
                         </div>
                     </div>
                     <div class="col-lg-3 text-lg-right">
                         <div class="room_button">
-                            <div class="button book_button trans_200"><a href="#">book<span></span><span></span><span></span></a></div>
+                            <div class="button book_button trans_200">
+                                <a href="#" onclick="openBookingForm(
+                                    '<?= esc($tour['name']); ?>', 
+                                    '<?= esc($room['name']); ?>', 
+                                    '<?= esc($room['price']); ?>', 
+                                    '<?= esc($tour['id']); ?>', 
+                                    '<?= esc($room['id']); ?>'
+                                )">book<span></span><span></span><span></span></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p>No rooms available for this tour.</p>
+        <p>Không có phòng cho tour này.</p>
     <?php endif; ?>
 </div>
+
+
 
 <!-- Reviews Section -->
 <div class="reviews">
@@ -577,7 +589,104 @@ single_listing
 
 	<?= $this->endSection(); ?>
 	<?= $this->section('Home-scripts') ?>
-	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+// Hàm để mở popup SweetAlert2 khi bấm "Book"
+function openBookingForm(roomId, roomName, roomPrice) {
+    Swal.fire({
+        title: 'Đặt phòng',
+        html: `
+            <div style="text-align: left; font-family: Arial, sans-serif; line-height: 1.6;">
+                <strong style="font-size: 20px;">${roomName}</strong><br>
+                <strong>Giá: <span style="color: #e74c3c; font-size: 18px;">${roomPrice}đ/đêm</span></strong><br><br>
+
+                <!-- Chỉnh số lượng -->
+                <div style="margin-bottom: 20px;">
+                    <label for="quantity" style="font-size: 16px; font-weight: bold;">Số lượng: </label><br>
+                    <button type="button" id="decrease" onclick="changeQuantity(-1)" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">-</button>
+                    <span id="quantity" style="font-size: 18px; margin: 0 10px;">1</span>
+                    <button type="button" id="increase" onclick="changeQuantity(1)" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">+</button>
+                </div>
+
+                <!-- Thêm yêu cầu -->
+                <label for="additionalRequest" style="font-size: 16px; font-weight: bold;">Yêu cầu thêm:</label>
+                <textarea id="additionalRequest" rows="3" style="width: 100%; padding: 10px; margin-top: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Điền yêu cầu của bạn..."></textarea>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Đặt ngay',
+        cancelButtonText: 'Đăng ký tư vấn',
+        confirmButtonColor: '#27ae60',
+        cancelButtonColor: '#3498db',
+        cancelButtonAriaLabel: 'Đăng ký tư vấn',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            const quantity = document.getElementById('quantity').innerText;
+            const additionalRequest = document.getElementById('additionalRequest').value;
+            // Gửi dữ liệu đặt phòng
+            createBooking(roomId, quantity, additionalRequest);
+        },
+        showCloseButton: true,
+        closeButtonAriaLabel: 'Đóng',
+    }).then((result) => {
+        if (result.isDismissed) {
+            if (result.dismiss === Swal.DismissReason.cancel) {
+                // Chuyển hướng khi bấm "Đăng ký tư vấn"
+                window.location.href = '/contact'; 
+            }
+        }
+    });
+}
+
+
+// Hàm để thay đổi số lượng
+function changeQuantity(change) {
+    let quantityElement = document.getElementById('quantity');
+    let currentQuantity = parseInt(quantityElement.innerText);
+    let newQuantity = currentQuantity + change;
+
+    // Đảm bảo số lượng không nhỏ hơn 1
+    if (newQuantity >= 1) {
+        quantityElement.innerText = newQuantity;
+    }
+}
+
+// Hàm xử lý đăng ký đặt phòng
+function createBooking(roomId, quantity, additionalRequest) {
+    // Lấy thông tin tour, người dùng, v.v.
+    let customerName = 'Tên khách hàng'; // Cần thay thế với thông tin thực tế
+    let bookingDate = new Date().toISOString().slice(0, 10); // Ngày hiện tại (có thể thay đổi)
+    
+    // Gửi yêu cầu AJAX đến controller để xử lý tạo booking
+    fetch('/Tour_booking', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            roomId: roomId,
+            customerName: customerName,
+            participants: quantity,
+            bookingDate: bookingDate,
+            additionalRequest: additionalRequest,
+            totalPrice: quantity * roomPrice // Tính tổng giá
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            Swal.fire('Thành công!', 'Đặt phòng thành công!', 'success');
+        } else {
+            Swal.fire('Lỗi!', 'Có lỗi xảy ra khi đặt phòng.', 'error');
+        }
+    })
+    .catch(error => {
+        Swal.fire('Lỗi!', 'Không thể kết nối đến máy chủ.', 'error');
+    });
+}
+</script>
+
+
 	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/plugins/colorbox/jquery.colorbox-min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/plugins/OwlCarousel2-2.2.1/owl.carousel.js'); ?>"></script>

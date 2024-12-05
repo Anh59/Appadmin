@@ -39,7 +39,7 @@ class Home extends BaseController
     }
     public function index8(): string
     {
-        return view('Home/offers');
+        return view('Home/booking');
     }
     public function index9(): string
     {

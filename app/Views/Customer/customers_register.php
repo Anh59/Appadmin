@@ -60,7 +60,7 @@
 
         <!-- Social Sign-in Options -->
         <div class="google">
-            <a href="#"><i class="fab fa-google"></i> Sign in With Google</a>
+            <a href="<?= route_to('google_login') ?>"><i class="fab fa-google"></i> Sign in With Google</a>
         </div>
         <div class="facebook">
             <a href="#"><i class="fab fa-facebook-f"></i> Sign in With Facebook</a>
