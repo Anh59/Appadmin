@@ -387,6 +387,14 @@
                       </a>
                     </li>
 
+                    <?php if ($session->get('Table_Consultations') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Consultations') ?>" class="nav-link">
+                          <i class="far fa-envelope nav-icon"></i>
+                              <p>Tư Vấn</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
 
                   </ul>
             </li>

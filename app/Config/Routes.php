@@ -32,7 +32,7 @@ $routes->get('index', 'Home::index1',['as'=>'Tour_index']);
 $routes->get('about', 'Home::index2',['as'=>'Tour_about']);
 $routes->get('blog', 'Home::index3',['as'=>'Tour_blog']);
 
-$routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
+
 
 $routes->get('elements', 'Home::index5',['as'=>'Tour_elements']);
 $routes->get('layout', 'Home::index6');
@@ -42,6 +42,9 @@ $routes->get('booking', 'Home::index8',['as'=>'Tour_booking']);
 $routes->get('single_listing', 'Home::index9');
 
 
+
+$routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
+$routes->post('submit-consultation', 'ConsultationController::submitConsultation');
 
 $routes->post('Tour_booking', 'BookingController::createBooking');
 
@@ -155,6 +158,16 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
         $routes->get('table-transports-edit/(:num)', 'TransportController::edit/$1', ['as' => 'Table_Transports_Edit']);
         $routes->post('table-transports-update/(:num)', 'TransportController::update/$1', ['as' => 'Table_Transports_Update']);
         $routes->post('table-transports-delete/(:num)', 'TransportController::delete/$1', ['as' => 'Table_Transports_Delete']);
+    });
+
+    $routes->group('Consultations', function (RouteCollection $routes) {
+        $routes->get('table-consultations', 'ConsultationController::table', ['as' => 'Table_Consultations']);
+        $routes->get('table-consultations-detail/(:num)', 'ConsultationController::details/$1', ['as' => 'Table_Consultations_Details']);
+        $routes->post('table-consultations-delete/(:num)', 'ConsultationController::delete/$1', ['as' => 'Table_Consultations_Delete']);
+
+   
+        $routes->get('table-consultations/reply/(:num)', 'ConsultationController::reply/$1', ['as' => 'Table_Consultations_Reply']);
+        $routes->post('table-consultations/send-reply/(:num)', 'ConsultationController::sendReply/$1', ['as' => 'Table_Consultations_Send_Reply']);
     });
     
 
