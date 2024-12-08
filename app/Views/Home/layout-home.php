@@ -39,8 +39,8 @@
 							</ul>
 						</div>
 						<div class="user_box ml-auto">
-							<div class="user_box_login user_box_link"><a href="<?= route_to('Customers_sign')?>">login</a></div>
-							<div class="user_box_register user_box_link"><a href="<?= route_to('Customers_Register')?>">register</a></div>
+							<div class="user_box_login user_box_link"><a href="<?= route_to('Customers_sign')?>">Đăng Nhập</a></div>
+							<div class="user_box_register user_box_link"><a href="<?= route_to('Customers_Register')?>">Đăng Ký</a></div>
 						</div>
 					</div>
 				</div>

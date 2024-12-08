@@ -13,8 +13,8 @@
         <input type="number" name="price" id="price" class="form-control" required>
     </div>
     <div class="form-group">
-        <label for="quantity">Số Lượng:</label>
-        <input type="number" name="quantity" id="quantity" class="form-control" required>
+        <label for="available_quantity">Số Lượng:</label>
+        <input type="number" name="available_quantity" id="available_quantity" class="form-control" required>
     </div>
     <div class="form-group">
         <label for="tour_id">Gán Tour (Tùy chọn):</label>

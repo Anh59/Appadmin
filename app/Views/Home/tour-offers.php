@@ -8,6 +8,8 @@ Offers
 <?= $this->section('Home-css') ?>
 <link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/offers_styles.css'); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/offers_responsive.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/blog_styles.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/blog_responsive.css'); ?>">
 <?= $this->endSection() ?>
 
 
@@ -459,7 +461,7 @@ Offers
                     </div>
                     <div class="col-lg-8">
                         <div class="offers_content">
-                            <div class="offers_price">$<?= $tour['price_per_person']; ?><span>per person</span></div>
+                            <div class="offers_price"><?= $tour['price_per_person']; ?>vnđ<span>per person</span></div>
                             <div class="rating_r rating_r_<?= round($tour['rating']); ?> offers_rating" data-rating="<?= round($tour['rating']); ?>">
                                 <?php for ($i = 0; $i < 5; $i++): ?>
                                     <i class="fa <?= $i < round($tour['rating']) ? 'fa-star' : 'fa-star-o'; ?>"></i>
@@ -487,29 +489,35 @@ Offers
     <?php endif; ?>
 </div>
 <!-- Hiển thị phân trang -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
+<div class="blog_navigation">
+    <ul>
         <?php if ($currentPage > 1): ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= base_url('tour/offers?page=' . ($currentPage - 1)); ?>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+            <li class="blog_dot">
+                <a href="<?= base_url('tour/offers?page=' . ($currentPage - 1)); ?>" aria-label="Previous">
+                    <div></div>&laquo;
                 </a>
             </li>
         <?php endif; ?>
+
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <li class="page-item <?= $i == $currentPage ? 'active' : ''; ?>">
-                <a class="page-link" href="<?= base_url('tour/offers?page=' . $i); ?>"><?= $i; ?></a>
+            <li class="blog_dot <?= $i == $currentPage ? 'active' : ''; ?>">
+                <a href="<?= base_url('tour/offers?page=' . $i); ?>">
+                    <div></div><?= str_pad($i, 2, '0', STR_PAD_LEFT); ?>.
+                </a>
             </li>
         <?php endfor; ?>
+
         <?php if ($currentPage < $totalPages): ?>
-            <li class="page-item">
-                <a class="page-link" href="<?= base_url('tour/offers?page=' . ($currentPage + 1)); ?>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+            <li class="blog_dot">
+                <a href="<?= base_url('tour/offers?page=' . ($currentPage + 1)); ?>" aria-label="Next">
+                    <div></div>&raquo;
                 </a>
             </li>
         <?php endif; ?>
     </ul>
-</nav>
+</div>
+
+
 
 
 
@@ -532,6 +540,9 @@ Offers
 	<script src="<?= base_url('Home-css/plugins/Isotope/isotope.pkgd.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/js/offers_custom.js'); ?>"></script>
+
+	<script src="<?= base_url('Home-css/js/blog_custom.js'); ?>"></script>
+
 	<?= $this->endSection(); ?>
 
 

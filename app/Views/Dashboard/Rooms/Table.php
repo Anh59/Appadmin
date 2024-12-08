@@ -32,7 +32,7 @@
             <td><?= $room['name'] ?></td>
             <td><?= $room['tour_name'] ?? 'Trống' ?></td>
             <td><?= number_format($room['price'], 0, ',', '.') ?> vnđ</td>
-            <td><?= $room['quantity'] ?></td>
+            <td><?= $room['available_quantity'] ?></td>
             <td>
                 <a href="<?= route_to('Table_Rooms_Edit', $room['id']) ?>" class="btn btn-primary">Sửa</a>
                 <form action="<?= route_to('Table_Rooms_Delete', $room['id']) ?>" method="post" style="display:inline;">

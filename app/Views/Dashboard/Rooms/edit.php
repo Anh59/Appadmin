@@ -13,8 +13,8 @@
         <input type="number" name="price" id="price" class="form-control" value="<?= $room['price'] ?>" required>
     </div>
     <div class="form-group">
-        <label for="quantity">Số Lượng:</label>
-        <input type="number" name="quantity" id="quantity" class="form-control" value="<?= $room['quantity'] ?>" required>
+        <label for="available_quantity">Số Lượng:</label>
+        <input type="number" name="available_quantity" id="available_quantity" class="form-control" value="<?= $room['available_quantity'] ?>" required>
     </div>
     <div class="form-group">
         <label for="tour_id">Chuyến Du Lịch (Tùy chọn):</label>

@@ -72,7 +72,7 @@ class RoomsController extends Controller
         $roomData = [
             'name' => $this->request->getPost('name'),
             'price' => $this->request->getPost('price'),
-            'quantity' => $this->request->getPost('quantity'),
+            'available_quantity' => $this->request->getPost('available_quantity'),
             'tour_id' => $this->request->getPost('tour_id') ?: null,
             'image_url' => $imagePath,
         ];
@@ -143,7 +143,7 @@ class RoomsController extends Controller
         $roomData = [
             'name' => $this->request->getPost('name'),
             'price' => $this->request->getPost('price'),
-            'quantity' => $this->request->getPost('quantity'),
+            'available_quantity' => $this->request->getPost('available_quantity'),
             'tour_id' => $this->request->getPost('tour_id') ?: null,
             'image_url' => $imagePath,
         ];

@@ -590,27 +590,39 @@ single_listing
 	<?= $this->endSection(); ?>
 	<?= $this->section('Home-scripts') ?>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script>
-// Hàm để mở popup SweetAlert2 khi bấm "Book"
-function openBookingForm(roomId, roomName, roomPrice) {
+<script>
+function openBookingForm(roomId, roomName, roomPrice, maxCapacity) {
     Swal.fire({
         title: 'Đặt phòng',
         html: `
             <div style="text-align: left; font-family: Arial, sans-serif; line-height: 1.6;">
                 <strong style="font-size: 20px;">${roomName}</strong><br>
-                <strong>Giá: <span style="color: #e74c3c; font-size: 18px;">${roomPrice}đ/đêm</span></strong><br><br>
+                <strong>Giá: <span style="color: #e74c3c; font-size: 18px;">${roomPrice}đ/đêm/người</span></strong><br><br>
 
-                <!-- Chỉnh số lượng -->
+                <!-- Chỉnh số lượng người -->
                 <div style="margin-bottom: 20px;">
-                    <label for="quantity" style="font-size: 16px; font-weight: bold;">Số lượng: </label><br>
-                    <button type="button" id="decrease" onclick="changeQuantity(-1)" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">-</button>
-                    <span id="quantity" style="font-size: 18px; margin: 0 10px;">1</span>
-                    <button type="button" id="increase" onclick="changeQuantity(1)" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">+</button>
+                    <label for="participants" style="font-size: 16px; font-weight: bold;">Số lượng người tham dự:</label><br>
+					<button type="button" id="decreaseParticipants" onclick="changeQuantity('participants', -1, ${roomPrice})" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">-</button>
+					<span id="participants" style="font-size: 18px; margin: 0 10px;">1</span>
+					<button type="button" id="increaseParticipants" onclick="changeQuantity('participants', 1, ${roomPrice})" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">+</button>
+
                 </div>
+
+                <!-- Chỉnh số lượng phòng -->
+                <div style="margin-bottom: 20px;">
+                    <label for="rooms" style="font-size: 16px; font-weight: bold;">Số lượng phòng:</label><br>
+					<button type="button" id="decreaseRooms" onclick="changeQuantity('rooms', -1, ${roomPrice})" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">-</button>
+					<span id="rooms" style="font-size: 18px; margin: 0 10px;">1</span>
+					<button type="button" id="increaseRooms" onclick="changeQuantity('rooms', 1, ${roomPrice})" style="background-color: #3498db; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 18px;">+</button>
+
+				</div>
 
                 <!-- Thêm yêu cầu -->
                 <label for="additionalRequest" style="font-size: 16px; font-weight: bold;">Yêu cầu thêm:</label>
-                <textarea id="additionalRequest" rows="3" style="width: 100%; padding: 10px; margin-top: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Điền yêu cầu của bạn..."></textarea>
+                <textarea id="additionalRequest" rows="3" style="width: 100%; padding: 10px; margin-top: 10px; font-size: 14px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Điền yêu cầu của bạn..."></textarea><br>
+
+                <!-- Tổng tiền -->
+                <strong style="font-size: 16px;">Tổng tiền: <span id="totalPrice" style="color: #e74c3c;">${roomPrice}đ</span></strong>
             </div>
         `,
         showCancelButton: true,
@@ -621,44 +633,59 @@ function openBookingForm(roomId, roomName, roomPrice) {
         cancelButtonAriaLabel: 'Đăng ký tư vấn',
         showLoaderOnConfirm: true,
         preConfirm: () => {
-            const quantity = document.getElementById('quantity').innerText;
+            const participants = document.getElementById('participants').innerText;
+            const rooms = document.getElementById('rooms').innerText;
             const additionalRequest = document.getElementById('additionalRequest').value;
-            // Gửi dữ liệu đặt phòng
-            createBooking(roomId, quantity, additionalRequest);
+            return { roomId, participants, rooms, additionalRequest };
         },
         showCloseButton: true,
         closeButtonAriaLabel: 'Đóng',
     }).then((result) => {
-        if (result.isDismissed) {
-            if (result.dismiss === Swal.DismissReason.cancel) {
-                // Chuyển hướng khi bấm "Đăng ký tư vấn"
-                window.location.href = '/contact'; 
-            }
+        if (result.isConfirmed) {
+            const { roomId, participants, rooms, additionalRequest } = result.value;
+            createBooking(roomId, participants, rooms, additionalRequest);
+        } else if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
+            // Nếu chọn "Đăng ký tư vấn", chuyển hướng tới trang tư vấn
+            window.location.href = '/contact';
         }
     });
 }
 
+// Hàm thay đổi số lượng người hoặc phòng
+function changeQuantity(type, change, roomPrice) {
+    const quantityElement = document.getElementById(type);
+    let quantity = parseInt(quantityElement.innerText);
+    quantity += change;
 
-// Hàm để thay đổi số lượng
-function changeQuantity(change) {
-    let quantityElement = document.getElementById('quantity');
-    let currentQuantity = parseInt(quantityElement.innerText);
-    let newQuantity = currentQuantity + change;
-
-    // Đảm bảo số lượng không nhỏ hơn 1
-    if (newQuantity >= 1) {
-        quantityElement.innerText = newQuantity;
+    // Đảm bảo số lượng không âm và không vượt quá giới hạn
+    if (type === 'rooms') {
+        const maxRooms = parseInt(document.getElementById('rooms').getAttribute('max'));
+        if (quantity < 1) quantity = 1;
+        if (quantity > maxRooms) quantity = maxRooms;
+    } else {
+        if (quantity < 1) quantity = 1;
     }
+
+    quantityElement.innerText = quantity;
+
+    // Cập nhật tổng giá
+    updateTotal(roomPrice);
+}
+
+// Cập nhật tổng tiền khi thay đổi số lượng
+function updateTotal(pricePerPerson) {
+    const participants = parseInt(document.getElementById('participants').innerText);
+    const rooms = parseInt(document.getElementById('rooms').innerText);
+    const total = participants * rooms * pricePerPerson;
+    document.getElementById('totalPrice').innerText = `${total.toLocaleString()}đ`;
 }
 
 // Hàm xử lý đăng ký đặt phòng
-function createBooking(roomId, quantity, additionalRequest) {
-    // Lấy thông tin tour, người dùng, v.v.
+function createBooking(roomId, participants, rooms, additionalRequest) {
     let customerName = 'Tên khách hàng'; // Cần thay thế với thông tin thực tế
     let bookingDate = new Date().toISOString().slice(0, 10); // Ngày hiện tại (có thể thay đổi)
     
-    // Gửi yêu cầu AJAX đến controller để xử lý tạo booking
-    fetch('/Tour_booking', {
+    fetch('/tour-booking/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -666,10 +693,10 @@ function createBooking(roomId, quantity, additionalRequest) {
         body: JSON.stringify({
             roomId: roomId,
             customerName: customerName,
-            participants: quantity,
+            participants: participants,
             bookingDate: bookingDate,
             additionalRequest: additionalRequest,
-            totalPrice: quantity * roomPrice // Tính tổng giá
+            totalPrice: participants * rooms * roomPrice
         })
     })
     .then(response => response.json())
@@ -684,7 +711,9 @@ function createBooking(roomId, quantity, additionalRequest) {
         Swal.fire('Lỗi!', 'Không thể kết nối đến máy chủ.', 'error');
     });
 }
+
 </script>
+
 
 
 	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
