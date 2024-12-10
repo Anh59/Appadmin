@@ -349,8 +349,6 @@
 
 
                     
-
-
                     <?php if ($session->get('Table_Tours') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Tours') ?>" class="nav-link">
@@ -380,12 +378,14 @@
                       </a>
                     </li>
                     
-                    <li class="nav-item">
-                      <a href="pages/charts/inline.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Bản Tin</p>
-                      </a>
-                    </li>
+                    <?php if ($session->get('Table_Consultations') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Consultations') ?>" class="nav-link">
+                          <i class="far fa-envelope nav-icon"></i>
+                              <p>Đơn hầng</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
 
                     <?php if ($session->get('Table_Consultations') === true ): ?>
                       <li class="nav-item">

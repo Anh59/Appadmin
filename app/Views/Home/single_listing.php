@@ -368,9 +368,10 @@ single_listing
 									<div class="hotel_location"><?= isset($tour['location']) ? $tour['location'] : 'Unknown location'; ?></div>
 								</div>
 								<div class="hotel_title_button ml-lg-auto text-lg-right">
-									<div class="button book_button trans_200">
-										<a href="#">book<span></span><span></span><span></span></a>
-									</div>
+								<div class="button book_button trans_200">
+									<a href="<?= base_url('booking/checkout/' . $tour['id']); ?>">book<span></span><span></span><span></span></a>
+								</div>
+
 									<div class="hotel_map_link_container">
 										<div class="hotel_map_link">See Location on Map</div>
 									</div>

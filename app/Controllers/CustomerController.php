@@ -107,40 +107,51 @@ class CustomerController extends BaseController
         }
 
         public function processLogin()
-                {
-                    // Lấy dữ liệu đầu vào
-                    $email = $this->request->getPost('email');
-                    $password = $this->request->getPost('password');
-                    
-                    // Kiểm tra thông tin tài khoản
-                    $customerModel = new CustomerModel();
-                    $customer = $customerModel->where('email', $email)->first();
-
-                    if ($customer) {
-                        // Kiểm tra nếu tài khoản đã được xác thực OTP
-                        if ($customer['is_verified']) {
-                            // Kiểm tra mật khẩu
-                            if (password_verify($password, $customer['password'])) {
-                                // Đăng nhập thành công
-                                session()->set('customer_id', $customer['id']);
-                                return $this->response->setJSON(['status' => 'success', 'message' => 'Đăng nhập thành công!']);
-                            } else {
-                                return $this->response->setJSON(['status' => 'error', 'message' => 'Mật khẩu không đúng.']);
-                            }
-                        } else {
-                            return $this->response->setJSON(['status' => 'error', 'message' => 'Tài khoản chưa được xác thực. Vui lòng kiểm tra email.']);
-                        }
+        {
+            // Lấy dữ liệu đầu vào
+            $email = $this->request->getPost('email');
+            $password = $this->request->getPost('password');
+            
+            // Kiểm tra thông tin tài khoản
+            $customerModel = new CustomerModel();
+            $customer = $customerModel->where('email', $email)->first();
+        
+            if ($customer) {
+                // Kiểm tra nếu tài khoản đã được xác thực OTP
+                if ($customer['is_verified']) {
+                    // Kiểm tra mật khẩu
+                    if (password_verify($password, $customer['password'])) {
+                        // Đăng nhập thành công, lưu thông tin người dùng vào session
+                        session()->set([
+                            'customer_id' => $customer['id'],
+                            'customer_name' => $customer['name'],
+                            'customer_avatar' => $customer['image_url'], // Lưu đường dẫn avatar vào session
+                        ]);
+        
+                        return $this->response->setJSON(['status' => 'success', 'message' => 'Đăng nhập thành công!']);
                     } else {
-                        return $this->response->setJSON(['status' => 'error', 'message' => 'Email không tồn tại.']);
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'Mật khẩu không đúng.']);
                     }
+                } else {
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Tài khoản chưa được xác thực. Vui lòng kiểm tra email.']);
                 }
+            } else {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Email không tồn tại.']);
+            }
+        }
+        
+        
+        
+        
 
 
         public function logout()
         {
-            session()->destroy(); // Xóa session khi đăng xuất
-            return redirect()->to('/login');
+            session()->remove(['customer_id', 'customer_name', 'customer_avatar']); // Xóa session
+            session()->destroy(); // Hủy session
+            return redirect()->route('Tour_index');
         }
+        
 
         public function test()
         {

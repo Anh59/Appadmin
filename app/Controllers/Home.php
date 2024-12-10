@@ -61,4 +61,10 @@ class Home extends BaseController
     public function Errors(){
         return view('errors');
     }
+
+    
+    public function checkout(): string
+    {
+        return view('Home/checkout');
+    }
 }

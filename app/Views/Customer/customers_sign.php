@@ -43,27 +43,31 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#loginForm').on('submit', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '<?= base_url('api_Customers/customers_sign') ?>',
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            showSuccessMessage("Thành công!", response.message);
-                            window.location.href = '<?= base_url('/') ?>';
-                        } else {
-                            showErrorMessage("Lỗi", response.message);
-                        }
-                    },
-                    error: function() {
-                        showErrorMessage("Lỗi", 'Xảy ra lỗi trong quá trình xử lý');
+    $(document).ready(function() {
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '<?= base_url('api_Customers/customers_sign') ?>',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Lưu token vào sessionStorage
+                        sessionStorage.setItem('authToken', response.token);
+
+                        showSuccessMessage("Thành công!", response.message);
+                        window.location.href = '<?= route_to('Tour_index') ?>';
+                    } else {
+                        showErrorMessage("Lỗi", response.message);
                     }
-                });
+                },
+                error: function() {
+                    showErrorMessage("Lỗi", 'Xảy ra lỗi trong quá trình xử lý');
+                }
             });
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>

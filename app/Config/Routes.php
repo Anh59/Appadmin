@@ -15,6 +15,7 @@ $routes->group('api_Customers', function($routes) {
     $routes->get('customers_sign','CustomerController::login',['as' => 'Customers_sign']);
     $routes->post('customers_sign','CustomerController::processLogin',['as' => 'Customers_processLogin']);
 
+    $routes->post('customers_logout','CustomerController::logout',['as' => 'Customers_logout']);
     $routes->get('testEmail', 'CustomerController::testEmail', ['as' => 'testEmail']);
     
 
@@ -42,11 +43,18 @@ $routes->get('booking', 'Home::index8',['as'=>'Tour_booking']);
 $routes->get('single_listing', 'Home::index9');
 
 
+$routes->get('checkout','Home::checkout',['as'=>'Tour_checkout']);
+
+$routes->get('/tour/bookTour/(:num)', 'TourController::bookTour/$1');
+
 
 $routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
 $routes->post('submit-consultation', 'ConsultationController::submitConsultation');
 
 $routes->post('Tour_booking', 'BookingController::createBooking');
+
+//check_out
+$routes->get('booking/checkout/(:num)', 'BookingController::checkout/$1');
 
 
 

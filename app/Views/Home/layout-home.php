@@ -11,6 +11,10 @@
 <link rel="stylesheet" type="text/css" href="<?=base_url('Home-css/plugins/OwlCarousel2-2.2.1/owl.carousel.css')?>">
 <link rel="stylesheet" type="text/css" href="<?=base_url('Home-css/plugins/OwlCarousel2-2.2.1/owl.theme.default.css')?>">
 <link rel="stylesheet" type="text/css" href="<?=base_url('Home-css/plugins/OwlCarousel2-2.2.1/animate.css')?>">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Thêm jQuery từ CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <?= $this->renderSection('Home-css') ?>
 
 </head>
@@ -39,9 +43,28 @@
 							</ul>
 						</div>
 						<div class="user_box ml-auto">
-							<div class="user_box_login user_box_link"><a href="<?= route_to('Customers_sign')?>">Đăng Nhập</a></div>
-							<div class="user_box_register user_box_link"><a href="<?= route_to('Customers_Register')?>">Đăng Ký</a></div>
-						</div>
+    <?php if (session()->has('customer_id')): ?>
+        <!-- Hiển thị avatar và tên người dùng -->
+        <!-- <div class="user_box_avatar">
+            <img src="<?= session()->get('customer_avatar') ?>" alt="Avatar" class="avatar_img" id="avatarDropdown" style="cursor:pointer;">
+        </div> -->
+        <div class="user_box_name" id="userDropdown" style="cursor:pointer;">
+            <span><?= session()->get('customer_name') ?></span>
+        </div>
+        <!-- Menu thả xuống -->
+        <ul class="dropdown-menu" id="dropdownMenu" style="display:none;">
+            <li><a href="<?= route_to('profile') ?>">Thông tin cá nhân</a></li>
+            <li><a href="<?= route_to('logout') ?>">Đăng xuất</a></li>
+        </ul>
+    <?php else: ?>
+        <!-- Nếu chưa đăng nhập -->
+        <div class="user_box_login user_box_link"><a href="<?= route_to('Customers_sign') ?>">Đăng Nhập</a></div>
+        <div class="user_box_register user_box_link"><a href="<?= route_to('Customers_Register') ?>">Đăng Ký</a></div>
+    <?php endif; ?>
+</div>
+
+
+
 					</div>
 				</div>
 			</div>		
@@ -261,7 +284,51 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</div>
 </div>
+<script>
+	function showSuccessMessage(title, message) {
+    Swal.fire({
+        icon: 'success',
+        title: title,
+        text: message,
+        confirmButtonText: 'OK'
+    });
+}
 
+function showErrorMessage(title, message) {
+    Swal.fire({
+        icon: 'error',
+        title: title,
+        text: message,
+        confirmButtonText: 'OK'
+    });
+}
+
+</script>
+<script>
+$(document).ready(function() {
+    // Hiển thị/ẩn menu khi bấm vào tên hoặc avatar
+    $('#userDropdown, #avatarDropdown').on('click', function() {
+        $('#dropdownMenu').toggle(); // Toggle hiển thị/ẩn menu
+    });
+
+    // Khi bấm vào "Đăng xuất", gọi controller logout
+    $('#dropdownMenu li a[href="<?= route_to('logout') ?>"]').on('click', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định
+        $.ajax({
+            url: '<?= route_to('logout') ?>', // Gọi API logout
+            type: 'GET',
+            success: function(response) {
+                // Chuyển hướng sau khi đăng xuất thành công
+                window.location.href = '<?= route_to('Tour_index') ?>'; // Hoặc trang khác
+            },
+            error: function() {
+                alert('Có lỗi xảy ra khi đăng xuất!');
+            }
+        });
+    });
+});
+
+</script>
     <script src="<?= base_url('Home-css/js/jquery-3.2.1.min.js'); ?>"></script>
     <script src="<?= base_url('Home-css/styles/bootstrap4/popper.js'); ?>"></script>
     <script src="<?= base_url('Home-css/styles/bootstrap4/bootstrap.min.js'); ?>"></script>
