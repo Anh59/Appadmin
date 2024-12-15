@@ -5,6 +5,7 @@ use App\Models\BookingModel;
 use App\Models\RoomsModel;
 use App\Models\CustomerModel;
 use App\Models\ToursModel;
+use App\Models\PromotionsModel;
 class BookingController extends ResourceController
 {
     public function createBooking()
@@ -50,7 +51,7 @@ class BookingController extends ResourceController
     
         return $this->response->setJSON(['status' => 'error', 'message' => 'Đặt phòng thất bại']);
     }
-
+    // phần trên bỏ không liên quan
 
     public function checkout($tourId)
     {
@@ -81,7 +82,7 @@ class BookingController extends ResourceController
         foreach ($rooms as $room) {
             $totalPrice += $room['price'];
         }
-        
+    
         // Pass data to the view
         return view('home/checkout', [
             'tour' => $tour,
@@ -92,15 +93,17 @@ class BookingController extends ResourceController
         ]);
     }
     
-    
-    public function processPayment()
+public function processPayment()
 {
     $session = session();
     $data = $this->request->getPost();
 
     // Validate input
-    if (!isset($data['payment_method']) || empty($data['total_price'])) {
-        return redirect()->back()->with('error', 'Vui lòng điền đầy đủ thông tin.');
+    if (!isset($data['payment_method']) || empty($data['total_price']) || empty($data['rooms'])) {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Vui lòng điền đầy đủ thông tin.',
+        ]);
     }
 
     $bookingModel = new BookingModel();
@@ -112,7 +115,7 @@ class BookingController extends ResourceController
         'customer_id' => $session->get('customer_id'),
         'tour_id' => $data['tour_id'],
         'participants' => $data['participants'],
-        'room_quantity' => json_encode($data['rooms']), // Save room details
+        'room_quantity' => json_encode($data['rooms']),
         'booking_date' => date('Y-m-d H:i:s'),
         'total_price' => $data['total_price'],
         'payment_method' => $paymentMethod,
@@ -121,24 +124,61 @@ class BookingController extends ResourceController
 
     $bookingId = $bookingModel->insert($bookingData);
 
-    if ($paymentMethod === 'office') {
-        return redirect()->to('/booking/confirmation/' . $bookingId)->with('success', 'Đặt tour thành công! Đến văn phòng để thanh toán.');
+    if ($bookingId) {
+        $response = ['success' => true];
+
+        // If the payment method is "office", return a success response and redirect URL to the homepage
+        if ($paymentMethod === 'COD') {
+            $response['message'] = 'Đặt tour thành công! Đến văn phòng để thanh toán.';
+            // Redirect to home page
+            $response['redirect_url'] = site_url(route_to('Tour_index'));;  // Ensure this is the correct URL
+        }
+
+        // Handle other payment methods (PayPal, MoMo)
+        if ($paymentMethod === 'paypal') {
+            $response['redirect_url'] = "https://www.paypal.com/checkout?amount={$data['total_price']}&bookingId={$bookingId}";
+        }
+
+        if ($paymentMethod === 'momo') {
+            $response['redirect_url'] = "https://www.momo.vn/checkout?amount={$data['total_price']}&bookingId={$bookingId}";
+        }
+
+        return $this->response->setJSON($response);
+    } else {
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Có lỗi xảy ra khi xử lý đặt tour.',
+        ]);
     }
-
-    // if ($paymentMethod === 'paypal') {
-    //     // Redirect to PayPal API
-    //     return $this->handlePayPalPayment($bookingId, $data['total_price']);
-    // }
-
-    // if ($paymentMethod === 'momo') {
-    //     // Redirect to Momo API
-    //     return $this->handleMomoPayment($bookingId, $data['total_price']);
-    // }
-
-    return redirect()->back()->with('error', 'Phương thức thanh toán không hợp lệ.');
 }
 
     
+    
+
+    
+    public function applyDiscount()
+    {
+        $discountCode = $this->request->getPost('discount_code');
+        $tourId = $this->request->getPost('tour_id');
+        $totalPrice = $this->request->getPost('total_price');
+    
+        $promotionsModel = new PromotionsModel();
+        $discountValue = 0;
+    
+        if ($promotionsModel->isValidForTour($discountCode, $tourId)) {
+            $discountValue = $promotionsModel->getDiscountValue($discountCode);
+        }
+    
+        // Trả về phản hồi JSON
+        return $this->response->setJSON([
+            'success' => $discountValue > 0,
+            'discount_value' => $discountValue,
+            'message' => $discountValue > 0 ? 'Mã giảm giá đã được áp dụng!' : 'Mã giảm giá không hợp lệ.'
+        ]);
+    }
+    
+
+ 
     
 
 

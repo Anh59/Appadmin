@@ -55,7 +55,8 @@ class PerermissionsFilter implements FilterInterface
             $session->set('Table_Rooms', true);
             $session->set('Table_Transports', true);
             $session->set('Table_Consultations', true);
-            $session->set('Table_Consultations', true);
+            $session->set('Table_Promotions', true);
+            $session->set('Table_Bookings', true);
             return;
         }
         $groupRoles = $groupRoleModel->where('group_id', $userdata['group_id'])->findAll(); // Lấy tất cả các quyền của nhóm người dùng

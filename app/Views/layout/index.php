@@ -244,7 +244,8 @@
                with font-awesome or any other icon font library -->
                <?php $session = session();?>
                
-           
+                      
+
                       <?php if ($session->get('Dashboard_table') === true ): ?>
                         <li class="nav-item">
                             <a href="<?= route_to('Dashboard_table') ?>" class="nav-link">
@@ -254,7 +255,17 @@
                         </li>
                       <?php endif; ?>
 
-                      <?php if ($session->get('Table_Group') === true ): ?>
+                      <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>
+                      Quản lý 
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                 
+                  <?php if ($session->get('Table_Group') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Group') ?>" class="nav-link">
                               <i class="nav-icon fas fa-th"></i>
@@ -272,6 +283,8 @@
                       </li>
                       <?php endif; ?>
 
+
+                    
                       <?php if ($session->get('Table_GroupRole') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_GroupRole') ?>" class="nav-link">
@@ -289,7 +302,6 @@
                           </a>
                       </li>
                       <?php endif; ?>
-
                       <?php if ($session->get('Table_User') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_User') ?>" class="nav-link">
@@ -307,15 +319,10 @@
                           </a>
                       </li>
                       <?php endif; ?>
+                  </ul>
+            </li>
+
                       
-                      <!-- <?php if ($session->get('Table_Tours') === true ): ?>
-                      <li class="nav-item">
-                          <a href="<?= route_to('Table_Tours') ?>" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
-                              <p>Quản trị Tour</p>
-                          </a>
-                      </li>
-                      <?php endif; ?> -->
 
 
 
@@ -371,18 +378,20 @@
                   <ul class="nav nav-treeview">
   
                     
-                    <li class="nav-item">
-                      <a href="pages/charts/flot.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Thông Báo</p>
-                      </a>
-                    </li>
-                    
-                    <?php if ($session->get('Table_Consultations') === true ): ?>
+                  <?php if ($session->get('Table_Promotions') === true ): ?>
                       <li class="nav-item">
-                          <a href="<?= route_to('Table_Consultations') ?>" class="nav-link">
+                          <a href="<?= route_to('Table_Promotions') ?>" class="nav-link">
                           <i class="far fa-envelope nav-icon"></i>
-                              <p>Đơn hầng</p>
+                              <p>Mã Giảm giá</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+                    
+                    <?php if ($session->get('Table_Bookings') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_Bookings') ?>" class="nav-link">
+                          <i class="far fa-envelope nav-icon"></i>
+                              <p>Đơn hàng</p>
                           </a>
                       </li>
                       <?php endif; ?>

@@ -81,11 +81,11 @@
 						</div>
 						<div class="main_nav_container ml-auto">
 							<ul class="main_nav_list">
-								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_index') ?>">home</a></li>
-								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_about') ?>">about us</a></li>
-								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_offers') ?>">offers</a></li>
-								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_blog') ?>">news</a></li>
-								<li class="main_nav_item"><a href="<?= route_to(method: 'Tour_contact') ?>">contact</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_index') ?>">home</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_about') ?>">about us</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_offers') ?>">offers</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_blog') ?>">news</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_contact') ?>">contact</a></li>
 							</ul>
 						</div>
 						<div class="content_search ml-lg-0 ml-auto">
@@ -284,7 +284,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</div>
 </div>
+
 <script>
+	//thông báo thành công - thất bại
 	function showSuccessMessage(title, message) {
     Swal.fire({
         icon: 'success',
@@ -302,6 +304,16 @@ function showErrorMessage(title, message) {
         confirmButtonText: 'OK'
     });
 }
+<?php if (session()->getFlashdata('success')) : ?>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '<?= session()->getFlashdata('success') ?>',
+        showConfirmButton: false,
+        timer: 1500
+    });
+</script>
+<?php endif; ?>
 
 </script>
 <script>

@@ -54,9 +54,12 @@ $routes->post('submit-consultation', 'ConsultationController::submitConsultation
 $routes->post('Tour_booking', 'BookingController::createBooking');
 
 //check_out
+
 $routes->get('booking/checkout/(:num)', 'BookingController::checkout/$1');
+$routes->post('checkout/apply_discount', 'BookingController::applyDiscount');
+$routes->post('checkout/process_payment', 'BookingController::processPayment');
 
-
+// $routes->get('booking/thanks)', 'BookingController::thanks');
 
 
 
@@ -177,6 +180,25 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
         $routes->get('table-consultations/reply/(:num)', 'ConsultationController::reply/$1', ['as' => 'Table_Consultations_Reply']);
         $routes->post('table-consultations/send-reply/(:num)', 'ConsultationController::sendReply/$1', ['as' => 'Table_Consultations_Send_Reply']);
     });
+    $routes->group('Promotions', function (RouteCollection $routes) {
+        $routes->get('table-promotions', 'PromotionController::table', ['as' => 'Table_Promotions']);
+        $routes->get('table-promotions-create', 'PromotionController::create', ['as' => 'Table_Promotions_Create']);
+        $routes->get('table-promotions-detail/(:num)', 'PromotionController::details/$1', ['as' => 'Table_Promotions_Details']);
+        $routes->post('table-promotions-store', 'PromotionController::store', ['as' => 'Table_Promotions_Store']);
+        $routes->get('table-promotions-edit/(:num)', 'PromotionController::edit/$1', ['as' => 'Table_Promotions_Edit']);
+        $routes->post('table-promotions-update/(:num)', 'PromotionController::update/$1', ['as' => 'Table_Promotions_Update']);
+        $routes->delete('table-promotions-delete/(:num)', 'PromotionController::delete/$1', ['as' => 'Table_Promotions_Delete']);
+    });
+    $routes->group('Bookings', function (RouteCollection $routes) {
+        $routes->get('table-bookings', 'ManagebookingController::table', ['as' => 'Table_Bookings']);
+        $routes->get('table-bookings-create', 'ManagebookingController::create', ['as' => 'Table_Bookings_Create']);
+        $routes->get('table-bookings-detail/(:num)', 'ManagebookingController::details/$1', ['as' => 'Table_Bookings_Details']);
+        $routes->post('table-bookings-store', 'ManagebookingController::store', ['as' => 'Table_Bookings_Store']);
+        $routes->get('table-bookings-edit/(:num)', 'ManagebookingController::edit/$1', ['as' => 'Table_Bookings_Edit']);
+        $routes->post('table-bookings-update/(:num)', 'ManagebookingController::update/$1', ['as' => 'Table_Bookings_Update']);
+        $routes->post('table-bookings-delete/(:num)', 'ManagebookingController::delete/$1', ['as' => 'Table_Bookings_Delete']);
+    });
+    
     
 
 });
