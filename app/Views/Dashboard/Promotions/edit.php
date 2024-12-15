@@ -13,9 +13,11 @@
     </div>
 
     <div class="form-group">
-        <label for="discount_value">Phần Trăm Giảm Giá</label>
-        <input type="number" name="discount_value" id="discount_value" class="form-control" value="<?= $promotion['discount_value'] ?>" min="1" max="100" required>
+        <label for="discount_value">Giá trị giảm giá</label>
+        <input type="number" name="discount_value" id="discount_value" class="form-control" value="<?= $promotion['discount_value'] ?>" required>
     </div>
+
+
 
     <div class="form-group">
         <label for="promotion_details">Chi Tiết Mã Giảm Giá</label>

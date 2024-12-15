@@ -10,8 +10,8 @@
     </div>
 
     <div class="form-group">
-        <label for="discount_value">Phần Trăm Giảm Giá</label>
-        <input type="number" name="discount_value" id="discount_value" class="form-control" min="1" max="100" required>
+        <label for="discount_value">Giá trị Giảm Giá</label>
+        <input type="number" name="discount_value" id="discount_value" class="form-control" min="1" required>
     </div>
 
     <div class="form-group">

@@ -5,11 +5,11 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
+
 class PermissionsController extends BaseController
 {
     public function table()
     {
-        // Gửi dữ liệu cần thiết đến view (nếu có)
         $data = [
             'pageTitle' => 'Danh sách quyền',
             'breadcrumb' => [
@@ -22,7 +22,7 @@ class PermissionsController extends BaseController
     }
 
     /**
-     * Trả về danh sách người dùng dưới dạng JSON.
+     * Trả về danh sách người dùng dưới dạng JSON với server-side processing.
      *
      * @return \CodeIgniter\HTTP\ResponseInterface
      */
@@ -31,10 +31,27 @@ class PermissionsController extends BaseController
         $userModel = new UserModel();
 
         try {
-            $data = $userModel->findAll(); // Lấy danh sách tất cả người dùng
+            $request = $this->request;
+            $draw = $request->getGet('draw');
+            $start = $request->getGet('start');
+            $length = $request->getGet('length');
+            $searchValue = $request->getGet('search')['value'] ?? '';
+
+            $query = $userModel->like('email', $searchValue)
+                ->orLike('username', $searchValue);
+
+            $totalRecords = $query->countAllResults(false);
+
+            $data = $query->orderBy('created_at', 'DESC')
+                ->findAll($length, $start);
 
             return $this->response
-                ->setJSON(['success' => true, 'data' => $data])
+                ->setJSON([
+                    'draw' => intval($draw),
+                    'recordsTotal' => $userModel->countAll(),
+                    'recordsFiltered' => $totalRecords,
+                    'data' => $data
+                ])
                 ->setStatusCode(ResponseInterface::HTTP_OK);
         } catch (\Exception $e) {
             return $this->response
@@ -43,12 +60,9 @@ class PermissionsController extends BaseController
         }
     }
 
-    /**
-     * Cập nhật quyền cho tài khoản dựa trên role.
-     */
     public function account()
     {
-        $role = $this->request->getPost('role'); // Nhận giá trị role từ request
+        $role = $this->request->getPost('role');
 
         if (!$role) {
             return $this->response
@@ -56,11 +70,24 @@ class PermissionsController extends BaseController
                 ->setStatusCode(ResponseInterface::HTTP_BAD_REQUEST);
         }
 
-        // Thực hiện logic xử lý role (ví dụ: cập nhật quyền cho tài khoản)
-        // Giả sử thêm logic xử lý cụ thể tại đây.
-
+        // Logic xử lý cập nhật role cho tài khoản (cần được triển khai)
         return $this->response
             ->setJSON(['success' => true, 'message' => 'Cập nhật role thành công.'])
             ->setStatusCode(ResponseInterface::HTTP_OK);
     }
+    public function fetchTableUpdates()
+{
+    $userModel = new UserModel();
+    try {
+        $data = $userModel->orderBy('created_at', 'DESC')->findAll();
+        return $this->response
+            ->setJSON(['success' => true, 'data' => $data])
+            ->setStatusCode(ResponseInterface::HTTP_OK);
+    } catch (\Exception $e) {
+        return $this->response
+            ->setJSON(['success' => false, 'error' => $e->getMessage()])
+            ->setStatusCode(ResponseInterface::HTTP_INTERNAL_SERVER_ERROR);
+    }
+}
+
 }

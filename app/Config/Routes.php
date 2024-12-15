@@ -112,11 +112,8 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
     $routes->group('permissions', function (RouteCollection $routes) {
         $routes->get('table-permissions', 'PermissionsController::table', ['as' => 'Table_Permissions', 'filter' => 'Perermissions:Table_Permissions']);
         $routes->get('tableuser_list', 'PermissionsController::tableuser_list', ['as' => 'Table_User_List', 'filter' => 'Perermissions:Table_User_List']);
-        // $routes->get('table-permissions-create', 'PermissionsController::create', ['as' => 'Table_Permissions_Create', 'filter' => 'Perermissions:Table_Permissions_Create']);
-        // $routes->post('table-permissions-store', 'PermissionsController::store', ['as' => 'Table_Permissions_Store', 'filter' => 'Perermissions:Table_Permissions_Store']);
-        // $routes->get('table-permissions-edit/(:num)', 'PermissionsController::edit/$1', ['as' => 'Table_Permissions_Edit', 'filter' => 'Perermissions:Table_Permissions_Edit']);
-        // $routes->post('table-permissions-update/(:num)', 'PermissionsController::update/$1', ['as' => 'Table_Permissions_Update', 'filter' => 'Perermissions:Table_Permissions_Update']);
-        // $routes->post('table-permissions-delete/(:num)', 'PermissionsController::delete/$1', ['as' => 'Table_Permissions_Delete', 'filter' => 'Perermissions:Table_Permissions_Delete']);
+        $routes->get('fetch-table-updates', 'PermissionsController::fetchTableUpdates', ['as' => 'Fetch_Table_Updates']);
+
     });
 
     // User

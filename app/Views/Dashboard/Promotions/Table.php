@@ -14,7 +14,7 @@
             <th>Tên Tour</th>
             <th>Mã Giảm Giá</th>
             <th>Chi Tiết Khuyến Mãi</th>
-            <th>Phần Trăm Giảm Giá</th>
+            <th>Giá trị giảm giá</th>
             <th>Ngày Bắt Đầu</th>
             <th>Ngày Kết Thúc</th>
             <th>Chức Năng</th>
@@ -38,7 +38,7 @@
         
         <td><?= $promotion['discount_code'] ?></td>
         <td><?= $promotion['promotion_details'] ?></td>
-        <td><?= $promotion['discount_value'] ?>%</td>
+        <td><?= $promotion['discount_value'] ?>đ</td>
         <td><?= $promotion['start_date'] ?></td>
         <td><?= $promotion['end_date'] ?></td>
         <td>
