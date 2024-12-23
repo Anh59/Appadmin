@@ -20,7 +20,7 @@ single_listing
 	<div class="home">
 		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/single_background.jpg'); ?>"></div>
 		<div class="home_content">
-			<div class="home_title">the offers</div>
+			<div class="home_title">Thông tin chuyến đi</div>
 		</div>
 	</div>
 
@@ -369,7 +369,7 @@ single_listing
 								</div>
 								<div class="hotel_title_button ml-lg-auto text-lg-right">
 								<div class="button book_button trans_200">
-									<a href="<?= base_url('booking/checkout/' . $tour['id']); ?>">book<span></span><span></span><span></span></a>
+									<a href="<?= base_url('booking/checkout/' . $tour['id']); ?>">Đặt<span></span><span></span><span></span></a>
 								</div>
 
 									<div class="hotel_map_link_container">
@@ -506,7 +506,7 @@ single_listing
                                     '<?= esc($room['price']); ?>', 
                                     '<?= esc($tour['id']); ?>', 
                                     '<?= esc($room['id']); ?>'
-                                )">book<span></span><span></span><span></span></a>
+                                )">Đặt<span></span><span></span><span></span></a>
                             </div>
                         </div>
                     </div>

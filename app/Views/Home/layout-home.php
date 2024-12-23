@@ -53,7 +53,7 @@
         </div>
         <!-- Menu thả xuống -->
         <ul class="dropdown-menu" id="dropdownMenu" style="display:none;">
-            <li><a href="<?= route_to('profile') ?>">Thông tin cá nhân</a></li>
+            <li><a href="<?= route_to('personal') ?>">Thông tin cá nhân</a></li>
             <li><a href="<?= route_to('logout') ?>">Đăng xuất</a></li>
         </ul>
     <?php else: ?>
@@ -81,11 +81,11 @@
 						</div>
 						<div class="main_nav_container ml-auto">
 							<ul class="main_nav_list">
-								<li class="main_nav_item"><a href="<?= route_to('Tour_index') ?>">home</a></li>
-								<li class="main_nav_item"><a href="<?= route_to('Tour_about') ?>">about us</a></li>
-								<li class="main_nav_item"><a href="<?= route_to('Tour_offers') ?>">offers</a></li>
-								<li class="main_nav_item"><a href="<?= route_to('Tour_blog') ?>">news</a></li>
-								<li class="main_nav_item"><a href="<?= route_to('Tour_contact') ?>">contact</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_index') ?>">TRang chủ</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_about') ?>">Thông tin</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_offers') ?>">Chuyến đi </a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_blog') ?>">Bản tin</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_contact') ?>">Liên hệ</a></li>
 							</ul>
 						</div>
 						<div class="content_search ml-lg-0 ml-auto">

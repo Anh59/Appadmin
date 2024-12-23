@@ -364,13 +364,13 @@ Index
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<h2 class="intro_title text-center">We have the best tours</h2>
+					<h2 class="intro_title text-center">Chúng tôi cung cấp những tour du lịch đáng nhớ nhất</h2>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-10 offset-lg-1">
 					<div class="intro_text text-center">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. </p>
+						<p>mang đến cho bạn những trải nghiệm tuyệt vời và những kỷ niệm khó quên. Mỗi chuyến đi là một cơ hội để khám phá những điểm đến mới mẻ, thưởng thức những món ăn đặc sản và tận hưởng không gian thư giãn. Hãy cùng chúng tôi bắt đầu hành trình khám phá thế giới! </p>
 					</div>
 				</div>
 			</div>
@@ -472,7 +472,7 @@ Index
 
 							<!-- CTA Slider Item -->
 							<div class="owl-item cta_item text-center">
-								<div class="cta_title">maldives deluxe package</div>
+								<div class="cta_title">Gói du lịch cao cấp</div>
 								<div class="rating_r rating_r_4">
 									<i></i>
 									<i></i>
@@ -480,13 +480,13 @@ Index
 									<i></i>
 									<i></i>
 								</div>
-								<p class="cta_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. Proin bibendum, augue faucibus tincidunt ultrices, tortor augue gravida lectus, et efficitur enim justo vel ligula.</p>
-								<div class="button cta_button"><div class="button_bcg"></div><a href="#">book now<span></span><span></span><span></span></a></div>
+								<p class="cta_text">"Chúng tôi cung cấp những dịch vụ tuyệt vời, giúp bạn có những trải nghiệm đáng nhớ. Mọi chi tiết đều được chăm chút kỹ lưỡng, từ phong cách phục vụ đến các tiện ích hiện đại. Hãy tận hưởng một kỳ nghỉ trọn vẹn với những dịch vụ đẳng cấp, mang lại sự thoải mái và thư giãn tối đa cho bạn."</p>
+								<div class="button cta_button"><div class="button_bcg"></div><a href="#">Đặt ngay<span></span><span></span><span></span></a></div>
 							</div>
 
 							<!-- CTA Slider Item -->
 							<div class="owl-item cta_item text-center">
-								<div class="cta_title">maldives deluxe package</div>
+								<div class="cta_title">Gói du lịch cao cấp</div>
 								<div class="rating_r rating_r_4">
 									<i></i>
 									<i></i>
@@ -494,13 +494,13 @@ Index
 									<i></i>
 									<i></i>
 								</div>
-								<p class="cta_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. Proin bibendum, augue faucibus tincidunt ultrices, tortor augue gravida lectus, et efficitur enim justo vel ligula.</p>
-								<div class="button cta_button"><div class="button_bcg"></div><a href="#">book now<span></span><span></span><span></span></a></div>
+								<p class="cta_text">"Chúng tôi cung cấp những dịch vụ tuyệt vời, giúp bạn có những trải nghiệm đáng nhớ. Mọi chi tiết đều được chăm chút kỹ lưỡng, từ phong cách phục vụ đến các tiện ích hiện đại. Hãy tận hưởng một kỳ nghỉ trọn vẹn với những dịch vụ đẳng cấp, mang lại sự thoải mái và thư giãn tối đa cho bạn."</p>
+								<div class="button cta_button"><div class="button_bcg"></div><a href="#">Đặt ngay<span></span><span></span><span></span></a></div>
 							</div>
 
 							<!-- CTA Slider Item -->
 							<div class="owl-item cta_item text-center">
-								<div class="cta_title">maldives deluxe package</div>
+								<div class="cta_title">Gói du lịch cao cấp</div>
 								<div class="rating_r rating_r_4">
 									<i></i>
 									<i></i>
@@ -508,8 +508,8 @@ Index
 									<i></i>
 									<i></i>
 								</div>
-								<p class="cta_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor. Suspendisse potenti. In faucibus massa arcu, vitae cursus mi hendrerit nec. Proin bibendum, augue faucibus tincidunt ultrices, tortor augue gravida lectus, et efficitur enim justo vel ligula.</p>
-								<div class="button cta_button"><div class="button_bcg"></div><a href="#">book now<span></span><span></span><span></span></a></div>
+								<p class="cta_text">"Chúng tôi cung cấp những dịch vụ tuyệt vời, giúp bạn có những trải nghiệm đáng nhớ. Mọi chi tiết đều được chăm chút kỹ lưỡng, từ phong cách phục vụ đến các tiện ích hiện đại. Hãy tận hưởng một kỳ nghỉ trọn vẹn với những dịch vụ đẳng cấp, mang lại sự thoải mái và thư giãn tối đa cho bạn."</p>
+								<div class="button cta_button"><div class="button_bcg"></div><a href="#">Đặt ngay<span></span><span></span><span></span></a></div>
 							</div>
 							
 						</div>
@@ -564,7 +564,7 @@ Index
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<h2 class="section_title">the best offers with rooms</h2>
+					<h2 class="section_title">Những ưu đãi tốt nhất với phòng</h2>
 				</div>
 			</div>
 			<div class="row offers_items">

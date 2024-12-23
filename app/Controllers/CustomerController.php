@@ -123,6 +123,7 @@ class CustomerController extends BaseController
                     if (password_verify($password, $customer['password'])) {
                         // Đăng nhập thành công, lưu thông tin người dùng vào session
                         session()->set([
+                            'isLoggedIn' => true, // Cờ xác nhận đăng nhập
                             'customer_id' => $customer['id'],
                             'customer_name' => $customer['name'],
                             'customer_avatar' => $customer['image_url'], // Lưu đường dẫn avatar vào session

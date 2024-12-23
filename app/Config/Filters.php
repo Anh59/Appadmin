@@ -37,6 +37,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'log'           => LogFilter::class,//kiểm tra xem đăng nhập hay chưa
         'Perermissions' => PerermissionsFilter::class,// Lấy các giá trị Perermissions
+        'authCheck' => \App\Filters\AuthCheck::class,//kiểm tra người dùng
     ];
 
     /**

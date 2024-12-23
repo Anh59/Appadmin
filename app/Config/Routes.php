@@ -5,7 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->group('api_Customers', function($routes) {
+
+$routes->group('api_Customers',function($routes) {
    
 
     $routes->get('customers_register','CustomerController::register', ['as' => 'Customers_Register']);
@@ -26,12 +27,32 @@ $routes->group('api_Customers', function($routes) {
 
     $routes->get('google_login', 'GoogleController::googleLogin', ['as' => 'google_login']);
     $routes->get('google_callback', 'GoogleController::googleCallback', ['as' => 'google_callback']);
+    
+    $routes->group('Manager',  ['filter' => 'authCheck'],function($routes) {
+        $routes->get('profile','Profilecontroller::profile', ['as' => 'profile']);
+        $routes->get('personal', 'ProfileController::personal', ['as' => 'personal']);
 
+
+        $routes->get('change_password','Profilecontroller::change_password', ['as' => 'change_password']);
+        $routes->post('changePassword', 'ProfileController::changePassword', ['as' => 'changePassword']);
+
+        $routes->get('changePersonalInfo', 'ProfileController::changePersonalInfo', ['as' => 'changePersonalInfo']);
+        
+        $routes->post('updatePersonalInfo', 'ProfileController::updatePersonalInfo',['as' => 'updatePersonalInfo']);
+        $routes->get('verifyChangeEmailOTP', 'ProfileController::verifyChangeEmailOTP', ['as' => 'verifyChangeEmailOTP']);
+        $routes->post('verifyChangeEmailOTP', 'ProfileController::handleVerifyChangeEmailOTP', ['as' => 'handleVerifyChangeEmailOTP']);
+
+
+
+        $routes->get('order','Profilecontroller::order', ['as' => 'order']);
+        $routes->get('history_order','Profilecontroller::history_order', ['as' => 'history_order']);
+    });
+  
 });
 
 $routes->get('index', 'Home::index1',['as'=>'Tour_index']);
 $routes->get('about', 'Home::index2',['as'=>'Tour_about']);
-$routes->get('blog', 'Home::index3',['as'=>'Tour_blog']);
+$routes->get('blog', 'NewsController::newsList',['as'=>'Tour_blog']);
 
 
 
@@ -50,6 +71,10 @@ $routes->get('/tour/bookTour/(:num)', 'TourController::bookTour/$1');
 
 $routes->get('contact', 'Home::index4',['as'=>'Tour_contact']);
 $routes->post('submit-consultation', 'ConsultationController::submitConsultation');
+
+$routes->get('blogdetail/(:num)', 'NewsController::blogDetail/$1', ['as' => 'Tour_blogdetail']);
+$routes->post('submit-comment', 'NewsController::submitComment', ['as' => 'submit-comment']);
+
 
 $routes->post('Tour_booking', 'BookingController::createBooking');
 
@@ -76,7 +101,7 @@ $routes->post('checkout/process_payment', 'BookingController::processPayment');
 $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollection $routes) {
 
     // login
-    $routes->get('table', 'Home::table', ['as' => 'Dashboard_table', 'filter' => 'Perermissions:Dashboard_table']);
+    $routes->get('table', 'DashboardController::table', ['as' => 'Dashboard_table', 'filter' => 'Perermissions:Dashboard_table']);
 
     // Group
     $routes->group('Group', ['filter' => 'Perermissions'], function (RouteCollection $routes) {
@@ -195,6 +220,26 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
         $routes->post('table-bookings-update/(:num)', 'ManagebookingController::update/$1', ['as' => 'Table_Bookings_Update']);
         $routes->post('table-bookings-delete/(:num)', 'ManagebookingController::delete/$1', ['as' => 'Table_Bookings_Delete']);
     });
+    $routes->group('News', function (RouteCollection $routes) {
+        // Danh sách bài viết
+        $routes->get('table-news', 'NewsController::table', ['as' => 'Table_News']);
+        // Thêm bài viết
+        $routes->get('table-news-create', 'NewsController::create', ['as' => 'Table_News_Create']);
+        // Chi tiết bài viết
+        $routes->get('table-news-detail/(:num)', 'NewsController::detail/$1', ['as' => 'Table_News_Detail']);
+        // Lưu bài viết
+        $routes->post('table-news-store', 'NewsController::store', ['as' => 'Table_News_Store']);
+        // Sửa bài viết
+        $routes->get('table-news-edit/(:num)', 'NewsController::edit/$1', ['as' => 'Table_News_Edit']);
+        // Cập nhật bài viết
+        $routes->post('table-news-update/(:num)', 'NewsController::update/$1', ['as' => 'Table_News_Update']);
+        // Xóa bài viết
+        $routes->post('table-news-delete/(:num)', 'NewsController::delete/$1', ['as' => 'Table_News_Delete']);
+
+
+
+    });
+    
     
     
 

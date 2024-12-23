@@ -20,7 +20,7 @@ Offers
 	<div class="home">
 		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
 		<div class="home_content">
-			<div class="home_title">our offers</div>
+			<div class="home_title">Chuyến đi</div>
 		</div>
 	</div>
 
@@ -386,7 +386,7 @@ Offers
 					<div class="offers_sorting_container">
 						<ul class="offers_sorting">
 							<li>
-								<span class="sorting_text">price</span>
+								<span class="sorting_text">Giá</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
 									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }' data-parent=".price_sorting"><span>show all</span></li>
@@ -394,19 +394,19 @@ Offers
 								</ul>
 							</li>
 							<li>
-								<span class="sorting_text">location</span>
+								<span class="sorting_text">Vị trí</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
-									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>default</span></li>
-									<li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'><span>alphabetical</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>mặc định</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'><span>theo thứ tự chữ cái</span></li>
 								</ul>
 							</li>
 							<li>
-								<span class="sorting_text">stars</span>
+								<span class="sorting_text">Số sao</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
-									<li class="filter_btn" data-filter="*"><span>show all</span></li>
-									<li class="sort_btn" data-isotope-option='{ "sortBy": "stars" }'><span>ascending</span></li>
+									<li class="filter_btn" data-filter="*"><span>Tất cả</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "stars" }'><span>Tăng dần</span></li>
 									<li class="filter_btn" data-filter=".rating_3"><span>3</span></li>
 									<li class="filter_btn" data-filter=".rating_4"><span>4</span></li>
 									<li class="filter_btn" data-filter=".rating_5"><span>5</span></li>
@@ -422,7 +422,7 @@ Offers
 								</ul>
 							</li> -->
 							<li>
-								<span class="sorting_text">reviews</span>
+								<span class="sorting_text">Đánh giá</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
 									<li class="num_sorting_btn"><span>5</span></li>

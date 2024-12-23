@@ -67,4 +67,8 @@ class Home extends BaseController
     {
         return view('Home/checkout');
     }
+
+    public function blogdetail():string{
+        return view('Home/blogdetail');
+    }
 }

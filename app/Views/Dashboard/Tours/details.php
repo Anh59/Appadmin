@@ -14,7 +14,7 @@
 <!-- Nút quay lại -->
 
 
-<h2> <?= $tour['name'] ?></h2>
+<!-- <h2> <?= $tour['name'] ?></h2> -->
 
 <!-- Tab Nav -->
 <ul class="nav nav-tabs" id="myTab" role="tablist">

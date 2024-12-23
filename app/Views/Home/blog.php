@@ -33,89 +33,71 @@ Blog
 
 				<div class="col-lg-8">
 					
-					<div class="blog_post_container">
-
-						<!-- Blog Post -->
-						
+				<div class="blog_posts_container">
+					<?php foreach ($newsList as $news): ?>
 						<div class="blog_post">
 							<div class="blog_post_image">
-								<img src="<?= base_url('Home-css/images/blog_1.jpg'); ?>" alt="https://unsplash.com/@anniespratt">
+								<img src="<?= base_url($news['image'] ?? 'Home-css/images/default.jpg'); ?>" alt="Bản Tin">
 								<div class="blog_post_date d-flex flex-column align-items-center justify-content-center">
-									<div class="blog_post_day">01</div>
-									<div class="blog_post_month">Dec, 2017</div>
+									<?php 
+										$date = date_create($news['created_at']); 
+										$day = date_format($date, 'd');
+										$month = date_format($date, 'M, Y');
+									?>
+									<div class="blog_post_day"><?= $day ?></div>
+									<div class="blog_post_month"><?= $month ?></div>
 								</div>
 							</div>
 							<div class="blog_post_meta">
 								<ul>
-									<li class="blog_post_meta_item"><a href="">by Lore Papp</a></li>
-									<li class="blog_post_meta_item"><a href="">Uncategorized</a></li>
-									<li class="blog_post_meta_item"><a href="">3 Comments</a></li>
+									<li class="blog_post_meta_item"><a href="#">Tác giả:  <?= $news['author_id'] ?></a></li>
+									<li class="blog_post_meta_item"><a href="#"><?= $news['category'] ?></a></li>
+									<li class="blog_post_meta_item"><a href="#"><?= $news['comments_count'] ?> Bình Luận</a></li>
 								</ul>
 							</div>
-							<div class="blog_post_title"><a href="#">Try these new dream destinations</a></div>
+							<div class="blog_post_title"><a href="<?= route_to('News_Detail', $news['id']) ?>"><?= $news['title'] ?></a></div>
 							<div class="blog_post_text">
-								<p>Aenean in lacus ligula. Phasellus euismod gravida eros. Aenean nec ipsum aliquet, pharetra magna id, interdum sapien. Etiam id lorem eu nisl pellentesque semper. Nullam tincidunt metus placerat, suscipit leo ut, tempus nulla. Fusce at eleifend tellus. Ut eleifend dui nunc, non fermentum qua.</p>
+								<p>
+									<?php 
+										$summary = strlen($news['content']) > 200 ? substr($news['content'], 0, 200) . '...' : $news['content'];
+										echo $summary; 
+									?>
+								</p>
 							</div>
-							<div class="blog_post_link"><a href="#">read more</a></div>
+							<div class="blog_post_link"><a href="<?= route_to('Tour_blogdetail', $news['id']) ?>">Đọc Thêm</a></div>
 						</div>
+					<?php endforeach; ?>
+				</div>	
 
-						<!-- Blog Post -->
-						
-						<div class="blog_post">
-							<div class="blog_post_image">
-								<img src="<?= base_url('Home-css/images/blog_2.jpg'); ?>" alt="https://unsplash.com/@tschax">
-								<div class="blog_post_date d-flex flex-column align-items-center justify-content-center">
-									<div class="blog_post_day">01</div>
-									<div class="blog_post_month">Dec, 2017</div>
-								</div>
-							</div>
-							<div class="blog_post_meta">
-								<ul>
-									<li class="blog_post_meta_item"><a href="">by Lore Papp</a></li>
-									<li class="blog_post_meta_item"><a href="">Uncategorized</a></li>
-									<li class="blog_post_meta_item"><a href="">3 Comments</a></li>
-								</ul>
-							</div>
-							<div class="blog_post_title"><a href="#">Try these new dream destinations</a></div>
-							<div class="blog_post_text">
-								<p>Aenean in lacus ligula. Phasellus euismod gravida eros. Aenean nec ipsum aliquet, pharetra magna id, interdum sapien. Etiam id lorem eu nisl pellentesque semper. Nullam tincidunt metus placerat, suscipit leo ut, tempus nulla. Fusce at eleifend tellus. Ut eleifend dui nunc, non fermentum qua.</p>
-							</div>
-							<div class="blog_post_link"><a href="#">read more</a></div>
-						</div>
+						<!-- phân trang  -->
+						<div class="blog_navigation">
+    <ul>
+        <!-- Previous Button -->
+        <li class="blog_dot <?= ($pager->getCurrentPage() == 1) ? 'disabled' : '' ?>">
+            <a href="<?= ($pager->getCurrentPage() > 1) ? site_url('blog?page=' . ($pager->getCurrentPage() - 1)) : '#' ?>">
+                <div></div><<
+            </a>
+        </li>
 
-						<!-- Blog Post -->
-						
-						<div class="blog_post">
-							<div class="blog_post_image">
-								<img src="<?= base_url('Home-css/images/blog_3.jpg'); ?>" alt="https://unsplash.com/@stilclassics">
-								<div class="blog_post_date d-flex flex-column align-items-center justify-content-center">
-									<div class="blog_post_day">01</div>
-									<div class="blog_post_month">Dec, 2017</div>
-								</div>
-							</div>
-							<div class="blog_post_meta">
-								<ul>
-									<li class="blog_post_meta_item"><a href="">by Lore Papp</a></li>
-									<li class="blog_post_meta_item"><a href="">Uncategorized</a></li>
-									<li class="blog_post_meta_item"><a href="">3 Comments</a></li>
-								</ul>
-							</div>
-							<div class="blog_post_title"><a href="#">Try these new dream destinations</a></div>
-							<div class="blog_post_text">
-								<p>Aenean in lacus ligula. Phasellus euismod gravida eros. Aenean nec ipsum aliquet, pharetra magna id, interdum sapien. Etiam id lorem eu nisl pellentesque semper. Nullam tincidunt metus placerat, suscipit leo ut, tempus nulla. Fusce at eleifend tellus. Ut eleifend dui nunc, non fermentum qua.</p>
-							</div>
-							<div class="blog_post_link"><a href="#">read more</a></div>
-						</div>
+        <!-- Page Numbers -->
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <li class="blog_dot <?= ($i == $pager->getCurrentPage()) ? 'active' : '' ?>">
+                <a href="<?= site_url('blog?page=' . $i) ?>">
+                    <div></div><?= sprintf('%02d', $i) ?>.
+                </a>
+            </li>
+        <?php endfor; ?>
 
-					</div>
-						
-					<div class="blog_navigation">
-						<ul>
-							<li class="blog_dot active"><div></div>01.</li>
-							<li class="blog_dot"><div></div>02.</li>
-							<li class="blog_dot"><div></div>03.</li>
-						</ul>
-					</div>
+        <!-- Next Button -->
+        <li class="blog_dot <?= ($pager->getCurrentPage() == $totalPages) ? 'disabled' : '' ?>">
+            <a href="<?= ($pager->getCurrentPage() < $totalPages) ? site_url('blog?page=' . ($pager->getCurrentPage() + 1)) : '#' ?>">
+                <div></div>>>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
 				</div>
 
 				<!-- Blog Sidebar -->
@@ -154,28 +136,30 @@ Blog
 					
 					<!-- Sidebar Archives -->
 					<div class="sidebar_archives">
-						<div class="sidebar_title">Archives</div>
+						<div class="sidebar_title">Lưu Trữ</div>
 						<div class="sidebar_list">
 							<ul>
-								<li><a href="#">March 2017</a></li>
-								<li><a href="#">April 2017</a></li>
-								<li><a href="#">May 2017</a></li>
+								<li><a href="#">Tháng 3 2017</a></li>
+								<li><a href="#">Tháng 4 2017</a></li>
+								<li><a href="#">Tháng 5 2017</a></li>
 							</ul>
 						</div>
 					</div>
+
 					
 					<!-- Sidebar Archives -->
 					<div class="sidebar_categories">
-						<div class="sidebar_title">Categories</div>
+						<div class="sidebar_title">Thể loại</div>
 						<div class="sidebar_list">
 							<ul>
-								<li><a href="#">Travel</a></li>
-								<li><a href="#">Exotic Destinations</a></li>
-								<li><a href="#">City Breaks</a></li>
-								<li><a href="#">Travel Tips</a></li>
-								<li><a href="#">Lifestyle & Travel</a></li>
-								<li><a href="#">City Breaks</a></li>
-								<li><a href="#">Uncategorized</a></li>
+							<li><a href="#">Du Lịch</a></li>
+							<li><a href="#">Điểm Đến Huyền Bí</a></li>
+							<li><a href="#">Chuyến Đi Ngắn Ngày</a></li>
+							<li><a href="#">Mẹo Du Lịch</a></li>
+							<li><a href="#">Phong Cách Sống & Du Lịch</a></li>
+							<li><a href="#">Chuyến Đi Ngắn Ngày</a></li>
+							<li><a href="#">Chưa Phân Loại</a></li>
+
 							</ul>
 						</div>
 					</div>

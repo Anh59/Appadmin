@@ -405,6 +405,15 @@
                       </li>
                       <?php endif; ?>
 
+                      <?php if ($session->get('Table_News') === true ): ?>
+                      <li class="nav-item">
+                          <a href="<?= route_to('Table_News') ?>" class="nav-link">
+                          <i class="far fa-envelope nav-icon"></i>
+                              <p>Tin Tức</p>
+                          </a>
+                      </li>
+                      <?php endif; ?>
+
                   </ul>
             </li>
  
