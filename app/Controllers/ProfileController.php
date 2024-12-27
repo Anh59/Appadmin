@@ -5,6 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\CustomerModel;
+use App\Models\BookingModel;
+use App\Models\ToursModel;
+use App\Models\ImagesModel;
+use App\Models\ReviewsModel;
 class ProfileController extends BaseController
 {
     //thừa để test
@@ -84,18 +88,38 @@ class ProfileController extends BaseController
         $customerModel = new CustomerModel();
         $customerId = session()->get('customer_id');
     
+        // Lấy thông tin từ form
         $data = [
             'name' => $this->request->getPost('name'),
             'phone' => $this->request->getPost('phone'),
             'address' => $this->request->getPost('address'),
         ];
     
-        // Nếu thay đổi email, kiểm tra email mới
+        // Xử lý hình ảnh mới nếu được tải lên
+        $imageFile = $this->request->getFile('image');
+        if ($imageFile && $imageFile->isValid() && !$imageFile->hasMoved()) {
+            // Tạo tên ảnh ngẫu nhiên
+            $newName = $imageFile->getRandomName();
+            // Đường dẫn lưu ảnh mới: FCPATH . 'uploads/avatar'
+            $imageFile->move(FCPATH . 'uploads/avatar', $newName);
+            $newImageUrl = base_url('uploads/avatar/' . $newName);
+            $data['image_url'] = $newImageUrl;
+    
+            // Xóa hình ảnh cũ nếu có
+            $oldImage = $customerModel->find($customerId)['image_url'];
+            if ($oldImage && file_exists(FCPATH . 'uploads/avatar/' . basename($oldImage))) {
+                unlink(FCPATH . 'uploads/avatar/' . basename($oldImage));
+            }
+    
+            // Cập nhật lại ảnh trong session
+            session()->set('customer_avatar', $newImageUrl);
+        }
+    
+        // Kiểm tra email mới
         $newEmail = $this->request->getPost('email');
         $oldEmail = $this->request->getPost('old_email');
     
         if ($newEmail != $oldEmail) {
-            // Kiểm tra email mới đã được đăng ký chưa
             $existingCustomer = $customerModel->where('email', $newEmail)->first();
             if ($existingCustomer) {
                 return $this->response->setJSON([
@@ -104,31 +128,34 @@ class ProfileController extends BaseController
                 ]);
             }
     
-            // Nếu email hợp lệ, tạo OTP
+            // Gửi OTP và lưu email chờ xác nhận
             $otp = rand(100000, 999999);
-            $otp_expiration = date('Y-m-d H:i:s', strtotime('+5 minutes')); // 5 phút hết hạn
+            $otp_expiration = date('Y-m-d H:i:s', strtotime('+5 minutes'));
     
-            // Lưu OTP vào cơ sở dữ liệu
             $customerModel->update($customerId, [
                 'otp' => $otp,
                 'otp_expiration' => $otp_expiration,
             ]);
     
-            // Lưu email mới vào session
             session()->set('pending_email', $newEmail);
-    
-            // Gửi OTP qua email
             $this->_sendOTP($newEmail, $otp);
     
             return redirect()->route('verifyChangeEmailOTP');
         }
     
-        // Cập nhật thông tin nếu không thay đổi email
+        // Cập nhật thông tin cá nhân trong cơ sở dữ liệu
         $customerModel->update($customerId, $data);
     
+        // Cập nhật lại thông tin trong session
+        session()->set('customer_name', $data['name']);
+    
+        // Thông báo thành công
         session()->setFlashdata('success', 'Thông tin cá nhân đã được cập nhật.');
         return redirect()->route('changePersonalInfo');
     }
+    
+    
+    
     
     
 
@@ -187,14 +214,186 @@ public function handleVerifyChangeEmailOTP()
 
 
     
+    private function mapBookingStatus($status)
+    {
+        switch ($status) {
+            case 'pending':
+                return 'Đang chờ tư vấn';
+            case 'completed':
+                return 'Đã thanh toán';
+            case 'failed':
+                return 'Thanh toán thất bại';
+            default:
+                return 'Không xác định';
+        }
+    }
     public function order()
     {
-        return view('customer/order');
+        $customerId = session()->get('customer_id');
+        $searchQuery = $this->request->getGet('search') ?? '';
+    
+        $bookingModel = new BookingModel();
+        $imagesModel = new ImagesModel(); // Khởi tạo model hình ảnh
+    
+        // Tìm kiếm đơn hàng có trạng thái "pending"
+        $bookingsQuery = $bookingModel
+            ->select('bookings.*, tours.name as tour_name, tours.description as tour_description, tours.price_per_person')
+            ->join('tours', 'tours.id = bookings.tour_id')
+            ->where('bookings.customer_id', $customerId)
+            ->where('bookings.payment_status', 'pending') // Lọc trạng thái "pending"
+            ->like('tours.name', $searchQuery)
+            ->orderBy('bookings.created_at', 'desc'); // Sắp xếp theo ngày tạo
+    
+        // Lấy dữ liệu phân trang
+        $perPage = 5;
+        $bookings = $bookingsQuery->paginate($perPage, 'group1');
+    
+        // Gắn trạng thái đơn hàng và hình ảnh
+        foreach ($bookings as &$booking) {
+            $booking['status_text'] = $this->mapBookingStatus($booking['payment_status']);
+    
+            // Lấy hình ảnh đầu tiên của tour
+            $image = $imagesModel->where('tour_id', $booking['tour_id'])->first(); // Lấy ảnh đầu tiên
+            $booking['tour_image'] = $image ? $image['image_url'] : ''; // Nếu có ảnh thì lấy, nếu không thì để trống
+        }
+    
+        // Trả về view
+        return view('customer/order', [
+            'bookings' => $bookings,
+            'pager' => $bookingModel->pager, // Đảm bảo truyền đúng đối tượng Pager
+            'searchQuery' => $searchQuery,
+        ]);
     }
+    public function detail_order(){
+        return view('Customer/detail_order');
+    }
+    
+    
     public function history_order()
-    {
-        return view('customer/history_order');
+{
+    $customerId = session()->get('customer_id');
+    $searchQuery = $this->request->getGet('search') ?? '';
+
+    $bookingModel = new BookingModel();
+    $imagesModel = new ImagesModel(); // Khởi tạo model hình ảnh
+
+    // Lấy danh sách đơn hàng có trạng thái hoàn thành
+    $bookingsQuery = $bookingModel
+        ->select('bookings.*, tours.name as tour_name, tours.description as tour_description, tours.price_per_person')
+        ->join('tours', 'tours.id = bookings.tour_id')
+        ->where('bookings.customer_id', $customerId)
+        ->where('bookings.payment_status', 'completed') // Lọc trạng thái "hoàn thành"
+        ->like('tours.name', $searchQuery)
+        ->orderBy('bookings.created_at', 'desc'); // Sắp xếp theo ngày tạo
+
+    // Sử dụng phân trang
+    $perPage = 5; // Số lượng đơn hàng mỗi trang
+    $bookings = $bookingsQuery->paginate($perPage, 'group1'); // Tự động xử lý trang hiện tại
+
+    // Lấy hình ảnh của tour
+    foreach ($bookings as &$booking) {
+        $booking['status_text'] = $this->mapBookingStatus($booking['payment_status']);
+
+        // Lấy hình ảnh đầu tiên của tour
+        $image = $imagesModel->where('tour_id', $booking['tour_id'])->first(); // Lấy ảnh đầu tiên
+        $booking['tour_image'] = $image ? $image['image_url'] : ''; // Nếu có ảnh thì lấy, nếu không thì để trống
     }
+
+    // Trả về view
+    return view('customer/history_order', [
+        'bookings' => $bookings,
+        'pager' => $bookingModel->pager,
+        'searchQuery' => $searchQuery,
+    ]);
+}
+
+public function reviews($bookingId)
+{
+    $customerId = session()->get('customer_id');
+    $bookingModel = new BookingModel();
+    $reviewsModel = new ReviewsModel();
+    $tourModel = new ToursModel();
+    $imagesModel = new ImagesModel(); // Khởi tạo model hình ảnh
+    
+    // Lấy thông tin đơn đặt hàng từ bảng bookings
+    $booking = $bookingModel
+        ->select('bookings.*, tours.name as tour_name, tours.price_per_person, tours.description as tour_description')
+        ->join('tours', 'tours.id = bookings.tour_id')
+        ->where('bookings.id', $bookingId)
+        ->where('bookings.customer_id', $customerId)
+        ->first();
+    
+    if (!$booking) {
+        // Nếu không tìm thấy booking, chuyển hướng về trang lịch sử đơn hàng
+        return redirect()->to('/history_order');
+    }
+
+    // Lấy tất cả hình ảnh của tour
+    $images = $imagesModel->where('tour_id', $booking['tour_id'])->findAll(); // Lấy tất cả hình ảnh của tour
+    
+    // Kiểm tra nếu người dùng đã đánh giá tour này rồi
+    $existingReview = $reviewsModel->where('tour_id', $booking['tour_id'])->where('customer_id', $customerId)->first();
+    
+    // Kiểm tra xem người dùng đã đánh giá chưa
+    if ($this->request->getMethod() === 'post') {
+        // Xử lý lưu đánh giá
+        $reviewData = [
+            'tour_id' => $booking['tour_id'],
+            'customer_id' => $customerId,
+            'title' => $this->request->getPost('title'),
+            'content' => $this->request->getPost('content'),
+            'rating' => $this->request->getPost('rating'),
+        ];
+        
+        // Thêm đánh giá mới vào cơ sở dữ liệu
+        $reviewsModel->save($reviewData);
+        
+        // Quay lại trang lịch sử đơn hàng sau khi lưu thành công
+        return redirect()->to('/history_order')->with('message', 'Đánh giá của bạn đã được lưu.');
+    }
+    
+    // Trả về view với thông tin đơn hàng, thông tin tour và tất cả hình ảnh của tour
+    return view('customer/reviews', [
+        'booking' => $booking,
+        'existingReview' => $existingReview,
+        'tour_images' => $images, // Truyền tất cả hình ảnh vào view
+    ]);
+}
+
+public function submitReview($bookingId)
+{
+    $customerId = session()->get('customer_id');
+    $reviewsModel = new ReviewsModel();
+
+    // Lấy thông tin đơn đặt hàng
+    $bookingModel = new BookingModel();
+    $booking = $bookingModel
+        ->where('id', $bookingId)
+        ->where('customer_id', $customerId)
+        ->first();
+
+    if (!$booking) {
+        return redirect()->to('/history_order');
+    }
+
+    // Lưu đánh giá
+    $reviewData = [
+        'tour_id' => $booking['tour_id'],
+        'customer_id' => $customerId,
+        'title' => $this->request->getPost('title'),
+        'content' => $this->request->getPost('content'),
+        'rating' => $this->request->getPost('rating'),
+    ];
+
+    // Thêm đánh giá vào cơ sở dữ liệu
+    $reviewsModel->save($reviewData);
+
+    // Quay lại trang lịch sử đơn hàng với thông báo
+    return redirect()->route('/history_order')->with('message', 'Đánh giá của bạn đã được lưu.');
+}
+
+
+    
     public function orderqq()
     {
         return view('customer/order');

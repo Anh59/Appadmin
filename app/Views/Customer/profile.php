@@ -28,33 +28,43 @@
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img src="https://storage.googleapis.com/a1aa/image/0LvSCmFLGhqdHFq3eIirMlkcMeKVn4yY4RUYTJfbL7411BdnA.jpg" alt="User profile picture" class="rounded-circle mb-3" width="80" height="80">
-                        <h5 class="card-title">longthanh261</h5>
-                    </div>
-                </div>
+            <div class="card">
+    <div class="card-body text-center">
+        <!-- Hiển thị avatar người dùng -->
+        <img 
+            src="<?= session('customer_avatar') ?: base_url('uploads/avatar/default-avatar.png') ?>" 
+            alt="User profile picture" 
+            class="rounded-circle mb-3" 
+            width="80" 
+            height="80">
+        
+        <!-- Hiển thị tên người dùng -->
+        <h5 class="card-title"><?= esc(session('customer_name')) ?></h5>
+    </div>
+</div>
+
                 <div class="list-group mt-3">
                     <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse" data-bs-target="#personal-info">
                         <i class="fas fa-user me-2"></i>Thông tin cá nhân <i class="fas fa-chevron-down float-end"></i>
                     </a>
                     <div class="collapse" id="personal-info">
                         <a href="<?= route_to('personal') ?>" class="list-group-item list-group-item-action">Hồ Sơ Của Tôi</a>
-                        <a href="<?= route_to('profile/company') ?>" class="list-group-item list-group-item-action">Company</a>
                         <a href="<?= route_to('change_password') ?>" class="list-group-item list-group-item-action">Thay đổi mật khẩu</a>
                         <a href="<?= route_to('changePersonalInfo') ?>" class="list-group-item list-group-item-action">Thay đổi thông tin cá nhân</a>
+                        
                     </div>
                     <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse" data-bs-target="#orders">
                         <i class="fas fa-shopping-cart me-2"></i>Đơn hàng của bạn <i class="fas fa-chevron-down float-end"></i>
                     </a>
                     <div class="collapse" id="orders">
                         <a href="<?= route_to('order') ?>" class="list-group-item list-group-item-action">Đơn Hàng Của Bạn</a>
-                        <a href="<?= route_to('history_order') ?>" class="list-group-item list-group-item-action">Đơn hàng thanh toán</a>
-                        <a href="<?= route_to('profile/review') ?>" class="list-group-item list-group-item-action">Đánh giá</a>
+                        <a href="<?= route_to('history_order') ?>" class="list-group-item list-group-item-action">Lịch sử đặt hàng </a>
+                        <a href="<?= route_to('profile/review') ?>" class="list-group-item list-group-item-action">Đánh giá </a>
                         <a href="<?= route_to('profile/consultation') ?>" class="list-group-item list-group-item-action">Tư vấn</a>
                     </div>
-                    <a href="<?= base_url('profile/consultation') ?>" class="list-group-item list-group-item-action">
-                        <i class="fas fa-comments me-2"></i>Tư vấn
+                    <a href="<?= route_to('Customers_logout') ?>" class="list-group-item list-group-item-action">
+                    <i class="fas fa-sign-out-alt me-2"></i>
+                    Đăng xuất
                     </a>
                 </div>
             </div>

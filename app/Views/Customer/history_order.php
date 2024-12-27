@@ -1,109 +1,64 @@
 <?= $this->extend('Customer/profile'); ?>
 
 <?= $this->section('content'); ?>
-<div>
-    <h1>Lịch Sử Đơn Hàng</h1>
-    <p>Theo dõi các đơn hàng bạn đã đặt.</p>
-    <div class="order-history">
-        <!-- Đơn hàng -->
-        <div class="card mb-3">
-            <div class="row g-0 align-items-center">
+<div class="container py-4">
+    <h1 class="mb-3">Lịch Sử Đơn Hàng</h1>
+    <p>Theo dõi các đơn hàng bạn đã hoàn thành.</p>
+
+    <!-- Thanh tìm kiếm -->
+    <form action="<?= route_to('history_order') ?>" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Tìm kiếm tour..." name="search" value="<?= esc($searchQuery) ?>">
+            <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+        </div>
+    </form>
+
+    <!-- Hiển thị lịch sử đơn hàng -->
+    <?php if (!empty($bookings)): ?>
+        <?php foreach ($bookings as $booking): ?>
+            <div class="card mb-3">
+                <div class="row g-0 align-items-center">
                 <div class="col-md-2">
-                    <img src="https://storage.googleapis.com/a1aa/image/1pXaIlwXJrbWMBElhEHDNQVXzm6LY7ePTB37T0SzRMGBku4JA.jpg" class="img-fluid rounded-start" alt="Tour Đà Nẵng">
-                </div>
-                <div class="col-md-7">
-                    <div class="card-body">
-                        <h5 class="card-title">Tour du lịch Đà Nẵng</h5>
-                        <p class="card-text">
-                            <span>Ngày đặt: 01/12/2024</span><br>
-                            <span>Ngày khởi hành: 05/12/2024</span><br>
-                            <span>Trạng thái: <span class="badge bg-success">Hoàn tất</span></span>
-                        </p>
-                        <p class="card-text">
-                            <span>Tiền gốc: <del>5,000,000 VND</del></span><br>
-                            <span>Khuyến mãi: <strong>4,500,000 VND</strong></span><br>
-                            <span>Tổng tiền: <strong>4,500,000 VND</strong></span>
-                        </p>
+                        <!-- Hiển thị hình ảnh của tour -->
+                        <?php if ($booking['tour_image']): ?>
+                            <img src="<?= base_url(esc($booking['tour_image'])) ?>" class="img-fluid rounded-start" alt="<?= esc($booking['tour_name']) ?>">
+                        <?php else: ?>
+                            <img src="https://via.placeholder.com/150" class="img-fluid rounded-start" alt="Hình ảnh tour không có sẵn">
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= esc($booking['tour_name']) ?></h5>
+                            <p class="card-text">
+                                <span>Ngày đặt: <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></span><br>
+                                <!-- <span>Ngày khởi hành: <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></span><br> -->
+                                <span>Trạng thái: <span class="badge bg-success"><?= esc($booking['status_text']) ?></span></span>
+                            </p>
+                            <p class="card-text">
+                                <!-- <span>Tiền gốc: <del><?= number_format($booking['price_per_person'], 0, ',', '.') ?> VND</del></span><br>
+                                <span>Khuyến mãi: <strong><?= number_format($booking['total_price'], 0, ',', '.') ?> VND</strong></span><br> -->
+                                <span>Tổng tiền: <strong><?= number_format($booking['total_price'], 0, ',', '.') ?> VND</strong></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <button class="btn btn-primary btn-sm mb-2">Xem Chi Tiết</button>
+                        <button class="btn btn-secondary btn-sm mb-2">Đặt Lại</button>
+                        <button class="btn btn-success btn-sm">
+                            <a href="<?= route_to('reviews', $booking['id']) ?>" class="text-white text-decoration-none">Đánh Giá</a>
+                        </button>
+
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
-                    <button class="btn btn-primary btn-sm mb-2">Xem Chi Tiết</button>
-                    <button class="btn btn-secondary btn-sm mb-2">Đặt Lại</button>
-                    <button class="btn btn-success btn-sm">Đánh Giá</button>
-                </div>
             </div>
-        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p class="text-center">Bạn chưa có đơn hàng hoàn thành nào.</p>
+    <?php endif; ?>
 
-        <!-- Đơn hàng khác -->
-        <div class="card mb-3">
-            <div class="row g-0 align-items-center">
-                <div class="col-md-2">
-                    <img src="https://storage.googleapis.com/a1aa/image/1pXaIlwXJrbWMBElhEHDNQVXzm6LY7ePTB37T0SzRMGBku4JA.jpg" class="img-fluid rounded-start" alt="Tour Nha Trang">
-                </div>
-                <div class="col-md-7">
-                    <div class="card-body">
-                        <h5 class="card-title">Tour du lịch Nha Trang</h5>
-                        <p class="card-text">
-                            <span>Ngày đặt: 10/11/2024</span><br>
-                            <span>Ngày khởi hành: 15/11/2024</span><br>
-                            <span>Trạng thái: <span class="badge bg-success">Hoàn tất</span></span>
-                        </p>
-                        <p class="card-text">
-                            <span>Tiền gốc: <del>6,000,000 VND</del></span><br>
-                            <span>Khuyến mãi: <strong>5,500,000 VND</strong></span><br>
-                            <span>Tổng tiền: <strong>5,500,000 VND</strong></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <button class="btn btn-primary btn-sm mb-2">Xem Chi Tiết</button>
-                    <button class="btn btn-secondary btn-sm mb-2">Đặt Lại</button>
-                    <button class="btn btn-success btn-sm">Đánh Giá</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Đơn hàng khác -->
-        <div class="card mb-3">
-            <div class="row g-0 align-items-center">
-                <div class="col-md-2">
-                    <img src="https://storage.googleapis.com/a1aa/image/1pXaIlwXJrbWMBElhEHDNQVXzm6LY7ePTB37T0SzRMGBku4JA.jpg" class="img-fluid rounded-start" alt="Tour Phú Quốc">
-                </div>
-                <div class="col-md-7">
-                    <div class="card-body">
-                        <h5 class="card-title">Tour du lịch Phú Quốc</h5>
-                        <p class="card-text">
-                            <span>Ngày đặt: 15/10/2024</span><br>
-                            <span>Ngày khởi hành: 20/10/2024</span><br>
-                            <span>Trạng thái: <span class="badge bg-success">Hoàn tất</span></span>
-                        </p>
-                        <p class="card-text">
-                            <span>Tiền gốc: <del>7,000,000 VND</del></span><br>
-                            <span>Khuyến mãi: <strong>6,500,000 VND</strong></span><br>
-                            <span>Tổng tiền: <strong>6,500,000 VND</strong></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <button class="btn btn-primary btn-sm mb-2">Xem Chi Tiết</button>
-                    <button class="btn btn-secondary btn-sm mb-2">Đặt Lại</button>
-                    <button class="btn btn-success btn-sm">Đánh Giá</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Phân trang -->
-        <div class="pagination mt-3">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <!-- Phân trang -->
+    <nav aria-label="Page navigation">
+        <?= $pager->links('group1', 'bootstrap') ?>
+    </nav>
 </div>
 <?= $this->endSection(); ?>

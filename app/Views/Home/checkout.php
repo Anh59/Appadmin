@@ -288,6 +288,15 @@ function updateTotalPrice() {
     document.getElementById('total-amount').innerText = 
         new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount);
 }
+// Hàm lấy số lượng phòng
+function getRoomQuantities() {
+    var roomQuantities = {};
+    <?php foreach ($rooms as $room): ?>
+        roomQuantities[<?= $room['id']; ?>] = parseInt($('#quantity-<?= $room['id']; ?>').val()) || 0;
+    <?php endforeach; ?>
+    return roomQuantities;
+}
+
 $(document).ready(function() {
     // Hàm xử lý khi nhấn nút "Xác Nhận và Thanh Toán"
     $('form.checkout-container').submit(function(event) {
@@ -326,16 +335,8 @@ $(document).ready(function() {
             }
         });
     });
-
-    // Hàm lấy số lượng phòng
-    function getRoomQuantities() {
-        var roomQuantities = {};
-        <?php foreach ($rooms as $room): ?>
-            roomQuantities[<?= $room['id']; ?>] = parseInt($('#quantity-<?= $room['id']; ?>').val()) || 0;
-        <?php endforeach; ?>
-        return roomQuantities;
-    }
 });
+
 
 </script>
 

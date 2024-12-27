@@ -475,7 +475,7 @@ single_listing
 						
 						<!-- Rooms -->
 
-<<div class="rooms">
+<div class="rooms">
     <?php if (!empty($tour['rooms'])): ?>
         <?php foreach ($tour['rooms'] as $room): ?>
             <div class="room">
@@ -532,7 +532,7 @@ single_listing
                         <div class="col-lg-1">
                             <div class="review_image">
                                 <!-- Kiểm tra và hiển thị đúng đường dẫn ảnh của khách hàng -->
-                                <img src="<?= base_url(esc($review['reviewer_image'])); ?>" alt="Reviewer Image" style="max-width: 100px; height: auto;">
+                                <img src="<?= esc($review['reviewer_image']); ?>" alt="Reviewer Image" style="max-width: 100px; height: auto;">
                             </div>
                         </div>
                         <div class="col-lg-11">

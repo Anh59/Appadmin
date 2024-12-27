@@ -65,7 +65,7 @@ class Home extends BaseController
     
     public function checkout(): string
     {
-        return view('Home/checkout');
+        return view('Home/config_order');
     }
 
     public function blogdetail():string{

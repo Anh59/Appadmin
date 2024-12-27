@@ -54,7 +54,7 @@
         <!-- Menu thả xuống -->
         <ul class="dropdown-menu" id="dropdownMenu" style="display:none;">
             <li><a href="<?= route_to('personal') ?>">Thông tin cá nhân</a></li>
-            <li><a href="<?= route_to('logout') ?>">Đăng xuất</a></li>
+            <li><a href="<?= route_to('Customers_logout') ?>">Đăng xuất</a></li>
         </ul>
     <?php else: ?>
         <!-- Nếu chưa đăng nhập -->

@@ -16,7 +16,7 @@ $routes->group('api_Customers',function($routes) {
     $routes->get('customers_sign','CustomerController::login',['as' => 'Customers_sign']);
     $routes->post('customers_sign','CustomerController::processLogin',['as' => 'Customers_processLogin']);
 
-    $routes->post('customers_logout','CustomerController::logout',['as' => 'Customers_logout']);
+    $routes->get('customers_logout','CustomerController::logout',['as' => 'Customers_logout']);
     $routes->get('testEmail', 'CustomerController::testEmail', ['as' => 'testEmail']);
     
 
@@ -45,7 +45,11 @@ $routes->group('api_Customers',function($routes) {
 
 
         $routes->get('order','Profilecontroller::order', ['as' => 'order']);
+        $routes->get('detail_order','Profilecontroller::detail_order', ['as' => 'detail_order']);
         $routes->get('history_order','Profilecontroller::history_order', ['as' => 'history_order']);
+        $routes->get('reviews/(:num)', 'Profilecontroller::reviews/$1',['as'=>'reviews']); // Hiển thị trang đánh giá
+        $routes->post('reviews/submit/(:num)', 'Profilecontroller::submitReview/$1',['as'=>'submitReview']); // Xử lý gửi đánh giá
+
     });
   
 });
@@ -64,7 +68,7 @@ $routes->get('booking', 'Home::index8',['as'=>'Tour_booking']);
 $routes->get('single_listing', 'Home::index9');
 
 
-$routes->get('checkout','Home::checkout',['as'=>'Tour_checkout']);
+$routes->get('config_order','Home::checkout',['as'=>'config_order']);
 
 $routes->get('/tour/bookTour/(:num)', 'TourController::bookTour/$1');
 
