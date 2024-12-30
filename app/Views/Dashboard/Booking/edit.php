@@ -51,6 +51,8 @@
         <select name="payment_status" id="payment_status" class="form-control" required>
             <option value="pending" <?= $booking['payment_status'] == 'pending' ? 'selected' : '' ?>>Chờ thanh toán</option>
             <option value="completed" <?= $booking['payment_status'] == 'completed' ? 'selected' : '' ?>>Đã thanh toán</option>
+            <option value="order_completed" <?= $booking['payment_status'] == 'order_completed' ? 'selected' : '' ?>>Đã hoàn thành</option>
+            <option value="failed" <?= $booking['payment_status'] == 'failed' ? 'selected' : '' ?>>Đã huỷ</option>
         </select>
     </div>
 

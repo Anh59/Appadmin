@@ -45,8 +45,9 @@ $routes->group('api_Customers',function($routes) {
 
 
         $routes->get('order','Profilecontroller::order', ['as' => 'order']);
-        $routes->get('detail_order','Profilecontroller::detail_order', ['as' => 'detail_order']);
+        $routes->get('detail_order/(:num)', 'Profilecontroller::detail_order/$1', ['as' => 'detail_order']);
         $routes->get('history_order','Profilecontroller::history_order', ['as' => 'history_order']);
+        $routes->get('detail_history_order/(:num)', 'Profilecontroller::detail_history_order/$1', ['as' => 'detail_history_order']);
         $routes->get('reviews/(:num)', 'Profilecontroller::reviews/$1',['as'=>'reviews']); // Hiển thị trang đánh giá
         $routes->post('reviews/submit/(:num)', 'Profilecontroller::submitReview/$1',['as'=>'submitReview']); // Xử lý gửi đánh giá
 

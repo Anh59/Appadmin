@@ -1,12 +1,14 @@
 <?= $this->extend('Home/layout-home'); ?>
 
 <?= $this->section('title') ?>
-check-out
+Thành công
 <?= $this->endSection() ?>
 
 <?= $this->section('Home-css') ?>
-<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/contact_styles.css'); ?>">
-<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/contact_responsive.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head_responsive.css'); ?>">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 <?= $this->endSection() ?>
 
 <?= $this->section('Home-content') ?>
@@ -28,10 +30,10 @@ check-out
 
     <!-- Action Buttons -->
     <div>
-        <a href="danh-sach-chuyen-du-lich.html" class="btn btn-primary btn-lg me-2" role="button">
-            Về trang danh sách chuyến du lịch
+        <a href="<?= route_to('Tour_offers')?>" class="btn btn-primary btn-lg me-2" role="button">
+          Danh sách chuyến du lịch
         </a>
-        <a href="chi-tiet-don-hang.html" class="btn btn-secondary btn-lg" role="button">
+        <a href="<?= route_to('detail_order')?>" class="btn btn-secondary btn-lg" role="button">
             Xem chi tiết đơn hàng
         </a>
     </div>
@@ -39,5 +41,5 @@ check-out
 <?= $this->endSection(); ?>
 	<?= $this->section('Home-scripts') ?>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
-	<script src="<?= base_url('Home-css/js/contact_custom.js'); ?>"></script>
+	<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
 	<?= $this->endSection(); ?>

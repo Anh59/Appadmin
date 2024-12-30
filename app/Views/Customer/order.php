@@ -29,7 +29,10 @@
                     <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="card-title"><?= esc($booking['tour_name']) ?></h5>
-                            <p class="card-text"><?= esc($booking['tour_description']) ?></p>
+                            <p class="card-text">
+                                <?= esc(strlen($booking['tour_description']) > 200 ? substr($booking['tour_description'], 0, 200) . '...' : $booking['tour_description']) ?>
+                            </p>
+
                             <p class="card-text">Tổng giá tiền: 
                                 <?= number_format($booking['total_price'], 0, ',', '.') ?> VND
                             </p>
@@ -40,11 +43,16 @@
                     </div>
                     <div class="col-md-3 d-flex align-items-center justify-content-center">
                         <div class="btn-group-vertical">
-                            <button class="btn btn-outline-primary">Đặt lại</button>
-                            <button class="btn btn-secondary">Liên hệ</button>
+                            
                             <button class="btn btn-primary btn-sm">
-                                <a href="<?= route_to('detail_order') ?>" class="text-white text-decoration-none">Chi tiết</a>
+                            <a href="<?= route_to('detail_order', $booking['id']) ?>" class="btn btn-primary btn-sm text-white text-decoration-none">
+                                Chi tiết
+                            </a>
+
                             </button>
+                            <button class="btn btn-outline-primary">Liên hệ</button>
+                            <button class="btn btn-secondary">Huỷ</button>
+
 
                         </div>
                     </div>

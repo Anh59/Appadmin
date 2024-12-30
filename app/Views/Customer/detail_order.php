@@ -12,19 +12,19 @@
     <!-- Thanh trạng thái đơn hàng -->
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex flex-column align-items-center">
-            <i class="fas fa-check-circle fa-3x text-success"></i>
+            <i class="fas fa-check-circle fa-3x <?= $booking['payment_status'] == 'test' ? 'text-success' : '' ?>"></i>
             <div class="mt-2">Đặt đơn thành công</div>
         </div>
         <div class="d-flex flex-column align-items-center">
-            <i class="fas fa-clock fa-3x text-warning"></i>
+            <i class="fas fa-clock fa-3x <?= $booking['payment_status'] == 'pending' ? 'text-warning' : 'text-muted' ?>"></i>
             <div class="mt-2">Chờ thanh toán</div>
         </div>
         <div class="d-flex flex-column align-items-center">
-            <i class="fas fa-credit-card fa-3x text-warning"></i>
+            <i class="fas fa-credit-card fa-3x <?= $booking['payment_status'] == 'completed' ? 'text-warning' : 'text-muted' ?>"></i>
             <div class="mt-2">Hoàn tất thanh toán</div>
         </div>
         <div class="d-flex flex-column align-items-center">
-            <i class="fas fa-flag-checkered fa-3x text-success"></i>
+            <i class="fas fa-flag-checkered fa-3x <?= $booking['payment_status'] == 'order_completed' ? 'text-success' : 'text-muted' ?>"></i>
             <div class="mt-2">Hoàn thành</div>
         </div>
     </div>
@@ -41,36 +41,88 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <h4 class="card-title mb-3">Thông tin chuyến du lịch</h4>
-                    <p><strong>Tên chuyến du lịch:</strong> Du lịch biển Hạ Long</p>
-                    <p><strong>Ngày khởi hành:</strong> 15/01/2025</p>
+                    <p><strong>Tên chuyến du lịch:</strong> <?= esc($booking['tour_name']) ?></p>
+                    <p><strong>Ngày đặt:</strong> <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></p>
                     <p><strong>Thời gian:</strong> 4 ngày 3 đêm</p>
-                    <p><strong>Địa điểm:</strong> Hạ Long - Quảng Ninh</p>
-                    <p><strong>Giá vé:</strong> 3,500,000 VND/người</p>
+                    <p><strong>Địa điểm:</strong> <?= esc($booking['tour_location']) ?></p>
+                    <p><strong>Giá vé:</strong> <?= number_format($booking['price_per_person'], 0, ',', '.') ?> VND/người</p>
+                    <p><strong>Số lượng người tham gia:</strong> <?= esc($booking['participants']) ?></p>
+                    <!-- <p><strong>Tổng số lượng phòng:</strong> <?= esc($booking['room_quantity']) ?></p> -->
+                    <p><strong>Tổng tiền:</strong> <?= number_format($booking['total_price'] , 0, ',', '.') ?> VND</p>
                 </div>
             </div>
         </div>
 
+
         <!-- Cột thông tin người dùng -->
-        <div class="col-md-6">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h4 class="card-title mb-3">Thông tin người dùng</h4>
-                    <p><strong>Họ tên:</strong> Nguyễn Văn A</p>
-                    <p><strong>Email:</strong> example@email.com</p>
-                    <p><strong>Số điện thoại:</strong> 0123456789</p>
-                    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Phường XYZ, Quận 1, TP.HCM</p>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">Thông tin người dùng</h4>
+                        <p><strong>Họ tên:</strong> <?= esc($customer['name']) ?></p>
+                        <p><strong>Email:</strong> <?= esc($customer['email']) ?></p>
+                        <p><strong>Số điện thoại:</strong> <?= esc($customer['phone']) ?></p>
+                        <p><strong>Địa chỉ:</strong> <?= esc($customer['address']) ?></p>
+                    </div>
                 </div>
+            </div>
+
+    </div>
+
+    <!-- Thông tin phòng đã đặt -->
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Thông tin phòng đã đặt</h4>
+                <?php if (!empty($booking_rooms)): ?>
+                    <!-- Carousel -->
+                    <div id="roomImagesCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <?php foreach ($booking_rooms as $index => $room): ?>
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <img src="<?= base_url(esc($room['image_url'])) ?>" class="d-block w-100 rounded" alt="Hình ảnh phòng">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Tên phòng: <?= esc($room['room_name']) ?></h5>
+                                                <p class="card-text">Số lượng: <?= esc($room['quantity']) ?></p>
+                                                <p class="card-text"><strong>Thông tin phòng: </strong><?= esc(isset($room['cancellation']) ? $room['cancellation'] : 'Không có thông tin') ?></p>
+                                                <p class="card-text"><strong>Tiện ích: </strong><?= esc(isset($room['extra']) ? $room['extra'] : 'Không có tiện ích thêm') ?></p>
+                                                <p class="card-text">Giá: <?= number_format($room['price'], 0, ',', '.') ?> VND</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#roomImagesCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#roomImagesCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                <?php else: ?>
+                    <p>Không có thông tin phòng đã đặt.</p>
+                <?php endif; ?>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Các nút hành động -->
     <div class="d-flex justify-content-center">
-        <a href="danh-sach-chuyen-du-lich.html" class="btn btn-primary me-2" role="button">
-            Về trang danh sách chuyến du lịch
+        <a href="<?= route_to('order') ?>" class="btn btn-primary me-2" role="button">
+           THANH TOÁN
         </a>
-        <a href="chi-tiet-don-hang.html" class="btn btn-secondary" role="button">
-            Xem chi tiết đơn hàng
+        <a href="<?= route_to('review', $booking['id']) ?>" class="btn btn-secondary" role="button">
+            HUỶ
         </a>
     </div>
 </div>

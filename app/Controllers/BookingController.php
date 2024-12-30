@@ -202,7 +202,7 @@ class BookingController extends ResourceController
         
                 // Handle other payment methods (PayPal, MoMo)
                 if ($paymentMethod === 'COD') {
-                    $response['redirect_url'] = site_url(route_to('Tour_index'));
+                    $response['redirect_url'] = site_url(route_to('config_order'));
                 }
         
                 if ($paymentMethod === 'paypal') {

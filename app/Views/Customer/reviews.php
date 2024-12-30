@@ -12,29 +12,84 @@
     <!-- Hiển thị thông tin đơn đặt hàng và tour -->
     <div class="card mb-3">
         <div class="row g-0">
-            <!-- Hiển thị tất cả hình ảnh của tour -->
-            <div class="row">
+            <!-- Hiển thị tất cả hình ảnh của tour dưới dạng slide -->
+            <div class="col-md-4">
                 <?php if (!empty($tour_images)): ?>
-                    <?php foreach ($tour_images as $image): ?>
-                        <div class="col-md-4 mb-3">
-                            <img src="<?= base_url(esc($image['image_url'])) ?>" class="img-fluid rounded" alt="Hình ảnh tour">
+                    <div id="tourImagesCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <?php foreach ($tour_images as $index => $image): ?>
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <img src="<?= base_url(esc($image['image_url'])) ?>" class="d-block w-100 rounded" alt="Hình ảnh tour">
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                    <?php endforeach; ?>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#tourImagesCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#tourImagesCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 <?php else: ?>
                     <p>Không có hình ảnh của tour này.</p>
                 <?php endif; ?>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div class="card-body">
                     <h5 class="card-title"><?= esc($booking['tour_name']) ?></h5>
                     <p class="card-text"><?= esc($booking['tour_description']) ?></p>
                     <p class="card-text">
                         <span>Tổng tiền: <strong><?= number_format($booking['total_price'], 0, ',', '.') ?> VND</strong></span><br>
                         <span>Ngày đặt: <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></span><br>
+                        <span>Số người tham gia: <?= esc($booking['participants']) ?></span><br>
+                        <span>Phương thức thanh toán: <?= esc($booking['payment_method']) ?></span>
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Thông tin về phòng đã đặt dưới dạng carousel -->
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="mt-3">Thông tin phòng đã đặt:</h6>
+            <?php if (!empty($booking_rooms)): ?>
+                <div id="roomImagesCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <?php foreach ($booking_rooms as $index => $room): ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <div class="row g-3">
+                                    <!-- Phần hình ảnh -->
+                                    <div class="col-md-6">
+                                        <img src="<?= base_url(esc($room['image_url'])) ?>" class="d-block w-100 rounded" alt="Hình ảnh phòng">
+                                    </div>
+                                    <!-- Phần thông tin -->
+                                    <div class="col-md-6">
+                                        <h5 class="card-title"><?= esc($room['room_name']) ?></h5>
+                                        <p class="card-text"><strong>Thông tin phòng: </strong><?= esc(isset($room['cancellation']) ? $room['cancellation'] : 'Không có thông tin') ?></p>
+                                        <p class="card-text"><strong>Tiện ích: </strong><?= esc(isset($room['extra']) ? $room['extra'] : 'Không có tiện ích thêm') ?></p>
+                                        <p class="card-text">Số lượng: <?= esc($room['quantity']) ?></p>
+                                        <p class="card-text">Giá: <?= number_format($room['price'], 0, ',', '.') ?> VND</p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#roomImagesCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#roomImagesCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            <?php else: ?>
+                <p>Không có thông tin phòng đã đặt.</p>
+            <?php endif; ?>
         </div>
     </div>
 

@@ -85,23 +85,13 @@
                 <th>Tổng Tiền</th>
                 <td><?= number_format($total_price, 0, ',', '.'); ?> đ</td>
             </tr>
-            <!-- <tr>
-                <th>Mã Giảm Giá</th>
-                <td><?= htmlspecialchars($discount_code); ?></td>
-            </tr>
-            <tr>
-                <th>Giá trị Mã Giảm Giá</th>
-                <td><?= number_format($discount_value, 0, ',', '.'); ?> đ</td>
-            </tr>
-            <tr>
-                <th>Tổng Tiền Sau Giảm Giá</th>
-                <td class="highlight"><?= number_format($totalAmount, 0, ',', '.'); ?> đ</td>
-            </tr> -->
+    
         </table>
 
         <p>Cảm ơn bạn đã chọn dịch vụ của chúng tôi. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
-        
-        <p class="footer">Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email hoặc điện thoại.</p>
+        <p><a href="<?= base_url(route_to('detail_order')) ?>">Chi tiết xem tại đây</a>
+        </p>
+        <p class="footer">Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email trunganhvu59@gmail.com hoặc điện thoại 0373562881.</p>
     </div>
 
 </body>

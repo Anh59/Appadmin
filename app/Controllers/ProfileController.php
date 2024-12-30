@@ -9,6 +9,8 @@ use App\Models\BookingModel;
 use App\Models\ToursModel;
 use App\Models\ImagesModel;
 use App\Models\ReviewsModel;
+use App\Models\BookingRoomsModel;
+use App\Models\RoomsModel;
 class ProfileController extends BaseController
 {
     //thừa để test
@@ -218,13 +220,15 @@ public function handleVerifyChangeEmailOTP()
     {
         switch ($status) {
             case 'pending':
-                return 'Đang chờ tư vấn';
+                return 'Đang chờ thanh toán';
             case 'completed':
                 return 'Đã thanh toán';
+            case 'order_completed':
+                return 'Đã hoàn thành';
             case 'failed':
-                return 'Thanh toán thất bại';
+                return 'Đã hủy';
             default:
-                return 'Không xác định';
+                return 'không xác định';
         }
     }
     public function order()
@@ -264,79 +268,200 @@ public function handleVerifyChangeEmailOTP()
             'searchQuery' => $searchQuery,
         ]);
     }
-    public function detail_order(){
-        return view('Customer/detail_order');
+
+    public function history_order()
+    {
+        $customerId = session()->get('customer_id');
+        $searchQuery = $this->request->getGet('search') ?? '';
+    
+        $bookingModel = new BookingModel();
+        $imagesModel = new ImagesModel(); // Khởi tạo model hình ảnh
+    
+        // Lấy danh sách đơn hàng có các trạng thái cần hiển thị
+        $bookingsQuery = $bookingModel
+            ->select('bookings.*, tours.name as tour_name, tours.description as tour_description, tours.price_per_person')
+            ->join('tours', 'tours.id = bookings.tour_id')
+            ->where('bookings.customer_id', $customerId)
+            ->whereIn('bookings.payment_status', ['completed', 'order_completed', 'failed']) // Thêm các trạng thái cần hiển thị
+            ->like('tours.name', $searchQuery)
+            ->orderBy('bookings.created_at', 'desc'); // Sắp xếp theo ngày tạo
+    
+        // Sử dụng phân trang
+        $perPage = 5; // Số lượng đơn hàng mỗi trang
+        $bookings = $bookingsQuery->paginate($perPage, 'group1'); // Tự động xử lý trang hiện tại
+    
+        // Lấy hình ảnh của tour
+        foreach ($bookings as &$booking) {
+            $booking['status_text'] = $this->mapBookingStatus($booking['payment_status']);
+    
+            // Lấy hình ảnh đầu tiên của tour
+            $image = $imagesModel->where('tour_id', $booking['tour_id'])->first(); // Lấy ảnh đầu tiên
+            $booking['tour_image'] = $image ? $image['image_url'] : ''; // Nếu có ảnh thì lấy, nếu không thì để trống
+        }
+    
+        // Trả về view
+        return view('customer/history_order', [
+            'bookings' => $bookings,
+            'pager' => $bookingModel->pager,
+            'searchQuery' => $searchQuery,
+        ]);
     }
     
+
+    public function detail_order($bookingId)
+    {
+        $customerId = session()->get('customer_id');
+        $bookingModel = new BookingModel();
+        $imagesModel = new ImagesModel();
+        $bookingRoomsModel = new BookingRoomsModel();
+        $roomsModel = new RoomsModel();
+        $customerModel = new CustomerModel(); // Load the Customer model
     
-    public function history_order()
+        // Lấy thông tin đơn đặt hàng
+        $booking = $bookingModel
+            ->select('bookings.*, tours.name as tour_name, tours.price_per_person, tours.description as tour_description, tours.location as tour_location')
+            ->join('tours', 'tours.id = bookings.tour_id')
+            ->where('bookings.id', $bookingId)
+            ->where('bookings.customer_id', $customerId)
+            ->first();
+    
+        if (!$booking) {
+            return redirect()->to('/history_order');
+        }
+    
+        // Lấy tất cả hình ảnh của tour
+        $images = $imagesModel->where('tour_id', $booking['tour_id'])->findAll();
+    
+        // Lấy thông tin phòng đã đặt
+        $bookingRooms = $bookingRoomsModel->where('booking_id', $bookingId)->findAll();
+    
+        // Kết hợp thông tin giá phòng từ bảng rooms
+        foreach ($bookingRooms as &$room) {
+            $roomDetails = $roomsModel->find($room['room_id']); // Lấy thông tin chi tiết phòng
+            if ($roomDetails) {
+                $room['room_name'] = $roomDetails['name'];
+                $room['image_url'] = $roomDetails['image_url'];
+                $room['cancellation'] = $roomDetails['cancellation']; // Lấy thông tin  phòng
+                $room['extra'] = $roomDetails['extra'];
+                $room['price'] = $roomDetails['price'];
+            }
+        }
+    
+        // Lấy thông tin người dùng
+        $customer = $customerModel->find($customerId);
+    
+        // Trả về view và truyền thông tin về đơn đặt hàng, tour và người dùng
+        return view('customer/detail_order', [
+            'booking' => $booking,
+            'tour_images' => $images,
+            'booking_rooms' => $bookingRooms,
+            'customer' => $customer, // Pass customer data to view
+        ]);
+    }
+    public function detail_history_order($bookingId)
 {
     $customerId = session()->get('customer_id');
-    $searchQuery = $this->request->getGet('search') ?? '';
-
     $bookingModel = new BookingModel();
-    $imagesModel = new ImagesModel(); // Khởi tạo model hình ảnh
+    $imagesModel = new ImagesModel();
+    $bookingRoomsModel = new BookingRoomsModel();
+    $roomsModel = new RoomsModel();
+    $customerModel = new CustomerModel();
 
-    // Lấy danh sách đơn hàng có trạng thái hoàn thành
-    $bookingsQuery = $bookingModel
-        ->select('bookings.*, tours.name as tour_name, tours.description as tour_description, tours.price_per_person')
+    // Lấy thông tin đơn đặt hàng
+    $booking = $bookingModel
+        ->select('bookings.*, tours.name as tour_name, tours.price_per_person, tours.description as tour_description, tours.location as tour_location')
         ->join('tours', 'tours.id = bookings.tour_id')
+        ->where('bookings.id', $bookingId)
         ->where('bookings.customer_id', $customerId)
-        ->where('bookings.payment_status', 'completed') // Lọc trạng thái "hoàn thành"
-        ->like('tours.name', $searchQuery)
-        ->orderBy('bookings.created_at', 'desc'); // Sắp xếp theo ngày tạo
+        ->where('bookings.payment_status', 'completed') // Chỉ lấy đơn đã thanh toán
+        ->first();
 
-    // Sử dụng phân trang
-    $perPage = 5; // Số lượng đơn hàng mỗi trang
-    $bookings = $bookingsQuery->paginate($perPage, 'group1'); // Tự động xử lý trang hiện tại
-
-    // Lấy hình ảnh của tour
-    foreach ($bookings as &$booking) {
-        $booking['status_text'] = $this->mapBookingStatus($booking['payment_status']);
-
-        // Lấy hình ảnh đầu tiên của tour
-        $image = $imagesModel->where('tour_id', $booking['tour_id'])->first(); // Lấy ảnh đầu tiên
-        $booking['tour_image'] = $image ? $image['image_url'] : ''; // Nếu có ảnh thì lấy, nếu không thì để trống
+    if (!$booking) {
+        return redirect()->to('/history_order');
     }
 
+    // Lấy tất cả hình ảnh của tour
+    $images = $imagesModel->where('tour_id', $booking['tour_id'])->findAll();
+
+    // Lấy thông tin phòng đã đặt
+    $bookingRooms = $bookingRoomsModel->where('booking_id', $bookingId)->findAll();
+
+    // Kết hợp thông tin giá phòng từ bảng rooms
+    foreach ($bookingRooms as &$room) {
+        $roomDetails = $roomsModel->find($room['room_id']);
+        if ($roomDetails) {
+            $room['room_name'] = $roomDetails['name'];
+            $room['image_url'] = $roomDetails['image_url'];
+            $room['cancellation'] = $roomDetails['cancellation'];
+            $room['extra'] = $roomDetails['extra'];
+            $room['price'] = $roomDetails['price'];
+        }
+    }
+
+    // Lấy thông tin người dùng
+    $customer = $customerModel->find($customerId);
+
     // Trả về view
-    return view('customer/history_order', [
-        'bookings' => $bookings,
-        'pager' => $bookingModel->pager,
-        'searchQuery' => $searchQuery,
+    return view('customer/detail_history_order', [
+        'booking' => $booking,
+        'tour_images' => $images,
+        'booking_rooms' => $bookingRooms,
+        'customer' => $customer,
     ]);
 }
+
+    
+    
+    
+
 
 public function reviews($bookingId)
 {
     $customerId = session()->get('customer_id');
     $bookingModel = new BookingModel();
     $reviewsModel = new ReviewsModel();
-    $tourModel = new ToursModel();
-    $imagesModel = new ImagesModel(); // Khởi tạo model hình ảnh
-    
-    // Lấy thông tin đơn đặt hàng từ bảng bookings
+    $imagesModel = new ImagesModel();
+    $bookingRoomsModel = new BookingRoomsModel();
+    $roomsModel = new RoomsModel(); // Model để lấy thông tin phòng
+
+    // Lấy thông tin đơn đặt hàng
     $booking = $bookingModel
         ->select('bookings.*, tours.name as tour_name, tours.price_per_person, tours.description as tour_description')
         ->join('tours', 'tours.id = bookings.tour_id')
         ->where('bookings.id', $bookingId)
         ->where('bookings.customer_id', $customerId)
         ->first();
-    
+
     if (!$booking) {
-        // Nếu không tìm thấy booking, chuyển hướng về trang lịch sử đơn hàng
         return redirect()->to('/history_order');
     }
 
     // Lấy tất cả hình ảnh của tour
-    $images = $imagesModel->where('tour_id', $booking['tour_id'])->findAll(); // Lấy tất cả hình ảnh của tour
-    
+    $images = $imagesModel->where('tour_id', $booking['tour_id'])->findAll();
+
+    // Lấy thông tin phòng đã đặt
+    $bookingRooms = $bookingRoomsModel->where('booking_id', $bookingId)->findAll();
+
+    // Kết hợp thông tin giá phòng từ bảng rooms
+    foreach ($bookingRooms as &$room) {
+        $roomDetails = $roomsModel->find($room['room_id']); // Lấy thông tin chi tiết phòng
+        if ($roomDetails) {
+            $room['room_name'] = $roomDetails['name'];
+            $room['image_url'] = $roomDetails['image_url'];
+            $room['cancellation'] = $roomDetails['cancellation']; // Lấy thông tin  phòng
+            $room['extra'] = $roomDetails['extra'];
+            $room['price'] = $roomDetails['price'];
+        }
+    }
+
     // Kiểm tra nếu người dùng đã đánh giá tour này rồi
-    $existingReview = $reviewsModel->where('tour_id', $booking['tour_id'])->where('customer_id', $customerId)->first();
-    
-    // Kiểm tra xem người dùng đã đánh giá chưa
+    $existingReview = $reviewsModel
+        ->where('tour_id', $booking['tour_id'])
+        ->where('customer_id', $customerId)
+        ->first();
+
+    // Xử lý đánh giá (nếu gửi POST request)
     if ($this->request->getMethod() === 'post') {
-        // Xử lý lưu đánh giá
         $reviewData = [
             'tour_id' => $booking['tour_id'],
             'customer_id' => $customerId,
@@ -344,21 +469,21 @@ public function reviews($bookingId)
             'content' => $this->request->getPost('content'),
             'rating' => $this->request->getPost('rating'),
         ];
-        
-        // Thêm đánh giá mới vào cơ sở dữ liệu
+
         $reviewsModel->save($reviewData);
-        
-        // Quay lại trang lịch sử đơn hàng sau khi lưu thành công
         return redirect()->to('/history_order')->with('message', 'Đánh giá của bạn đã được lưu.');
     }
-    
-    // Trả về view với thông tin đơn hàng, thông tin tour và tất cả hình ảnh của tour
+
+    // Trả về view
     return view('customer/reviews', [
         'booking' => $booking,
         'existingReview' => $existingReview,
-        'tour_images' => $images, // Truyền tất cả hình ảnh vào view
+        'tour_images' => $images,
+        'booking_rooms' => $bookingRooms, // Truyền thông tin phòng đã đặt
     ]);
 }
+
+
 
 public function submitReview($bookingId)
 {
