@@ -517,6 +517,58 @@ public function submitReview($bookingId)
     return redirect()->route('/history_order')->with('message', 'Đánh giá của bạn đã được lưu.');
 }
 
+public function delete_order($bookingId)
+{
+    $customerId = session()->get('customer_id');
+    $bookingModel = new BookingModel();
+
+    // Xác minh quyền sở hữu
+    $booking = $bookingModel->where('id', $bookingId)->where('customer_id', $customerId)->first();
+
+    if (!$booking) {
+        return redirect()->route('history_order')->with('error', 'Đơn hàng không tồn tại.');
+    }
+
+    // Xóa đơn đặt hàng
+    $bookingModel->delete($bookingId);
+
+    return redirect()->route('history_order')->with('success', 'Xóa đơn hàng thành công.');
+}
+public function reorder($bookingId)
+{
+    $customerId = session()->get('customer_id');
+    $bookingModel = new BookingModel();
+
+    // Xác minh quyền sở hữu
+    $booking = $bookingModel->where('id', $bookingId)->where('customer_id', $customerId)->first();
+
+    if (!$booking) {
+        return redirect()->to('/history_order')->with('error', 'Đơn hàng không tồn tại.');
+    }
+
+    // Chuyển hướng đến trang đặt chuyến đi với tour_id
+    return redirect()->to('/booking/checkout/' . $booking['tour_id']);
+}
+public function cancelOrder($id)
+{
+    $customerId = session()->get('customer_id'); // Lấy ID khách hàng từ session
+    $bookingModel = new BookingModel();
+
+    // Kiểm tra xem đơn hàng thuộc về khách hàng và đang ở trạng thái "pending"
+    $booking = $bookingModel->where('id', $id)
+                            ->where('customer_id', $customerId)
+                            ->where('payment_status', 'pending')
+                            ->first();
+
+    if (!$booking) {
+        return redirect()->route('order')->with('error', 'Không tìm thấy đơn hàng hoặc không thể huỷ.');
+    }
+
+    // Cập nhật trạng thái đơn hàng thành "failed"
+    $bookingModel->update($id, ['payment_status' => 'failed']);
+
+    return redirect()->route('order')->with('success', 'Đơn hàng đã được huỷ thành công.');
+}
 
     
     public function orderqq()

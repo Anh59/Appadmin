@@ -30,8 +30,9 @@
                     <div class="card-body">
                         <h5 class="card-title"><?= esc($booking['tour_name']) ?></h5>
                         <p class="card-text">
+                            <span>Mã đơn hàng: <?= esc($booking['id']) ?></span><br>
                             <span>Ngày đặt: <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></span><br>
-                            <span>Trạng thái: <span class="badge bg-success"><?= esc($booking['status_text']) ?></span></span>
+                            <span>Trạng thái: <span class="badge bg-success"><?= esc($booking['status_text']) ?></span></span>       
                         </p>
                         <p class="card-text">
                             <span>Tổng tiền: <strong><?= number_format($booking['total_price'], 0, ',', '.') ?> VND</strong></span>
@@ -40,19 +41,17 @@
                 </div>
                 <div class="col-md-3 text-center">
                     <?php if ($booking['payment_status'] === 'completed'): ?>
-                        <!-- Đơn đã thanh toán -->
                         <a href="<?= route_to('detail_history_order', $booking['id']) ?>" class="btn btn-primary btn-sm mb-2">Chi Tiết</a>
                     <?php elseif ($booking['payment_status'] === 'order_completed'): ?>
-                        <!-- Đơn đã hoàn thành -->
                         <a href="<?= route_to('reorder', $booking['id']) ?>" class="btn btn-secondary btn-sm mb-2">Đặt Lại</a>
-                        <a href="<?= route_to('reviews', $booking['id']) ?>" class="btn btn-success btn-sm">Đánh Giá</a>
+                        <a href="<?= route_to('reviews', $booking['id']) ?>" class="btn btn-success btn-sm mb-2">Đánh Giá</a>
                     <?php elseif ($booking['payment_status'] === 'failed'): ?>
-                        <!-- Đơn đã hủy -->
-                        <button class="btn btn-danger btn-sm">
+                        <a href="<?= route_to('delete_order', $booking['id']) ?>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này khởi lịch sử không?')">
                             <i class="fas fa-trash-alt"></i>
-                        </button>
+                        </a>
                     <?php endif; ?>
                 </div>
+
             </div>
         </div>
     <?php endforeach; ?>

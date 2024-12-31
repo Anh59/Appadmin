@@ -32,7 +32,7 @@
                             <p class="card-text">
                                 <?= esc(strlen($booking['tour_description']) > 200 ? substr($booking['tour_description'], 0, 200) . '...' : $booking['tour_description']) ?>
                             </p>
-
+                            <P class="card-text">Mã đơn hàng :<?= esc($booking['id'])?></P>
                             <p class="card-text">Tổng giá tiền: 
                                 <?= number_format($booking['total_price'], 0, ',', '.') ?> VND
                             </p>
@@ -42,19 +42,25 @@
                         </div>
                     </div>
                     <div class="col-md-3 d-flex align-items-center justify-content-center">
-                        <div class="btn-group-vertical">
-                            
-                            <button class="btn btn-primary btn-sm">
-                            <a href="<?= route_to('detail_order', $booking['id']) ?>" class="btn btn-primary btn-sm text-white text-decoration-none">
-                                Chi tiết
-                            </a>
+                    <div class="d-flex flex-column align-items-stretch gap-2">
+                        <!-- Nút Chi tiết -->
+                        <form action="<?= route_to('detail_order', $booking['id']) ?>" method="get">
+                            <button type="submit" class="btn btn-primary btn-sm text-white w-100" style="min-width: 120px;">Chi tiết</button>
+                        </form>
 
-                            </button>
-                            <button class="btn btn-outline-primary">Liên hệ</button>
-                            <button class="btn btn-secondary">Huỷ</button>
+                        <!-- Nút Liên hệ -->
+                        <form action="tel:+84987654321" method="get">
+                            <button type="submit" class="btn btn-outline-primary btn-sm w-100" style="min-width: 120px; ">Liên hệ</button>
+                        </form>
+
+                        <!-- Nút Huỷ -->
+                        <form action="<?= route_to('cancel_order', $booking['id']) ?>" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn huỷ đơn hàng này?')">
+                            <?= csrf_field() ?>
+                            <button type="submit" class="btn btn-danger btn-sm w-100" style="min-width: 120px;">Huỷ</button>
+                        </form>
+                    </div>
 
 
-                        </div>
                     </div>
                 </div>
             </div>
