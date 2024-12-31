@@ -89,7 +89,7 @@
         </table>
 
         <p>Cảm ơn bạn đã chọn dịch vụ của chúng tôi. Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
-        <p><a href="<?= base_url(route_to('detail_order')) ?>">Chi tiết xem tại đây</a>
+        <p><a href="<?= base_url(route_to('detail_order', $bookingId)) ?>">Chi tiết xem tại đây</a>
         </p>
         <p class="footer">Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email trunganhvu59@gmail.com hoặc điện thoại 0373562881.</p>
     </div>

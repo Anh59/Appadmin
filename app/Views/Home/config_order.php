@@ -33,7 +33,7 @@ Thành công
         <a href="<?= route_to('Tour_offers')?>" class="btn btn-primary btn-lg me-2" role="button">
           Danh sách chuyến du lịch
         </a>
-        <a href="<?= route_to('detail_order')?>" class="btn btn-secondary btn-lg" role="button">
+        <a href="#" class="btn btn-secondary btn-lg" role="button">
             Xem chi tiết đơn hàng
         </a>
     </div>

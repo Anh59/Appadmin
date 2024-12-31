@@ -191,6 +191,7 @@ class BookingController extends ResourceController
                     'discount_value' => $discount_value,
                     'customer' => $customer,
                     'totalAmount' => $totalAmount,
+                    'bookingId' => $bookingId,//truyền giá trị cho email xem thông tin đơn
                 ]));
         
                 if (!$emailService->send()) {

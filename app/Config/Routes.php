@@ -44,15 +44,15 @@ $routes->group('api_Customers',function($routes) {
 
 
 
-        $routes->get('order','Profilecontroller::order', ['as' => 'order']);
-        $routes->get('detail_order/(:num)', 'Profilecontroller::detail_order/$1', ['as' => 'detail_order']);
-        $routes->get('history_order','Profilecontroller::history_order', ['as' => 'history_order']);
-        $routes->get('detail_history_order/(:num)', 'Profilecontroller::detail_history_order/$1', ['as' => 'detail_history_order']);
+        $routes->get('order','ProfileController::order', ['as' => 'order']);
+        $routes->get('detail_order/(:num)', 'ProfileController::detail_order/$1', ['as' => 'detail_order']);
+        $routes->get('history_order','ProfileController::history_order', ['as' => 'history_order']);
+        $routes->get('detail_history_order/(:num)', 'ProfileController::detail_history_order/$1', ['as' => 'detail_history_order']);
         $routes->get('history_order/delete/(:num)', 'ProfileController::delete_order/$1', ['as' => 'delete_order']);//xoá đơn hàng
         $routes->get('history_order/reorder/(:num)', 'ProfileController::reorder/$1', ['as' => 'reorder']);//đặt lại đơn hàng
         $routes->post('cancel/(:num)', 'ProfileController::cancelOrder/$1', ['as' => 'cancel_order']);//huỷ đơn hàng đã đặt
-        $routes->get('reviews/(:num)', 'Profilecontroller::reviews/$1',['as'=>'reviews']); // Hiển thị trang đánh giá
-        $routes->post('reviews/submit/(:num)', 'Profilecontroller::submitReview/$1',['as'=>'submitReview']); // Xử lý gửi đánh giá
+        $routes->get('reviews/(:num)', 'ProfileController::reviews/$1',['as'=>'reviews']); // Hiển thị trang đánh giá
+        $routes->post('reviews/submit/(:num)', 'ProfileController::submitReview/$1',['as'=>'submitReview']); // Xử lý gửi đánh giá
 
     });
   
@@ -72,7 +72,7 @@ $routes->get('booking', 'Home::index8',['as'=>'Tour_booking']);
 $routes->get('single_listing', 'Home::index9');
 
 
-$routes->get('config_order','Home::checkout',['as'=>'config_order']);
+
 
 $routes->get('/tour/bookTour/(:num)', 'TourController::bookTour/$1');
 
@@ -92,6 +92,7 @@ $routes->get('booking/checkout/(:num)', 'BookingController::checkout/$1');
 $routes->post('checkout/apply_discount', 'BookingController::applyDiscount');
 $routes->post('checkout/process_payment', 'BookingController::processPayment');
 
+$routes->get('config_order','Home::checkout',['as'=>'config_order']);//thông báo thành công
 // $routes->get('booking/thanks)', 'BookingController::thanks');
 
 
