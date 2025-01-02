@@ -151,4 +151,27 @@ class ManagebookingController extends BaseController
 
         return redirect()->route('Table_Bookings')->with('success', 'Booking đã được xóa!');
     }
+    public function updatePaymentStatus()
+    {
+        if ($this->request->isAJAX()) {
+            $bookingModel = new BookingModel();
+            $id = $this->request->getPost('id');
+            $paymentStatus = $this->request->getPost('payment_status');
+    
+            $data = [
+                'payment_status' => $paymentStatus,
+                'payment_updated_at' => date('Y-m-d H:i:s')
+            ];
+    
+            if ($bookingModel->update($id, $data)) {
+                return $this->response->setJSON(['status' => 'success', 'message' => 'Cập nhật trạng thái thành công.']);
+            } else {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Cập nhật thất bại.']);
+            }
+        }
+    
+        return $this->response->setStatusCode(400)->setJSON(['status' => 'error', 'message' => 'Yêu cầu không hợp lệ.']);
+    }
+    
+
 }

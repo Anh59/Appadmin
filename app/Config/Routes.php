@@ -228,6 +228,7 @@ $routes->group('Dashboard', ['filter' => 'Perermissions'], function (RouteCollec
         $routes->get('table-bookings-edit/(:num)', 'ManagebookingController::edit/$1', ['as' => 'Table_Bookings_Edit']);
         $routes->post('table-bookings-update/(:num)', 'ManagebookingController::update/$1', ['as' => 'Table_Bookings_Update']);
         $routes->post('table-bookings-delete/(:num)', 'ManagebookingController::delete/$1', ['as' => 'Table_Bookings_Delete']);
+        $routes->post('update-payment-status', 'ManagebookingController::updatePaymentStatus', ['as' => 'Table_Bookings_Update_Payment_Status']);
     });
     $routes->group('News', function (RouteCollection $routes) {
         // Danh sách bài viết
