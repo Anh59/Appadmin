@@ -29,7 +29,7 @@ class OnlinecheckoutController extends BaseController
     public function Onlinecheck(){
         if(isset($_POST['COD'])){
             echo 'cod';
-        }elseif(isset($_POST['payUrl'])){
+        }elseif(isset($_POST['momo'])){
             $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
 

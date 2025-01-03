@@ -91,8 +91,12 @@ $routes->post('Tour_booking', 'BookingController::createBooking');
 $routes->get('booking/checkout/(:num)', 'BookingController::checkout/$1');
 $routes->post('checkout/apply_discount', 'BookingController::applyDiscount');
 $routes->post('checkout/process_payment', 'BookingController::processPayment');
+$routes->get('booking/thanks', 'BookingController::thanks');
+$routes->post('booking/ipn_momo', 'BookingController::ipnMoMo');
 
-$routes->get('config_order','Home::checkout',['as'=>'config_order']);//thông báo thành công
+$routes->post('onlinecheckout','OnlinecheckoutController:Onlinecheck',['as'=>'Onlinecheckout']);
+$routes->get('onlinecheckout','OnlinecheckoutController:Onlinecheck',['as'=>'Onlinecheckout']);
+$routes->get('booking/config_order','Home::checkout',['as'=>'config_order']);//thông báo thành công
 // $routes->get('booking/thanks)', 'BookingController::thanks');
 
 

@@ -184,6 +184,39 @@ Checkout
 let totalPrice = <?= $totalPrice ?>;
 let totalAdults = 0;
 let totalRooms = {};
+// Hàm cập nhật nút thanh toán
+function updatePaymentButton() {
+    const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+
+    // Kiểm tra nếu phương thức thanh toán tồn tại
+    if (paymentMethod) {
+        const paymentButton = document.querySelector('.checkout-btn');
+        if (paymentMethod.value === 'momo') {
+            paymentButton.textContent = 'Thanh Toán qua Momo';
+            paymentButton.classList.add('btn-momo');
+            paymentButton.classList.remove('btn-paypal', 'btn-cod');
+        } else if (paymentMethod.value === 'paypal') {
+            paymentButton.textContent = 'Thanh Toán qua PayPal';
+            paymentButton.classList.add('btn-paypal');
+            paymentButton.classList.remove('btn-momo', 'btn-cod');
+        } else {
+            paymentButton.textContent = 'Xác Nhận và Thanh Toán';
+            paymentButton.classList.add('btn-cod');
+            paymentButton.classList.remove('btn-momo', 'btn-paypal');
+        }
+    } 
+    
+}
+
+// Lắng nghe sự kiện thay đổi phương thức thanh toán
+document.querySelectorAll('input[name="payment_method"]').forEach((radio) => {
+    radio.addEventListener('change', updatePaymentButton);
+});
+
+// Gọi hàm để cập nhật trạng thái ban đầu
+document.addEventListener('DOMContentLoaded', updatePaymentButton);
+
+
 
 // Update room prices
 function updateRoomPrice() {
