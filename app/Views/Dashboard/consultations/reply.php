@@ -3,7 +3,7 @@
 
 <div class="container mt-4">
     <!-- Tiêu đề trang -->
-    <h1 class="text-center mb-4"><?= $pageTitle ?></h1>
+   
 
     <!-- Card thông tin khách hàng -->
     <div class="card shadow-sm mb-4">

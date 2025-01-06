@@ -22,8 +22,8 @@ class NewsController extends Controller
             'news' => $news,
             'pageTitle' => 'Danh Sách Bài Viết',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'News', 'url' => route_to('Table_News')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Bài Viết', 'url' => route_to('Table_News')],
             ]
         ];
     
@@ -36,9 +36,9 @@ class NewsController extends Controller
         return view('Dashboard/News/create', [
             'pageTitle' => 'Thêm Bài Viết',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'News', 'url' => route_to('Table_News')],
-                ['title' => 'Thêm', 'url' => route_to('Table_News_Create')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Bài Viết', 'url' => route_to('Table_News')],
+                ['title' => 'Thêm Bài Viết', 'url' => route_to('Table_News_Create')],
             ],
         ]);
     }
@@ -99,9 +99,9 @@ class NewsController extends Controller
             'news' => $news,
             'pageTitle' => 'Sửa Bài Viết',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'News', 'url' => route_to('Table_News')],
-                ['title' => 'Sửa', 'url' => route_to('Table_News_Edit', $news['id'])],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Bài Viết', 'url' => route_to('Table_News')],
+                ['title' => 'Sửa Bài Viết', 'url' => route_to('Table_News_Edit', $news['id'])],
             ],
         ]);
     }
@@ -181,9 +181,9 @@ class NewsController extends Controller
             'comments' => $comments,
             'pageTitle' => 'Chi Tiết Bài Viết',  // Thêm tiêu đề trang
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],  // Đường dẫn về trang chủ
-                ['title' => 'News', 'url' => route_to('Table_News')],  // Đường dẫn đến danh sách bài viết
-                ['title' => 'Chi Tiết', 'url' => route_to('Table_News_Detail', $id)],  // Đường dẫn đến trang chi tiết
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],  // Đường dẫn về trang chủ
+                ['title' => 'Bài Viết', 'url' => route_to('Table_News')],  // Đường dẫn đến danh sách bài viết
+                ['title' => 'Chi Tiết Bài Viết', 'url' => route_to('Table_News_Detail', $id)],  // Đường dẫn đến trang chi tiết
             ],
         ]);
     }

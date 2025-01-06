@@ -40,8 +40,8 @@ class ConsultationController extends Controller
             'consultations' => $consultations,
             'pageTitle' => 'Danh Sách Tư Vấn',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Consultations', 'url' => route_to('Table_Consultations')],
+                ['title' => 'Thống Kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh Sách Tư Vấn', 'url' => route_to('Table_Consultations')],
             ]
         ];
 
@@ -81,9 +81,9 @@ class ConsultationController extends Controller
             'replies' => $replies,
             'pageTitle' => 'Trả Lời Khách Hàng',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Consultations', 'url' => route_to('Table_Consultations')],
-                ['title' => 'Reply', 'url' => current_url()],
+                ['title' => 'Thống Kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh Sách Tư Vấn', 'url' => route_to('Table_Consultations')],
+                ['title' => 'Trả Lời ', 'url' => current_url()],
             ]
         ];
     

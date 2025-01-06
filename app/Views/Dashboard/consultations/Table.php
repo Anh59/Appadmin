@@ -3,7 +3,7 @@
 
 <h2 class="text-center">Quản Lý Tư Vấn Khách Hàng</h2>
 
-<table id="consultations_table" class="display" style="width:100%">
+<table id="table" class="display" style="width:100%">
     <thead>
         <tr>
             <th>ID</th>
@@ -47,10 +47,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-2.0.7/b-3.0.2/sl-2.0.2/datatables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#consultations_table').DataTable();
-    });
-</script>
+<script src="<?= base_url('js/datatable.js') ?>"></script>
+
 
 <?= $this->endSection(); ?>

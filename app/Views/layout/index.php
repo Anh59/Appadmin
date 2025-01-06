@@ -249,8 +249,9 @@
                       <?php if ($session->get('Dashboard_table') === true ): ?>
                         <li class="nav-item">
                             <a href="<?= route_to('Dashboard_table') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-home"></i>
-                                <p>Trang chủ<i class="right fas fa-angle-left"></i></p>
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+
+                                <p>Thông kê</p>
                             </a>
                         </li>
                       <?php endif; ?>
@@ -268,7 +269,8 @@
                   <?php if ($session->get('Table_Group') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Group') ?>" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
+                          <i class="nav-icon fas fa-briefcase"></i>
+
                               <p>Quản trị chức vụ</p>
                           </a>
                       </li>
@@ -277,7 +279,8 @@
                       <?php if ($session->get('Table_Role') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Role') ?>" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
+                          <i class="nav-icon fas fa-lock"></i>
+
                               <p>Quản trị quyền</p>
                           </a>
                       </li>
@@ -288,7 +291,8 @@
                       <?php if ($session->get('Table_GroupRole') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_GroupRole') ?>" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
+                          <i class="nav-icon fas fa-shield-alt"></i>
+
                               <p>Quản trị phân quyền</p>
                           </a>
                       </li>
@@ -305,8 +309,9 @@
                       <?php if ($session->get('Table_User') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_User') ?>" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
-                              <p>Quản trị tài khoản</p>
+                          <i class="nav-icon fas fa-users-cog"></i>
+
+                              <p>Quản trị tài khoản nhân viên</p>
                           </a>
                       </li>
                       <?php endif; ?>
@@ -314,7 +319,8 @@
                       <?php if ($session->get('Table_Customers') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Customers') ?>" class="nav-link">
-                              <i class="nav-icon fas fa-th"></i>
+                              <i class="nav-icon fas fa-user"></i>
+
                               <p>Quản trị tài khoản khách hàng</p>
                           </a>
                       </li>
@@ -330,7 +336,7 @@
                   <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-chart-pie"></i>
                     <p>
-                      Quản lý 
+                      Quản lý dịch vụ 
                       <i class="right fas fa-angle-left"></i>
                     </p>
                   </a>
@@ -371,7 +377,7 @@
                   <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-chart-pie"></i>
                     <p>
-                      Quản Lý Bản Tin 
+                      Quản Lý kinh doanh 
                       <i class="right fas fa-angle-left"></i>
                     </p>
                   </a>
@@ -381,7 +387,8 @@
                   <?php if ($session->get('Table_Promotions') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Promotions') ?>" class="nav-link">
-                          <i class="far fa-envelope nav-icon"></i>
+                          <i class="nav-icon fas fa-gift"></i>
+
                               <p>Mã Giảm giá</p>
                           </a>
                       </li>
@@ -390,30 +397,34 @@
                     <?php if ($session->get('Table_Bookings') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_Bookings') ?>" class="nav-link">
-                          <i class="far fa-envelope nav-icon"></i>
+                          <i class="nav-icon fas fa-box"></i>
+
                               <p>Đơn hàng</p>
                           </a>
                       </li>
                       <?php endif; ?>
 
-                    <?php if ($session->get('Table_Consultations') === true ): ?>
-                      <li class="nav-item">
-                          <a href="<?= route_to('Table_Consultations') ?>" class="nav-link">
-                          <i class="far fa-envelope nav-icon"></i>
-                              <p>Tư Vấn</p>
-                          </a>
-                      </li>
-                      <?php endif; ?>
+                   
 
                       <?php if ($session->get('Table_News') === true ): ?>
                       <li class="nav-item">
                           <a href="<?= route_to('Table_News') ?>" class="nav-link">
-                          <i class="far fa-envelope nav-icon"></i>
+                          <i class="nav-icon fas fa-newspaper"></i>
+
                               <p>Tin Tức</p>
                           </a>
                       </li>
                       <?php endif; ?>
 
+                    <?php if ($session->get('Table_Consultations') === true ): ?>
+                                          <li class="nav-item">
+                                              <a href="<?= route_to('Table_Consultations') ?>" class="nav-link">
+                                              <i class="nav-icon fas fa-envelope"></i>
+
+                                                  <p>Liên hệ</p>
+                                              </a>
+                                          </li>
+                                          <?php endif; ?>
                   </ul>
             </li>
  

@@ -4,17 +4,17 @@
 <!-- Thêm CSS để căn giữa carousel -->
 <style>
     #imageCarousel {
-      
         max-width: 40%; /* Giới hạn chiều rộng của carousel */
         margin: 0 auto; /* Căn giữa carousel */
     }
-
- 
 </style>
+
 <!-- Nút quay lại -->
-
-
-<!-- <h2> <?= $tour['name'] ?></h2> -->
+<div class="mb-4">
+    <a href="<?= route_to('Table_Tours') ?>" class="btn btn-circle" title="Quay lại">
+        <i class="fas fa-arrow-left" style="color: black;"></i> 
+    </a>
+</div>
 
 <!-- Tab Nav -->
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -39,32 +39,30 @@
         <p><strong>Giá:</strong> <?= $tour['price_per_person'] ?></p>
 
         <h3>Hình Ảnh</h3>
-<div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <?php if (!empty($images)): ?>
-            <?php $isActive = true; ?>
-            <?php foreach ($images as $image): ?>
-                <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
-                    <img src="<?= $image['image_url'] ?>" class="d-block w-100" alt="Tour Image" style="height: 300px; object-fit: cover;">
-                </div>
-                <?php $isActive = false; ?>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Không có hình ảnh.</p>
-        <?php endif; ?>
-    </div>
-    
-    <!-- Các điều khiển slideshow -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-
+        <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <?php if (!empty($images)): ?>
+                    <?php $isActive = true; ?>
+                    <?php foreach ($images as $image): ?>
+                        <div class="carousel-item <?= $isActive ? 'active' : '' ?>">
+                            <img src="<?= $image['image_url'] ?>" class="d-block w-100" alt="Tour Image" style="height: 300px; object-fit: cover;">
+                        </div>
+                        <?php $isActive = false; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Không có hình ảnh.</p>
+                <?php endif; ?>
+            </div>
+            <!-- Các điều khiển slideshow -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
     </div>
 
     <!-- Tab for Room Info -->
@@ -106,8 +104,5 @@
         <?php endif; ?>
     </div>
 </div>
-
-<!-- Quay lại -->  
-
 
 <?= $this->endSection(); ?>

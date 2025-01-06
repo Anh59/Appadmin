@@ -21,10 +21,10 @@ class GroupRoleController extends BaseController
             'groups' => $groups,
             'roles' => $roles,
             'groupRoles' => $groupRoles,
-            'pageTitle' => 'Danh Sách Nhóm & Quyền',
+            'pageTitle' => 'Danh Sách Phân quyền',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Quản Lý Nhóm & Quyền', 'url' => route_to('Table_GroupRole')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Quản Lý Phân quyền', 'url' => route_to('Table_GroupRole')],
             ],
         ];
 
@@ -54,11 +54,11 @@ class GroupRoleController extends BaseController
             'roles' => $roles,
             'groupRoles' => $groupRoles,
             'currentUser' => $currentUser,
-            'pageTitle' => 'Chỉnh Sửa Nhóm & Quyền',
+            'pageTitle' => 'Chỉnh Sửa Phân quyền',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Quản Lý Nhóm & Quyền', 'url' => route_to('Table_GroupRole')],
-                ['title' => 'Chỉnh Sửa Nhóm', 'url' => route_to('Table_GroupRole_Edit', $id)],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Quản Lý Phân quyền', 'url' => route_to('Table_GroupRole')],
+                ['title' => 'Chỉnh Sửa Phân quyền', 'url' => route_to('Table_GroupRole_Edit', $id)],
             ],
         ];
 
@@ -113,10 +113,10 @@ class GroupRoleController extends BaseController
         $data = [
             'roles' => $roleModel->findAll(),
             'groups' => $groupModel->findAll(),
-            'pageTitle' => 'Thêm Nhóm & Quyền Mới',
+            'pageTitle' => 'Thêm Phân quyền Mới',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Quản Lý Nhóm & Quyền', 'url' => route_to('Table_GroupRole')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Quản Lý Phân quyền', 'url' => route_to('Table_GroupRole')],
                 ['title' => 'Thêm Nhóm', 'url' => route_to('Table_GroupRole_Create')],
             ],
         ];

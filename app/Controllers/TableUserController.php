@@ -18,10 +18,10 @@ class TableUserController extends BaseController
         $data['groups'] = $groupModel->findAll();
         
         // Cập nhật breadcrumb và pageTitle
-        $data['pageTitle'] = 'Danh Sách Người Dùng';  // Tiêu đề trang
+        $data['pageTitle'] = 'Danh Sách Tài khoản nội bộ';  // Tiêu đề trang
         $data['breadcrumb'] = [
-            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-            ['title' => 'Người Dùng', 'url' => route_to('Table_User')],
+            ['title' => 'Trang chủ', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Tài khoản nội bộ', 'url' => route_to('Table_User')],
         ];
 
         return view('dashboard/User/Table', $data);
@@ -77,11 +77,11 @@ class TableUserController extends BaseController
         // Cập nhật breadcrumb và pageTitle
         $data['user'] = $user;
         $data['groups'] = $groupModel->findAll();
-        $data['pageTitle'] = 'Chỉnh Sửa Người Dùng';  // Tiêu đề trang
+        $data['pageTitle'] = 'Chỉnh Sửa Tài khoản nội bộ';  // Tiêu đề trang
         $data['breadcrumb'] = [
-            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-            ['title' => 'Người Dùng', 'url' => route_to('Table_User')],
-            ['title' => 'Chỉnh Sửa Người Dùng', 'url' => route_to('Table_User_Edit', $userId)],
+            ['title' => 'Trang chủ', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Tài khoản nội bộ', 'url' => route_to('Table_User')],
+            ['title' => 'Chỉnh Sửa Tài khoản nội bộ', 'url' => route_to('Table_User_Edit', $userId)],
         ];
 
         return view('dashboard/User/Edit', $data);
@@ -114,11 +114,11 @@ class TableUserController extends BaseController
         $data['groups'] = $groupModel->findAll();
         
         // Cập nhật breadcrumb và pageTitle
-        $data['pageTitle'] = 'Tạo Người Dùng Mới';  // Tiêu đề trang
+        $data['pageTitle'] = 'Tạo Tài khoản nội bộ Mới';  // Tiêu đề trang
         $data['breadcrumb'] = [
-            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-            ['title' => 'Người Dùng', 'url' => route_to('Table_User')],
-            ['title' => 'Tạo Người Dùng', 'url' => route_to('Table_User_Create')],
+            ['title' => 'Trang chủ', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Tài khoản nội bộ', 'url' => route_to('Table_User')],
+            ['title' => 'Tạo Tài khoản nội bộ', 'url' => route_to('Table_User_Create')],
         ];
 
         return view('dashboard/User/Create', $data);

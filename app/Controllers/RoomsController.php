@@ -21,8 +21,8 @@ class RoomsController extends Controller
             'rooms' => $rooms,
             'pageTitle' => 'Danh Sách Phòng',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Rooms', 'url' => route_to('Table_Rooms')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh sách phòng', 'url' => route_to('Table_Rooms')],
             ]
         ];
     
@@ -39,8 +39,8 @@ class RoomsController extends Controller
             'tours' => $tours,
             'pageTitle' => 'Thêm Phòng Mới',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Rooms', 'url' => route_to('Table_Rooms')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh sách phòng', 'url' => route_to('Table_Rooms')],
             ]
         ];
     
@@ -102,8 +102,8 @@ class RoomsController extends Controller
             'tours' => $tours,
             'pageTitle' => 'Chỉnh Sửa Phòng',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Rooms', 'url' => route_to('Table_Rooms')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh sách phòng', 'url' => route_to('Table_Rooms')],
             ]
         ];
     
@@ -168,7 +168,7 @@ class RoomsController extends Controller
             'room' => $room,
             'pageTitle' => 'Chi Tiết Phòng',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
                 ['title' => 'Rooms', 'url' => route_to('Table_Rooms')],
                 ['title' => 'Chi Tiết Phòng', 'url' => route_to('Table_Rooms_Details', $id)],
             ]

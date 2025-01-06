@@ -26,10 +26,10 @@ class ManagebookingController extends BaseController
 
         $data = [
             'bookings' => $bookings,
-            'pageTitle' => 'Danh Sách Booking',
+            'pageTitle' => 'Danh Sách Đơn Hàng',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Bookings', 'url' => route_to('Table_Bookings')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Đơn Hàng', 'url' => route_to('Table_Bookings')],
             ]
         ];
 
@@ -47,9 +47,9 @@ class ManagebookingController extends BaseController
         return view('Dashboard/booking/create', [
             'pageTitle' => 'Thêm Booking',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Bookings', 'url' => route_to('Table_Bookings')],
-                ['title' => 'Thêm', 'url' => route_to('Table_Bookings_Create')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Đơn Hàng', 'url' => route_to('Table_Bookings')],
+                ['title' => 'Thêm Đơn Hàng', 'url' => route_to('Table_Bookings_Create')],
             ],
             'customers' => $customers,
             'tours' => $tours,
@@ -112,9 +112,9 @@ class ManagebookingController extends BaseController
             'booking' => $booking,
             'pageTitle' => 'Sửa Booking',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Bookings', 'url' => route_to('Table_Bookings')],
-                ['title' => 'Sửa', 'url' => route_to('Table_Bookings_Edit', $booking['id'])],
+                ['title' => 'Thống kê Đơn Hàng', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Đơn Hàng', 'url' => route_to('Table_Bookings')],
+                ['title' => 'Sửa Đơn Hàng', 'url' => route_to('Table_Bookings_Edit', $booking['id'])],
             ],
             'customers' => $customers,
             'tours' => $tours,

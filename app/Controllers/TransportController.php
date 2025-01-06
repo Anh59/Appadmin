@@ -18,8 +18,8 @@ class TransportController extends Controller
             'transports' => $transports,
             'pageTitle' => 'Danh Sách Phương Tiện',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Transports', 'url' => route_to('Table_Transports')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh Sách Phương Tiện', 'url' => route_to('Table_Transports')],
             ]
         ];
 
@@ -31,9 +31,9 @@ class TransportController extends Controller
         return view('Dashboard/Transports/create', [
             'pageTitle' => 'Thêm Phương Tiện',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Transports', 'url' => route_to('Table_Transports')],
-                ['title' => 'Thêm', 'url' => route_to('Table_Transports_Create')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh Sách Phương Tiện', 'url' => route_to('Table_Transports')],
+                ['title' => 'Thêm Phương Tiện', 'url' => route_to('Table_Transports_Create')],
             ],
         ]);
     }
@@ -90,9 +90,9 @@ class TransportController extends Controller
             'transport' => $transport,
             'pageTitle' => 'Sửa Phương Tiện',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Transports', 'url' => route_to('Table_Transports')],
-                ['title' => 'Sửa', 'url' => route_to('Table_Transports_Edit', $transport['id'])],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Danh Sách Phương Tiện', 'url' => route_to('Table_Transports')],
+                ['title' => 'Sửa Phương Tiện', 'url' => route_to('Table_Transports_Edit', $transport['id'])],
             ],
         ]);
     }

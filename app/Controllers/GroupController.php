@@ -13,10 +13,10 @@ class GroupController extends BaseController
 
         $data = [
             'groups' => $model->findAll(),
-            'pageTitle' => 'Danh Sách Nhóm',
+            'pageTitle' => 'Danh Sách chức vụ',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Quản Lý Nhóm', 'url' => route_to('Table_Group')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Quản Lý chức vụ', 'url' => route_to('Table_Group')],
             ],
             'success' => session()->getFlashdata('success'),
             'error' => session()->getFlashdata('error'),
@@ -28,11 +28,11 @@ class GroupController extends BaseController
     public function create()
     {
         $data = [
-            'pageTitle' => 'Thêm Nhóm Mới',
+            'pageTitle' => 'Thêm chức vụ Mới',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Quản Lý Nhóm', 'url' => route_to('Table_Group')],
-                ['title' => 'Thêm Nhóm', 'url' => route_to('Table_Create')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Quản Lý chức vụ', 'url' => route_to('Table_Group')],
+                ['title' => 'Thêm chức vụ', 'url' => route_to('Table_Create')],
             ],
             'success' => session()->getFlashdata('success'),
             'error' => session()->getFlashdata('error'),
@@ -65,16 +65,16 @@ class GroupController extends BaseController
         $group = $model->find($id);
 
         if (!$group) {
-            return redirect()->route('Table_Group')->with('error', 'Nhóm không tồn tại.');
+            return redirect()->route('Table_Group')->with('error', 'chức vụ không tồn tại.');
         }
 
         $data = [
             'group' => $group,
-            'pageTitle' => 'Chỉnh Sửa Nhóm',
+            'pageTitle' => 'Chỉnh Sửa chức vụ',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Quản Lý Nhóm', 'url' => route_to('Table_Group')],
-                ['title' => 'Chỉnh Sửa Nhóm', 'url' => route_to('Group_edit', $id)],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Quản Lý chức vụ', 'url' => route_to('Table_Group')],
+                ['title' => 'Chỉnh Sửa chức vụ', 'url' => route_to('Group_edit', $id)],
             ],
             'success' => session()->getFlashdata('success'),
             'error' => session()->getFlashdata('error'),

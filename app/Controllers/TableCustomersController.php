@@ -21,7 +21,7 @@ class TableCustomersController extends Controller
         // Cập nhật breadcrumb và pageTitle
         $data['pageTitle'] = 'Danh Sách Khách Hàng'; // Tiêu đề trang
         $data['breadcrumb'] = [
-            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
             ['title' => 'Khách Hàng', 'url' => route_to('Table_Customers')],
         ];
 
@@ -33,7 +33,7 @@ class TableCustomersController extends Controller
         // Cập nhật breadcrumb và pageTitle
         $data['pageTitle'] = 'Thêm Khách Hàng Mới'; // Tiêu đề trang
         $data['breadcrumb'] = [
-            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
             ['title' => 'Khách Hàng', 'url' => route_to('Table_Customers')],
             ['title' => 'Thêm Khách Hàng', 'url' => route_to('Table_Customers_Create')],
         ];
@@ -64,7 +64,7 @@ class TableCustomersController extends Controller
         // Cập nhật breadcrumb và pageTitle
         $data['pageTitle'] = 'Chỉnh Sửa Khách Hàng'; // Tiêu đề trang
         $data['breadcrumb'] = [
-            ['title' => 'Home', 'url' => route_to('Dashboard_table')],
+            ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
             ['title' => 'Khách Hàng', 'url' => route_to('Table_Customers')],
             ['title' => 'Chỉnh Sửa Khách Hàng', 'url' => route_to('Table_Customers_Edit', $id)],
         ];

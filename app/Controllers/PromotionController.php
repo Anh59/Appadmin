@@ -31,8 +31,8 @@ class PromotionController extends Controller
             'promotions' => $promotions, // Truyền dữ liệu vào view
             'pageTitle' => 'Danh Sách Mã Giảm Giá',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Promotions', 'url' => route_to('Table_Promotions')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Mã Giảm Giá', 'url' => route_to('Table_Promotions')],
             ]
         ];
         
@@ -51,9 +51,9 @@ class PromotionController extends Controller
         return view('Dashboard/Promotions/create', [
             'pageTitle' => 'Thêm Mã Giảm Giá',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Promotions', 'url' => route_to('Table_Promotions')],
-                ['title' => 'Thêm', 'url' => route_to('Table_Promotions_Create')],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Mã Giảm Giá', 'url' => route_to('Table_Promotions')],
+                ['title' => 'Thêm Mã Giảm Giá', 'url' => route_to('Table_Promotions_Create')],
             ],
             'tours' => $tours,
         ]);
@@ -93,46 +93,37 @@ class PromotionController extends Controller
         return redirect()->route('Table_Promotions')->with('success', 'Mã giảm giá đã được thêm!');
     }
     
-    
-
-    public function details($id)
-    {
-        $promotionsModel = new PromotionsModel();
-        $promotion = $promotionsModel->find($id);
-
-        if (!$promotion) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Mã giảm giá không tồn tại.');
-        }
-
-        return view('Dashboard/Promotions/details', [
-            'promotion' => $promotion,
-            'pageTitle' => 'Chi Tiết Mã Giảm Giá',
-        ]);
-    }
 
     public function edit($id)
     {
         $promotionsModel = new PromotionsModel();
         $promotion = $promotionsModel->find($id);
-
+    
         if (!$promotion) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Mã giảm giá không tồn tại.');
         }
-
+    
         $tourModel = new ToursModel();
         $tours = $tourModel->findAll();
-
+    
+        // Lấy danh sách tour áp dụng cho mã giảm giá
+        $promotionTourModel = new \App\Models\PromotionTourModel();
+        $selectedTours = $promotionTourModel->where('promotion_id', $id)->findAll();
+        $selectedTourIds = array_column($selectedTours, 'tour_id'); // Lấy danh sách ID các tour đã chọn
+    
         return view('Dashboard/Promotions/edit', [
             'promotion' => $promotion,
+            'tours' => $tours,
+            'selectedTourIds' => $selectedTourIds, // Truyền danh sách ID các tour đã chọn vào view
             'pageTitle' => 'Sửa Mã Giảm Giá',
             'breadcrumb' => [
-                ['title' => 'Home', 'url' => route_to('Dashboard_table')],
-                ['title' => 'Promotions', 'url' => route_to('Table_Promotions')],
-                ['title' => 'Sửa', 'url' => route_to('Table_Promotions_Edit', $promotion['id'])],
+                ['title' => 'Thống kê', 'url' => route_to('Dashboard_table')],
+                ['title' => 'Mã Giảm Giá', 'url' => route_to('Table_Promotions')],
+                ['title' => 'Sửa Mã Giảm Giá', 'url' => route_to('Table_Promotions_Edit', $promotion['id'])],
             ],
-            'tours' => $tours,
         ]);
     }
+    
 
     public function update($id)
     {
