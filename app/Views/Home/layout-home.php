@@ -131,11 +131,11 @@
 			<div class="menu_close_container"><div class="menu_close"></div></div>
 			<div class="logo menu_logo"><a href="#"><img src="<?= base_url('Home-css/images/logo.png'); ?>" alt=""></a></div>
 			<ul>
-				<li class="menu_item"><a href="index.html">home</a></li>
-				<li class="menu_item"><a href="#">about us</a></li>
-				<li class="menu_item"><a href="offers.html">offers</a></li>
-				<li class="menu_item"><a href="blog.html">news</a></li>
-				<li class="menu_item"><a href="contact.html">contact</a></li>
+								<li class="menu_item"><a href="<?= route_to('Tour_index') ?>">TRang chủ</a></li>
+								<li class="menu_item"><a href="<?= route_to('Tour_about') ?>">Thông tin</a></li>
+								<li class="menu_item"><a href="<?= route_to('Tour_offers') ?>">Chuyến đi </a></li>
+								<li class="menu_item"><a href="<?= route_to('Tour_blog') ?>">Bản tin</a></li>
+								<li class="menu_item"><a href="<?= route_to('Tour_contact') ?>">Liên hệ</a></li>
 			</ul>
 		</div>
 	</div>
@@ -271,11 +271,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					<div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
 						<div class="footer_nav">
 							<ul class="footer_nav_list">
-								<li class="footer_nav_item"><a href="index.html">home</a></li>
-								<li class="footer_nav_item"><a href="#">about us</a></li>
-								<li class="footer_nav_item"><a href="offers.html">offers</a></li>
-								<li class="footer_nav_item"><a href="blog.html">news</a></li>
-								<li class="footer_nav_item"><a href="contact.html">contact</a></li>
+							<li class="main_nav_item"><a href="<?= route_to('Tour_index') ?>">TRang chủ</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_about') ?>">Thông tin</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_offers') ?>">Chuyến đi </a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_blog') ?>">Bản tin</a></li>
+								<li class="main_nav_item"><a href="<?= route_to('Tour_contact') ?>">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>

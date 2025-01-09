@@ -246,7 +246,7 @@ public function handleVerifyChangeEmailOTP()
             ->where('bookings.customer_id', $customerId)
             ->where('bookings.payment_status', 'pending') // Lọc trạng thái "pending"
             ->like('tours.name', $searchQuery)
-            ->orderBy('bookings.created_at', 'desc'); // Sắp xếp theo ngày tạo
+            ->orderBy('bookings.id', 'desc'); // Sắp xếp theo ngày tạo
     
         // Lấy dữ liệu phân trang
         $perPage = 5;
@@ -284,7 +284,7 @@ public function handleVerifyChangeEmailOTP()
             ->where('bookings.customer_id', $customerId)
             ->whereIn('bookings.payment_status', ['completed', 'order_completed', 'failed']) // Thêm các trạng thái cần hiển thị
             ->like('tours.name', $searchQuery)
-            ->orderBy('bookings.created_at', 'desc'); // Sắp xếp theo ngày tạo
+            ->orderBy('bookings.id', 'desc'); // Sắp xếp theo ngày tạo
     
         // Sử dụng phân trang
         $perPage = 5; // Số lượng đơn hàng mỗi trang

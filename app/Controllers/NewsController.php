@@ -195,27 +195,46 @@ class NewsController extends Controller
     $commentsModel = new \App\Models\CommentModel();
 
     // Define the number of items per page
-    $perPage = 3; // You can adjust this based on your needs
+    $perPage = 3; // Adjust as needed
 
-    // Get the current page from the query string, default to page 1
+    // Get the current page and search keyword from the query string
     $currentPage = $this->request->getVar('page') ?? 1;
+    $keyword = $this->request->getVar('q'); // Lấy từ khóa tìm kiếm
 
-    // Fetch paginated news list with comments count
-    $newsList = $newsModel
+    // Build the query for the main news list
+    $newsQuery = $newsModel
         ->select('news.id, news.title, news.content, news.image, news.category, news.created_at, news.author_id, COUNT(comments.id) as comments_count')
         ->join('comments', 'comments.news_id = news.id', 'left')
         ->groupBy('news.id')
-        ->orderBy('news.created_at', 'DESC')
-        ->paginate($perPage, 'default', $currentPage);
+        ->orderBy('news.created_at', 'DESC');
+
+    // Apply search condition if keyword exists
+    if ($keyword) {
+        $newsQuery = $newsQuery->like('news.title', $keyword)
+                               ->orLike('news.content', $keyword)
+                               ->orLike('news.author_id', $keyword)
+                               ->orLike('news.category', $keyword);
+    }
+
+    // Fetch paginated news list
+    $newsList = $newsQuery->paginate($perPage, 'default', $currentPage);
 
     // Get total pages to generate pagination controls
     $totalPages = $newsModel->pager->getPageCount();
 
+    // Fetch the latest posts (e.g., 5 newest posts)
+    $latestPosts = $newsModel
+        ->orderBy('created_at', 'DESC')
+        ->limit(5) // Adjust the number of latest posts as needed
+        ->findAll();
+
     // Prepare data for the view
     $data = [
         'newsList' => $newsList,
-        'pager' => $newsModel->pager,  // Provide pager for pagination controls
-        'totalPages' => $totalPages    // Total pages to generate pagination
+        'pager' => $newsModel->pager,
+        'totalPages' => $totalPages,
+        'keyword' => $keyword, // Pass the keyword to the view
+        'latestPosts' => $latestPosts // Pass the latest posts to the view
     ];
 
     return view('home/blog', $data);
@@ -238,7 +257,7 @@ public function blogDetail($id)
         }
         
     
-
+        $totalComments = $commentsModel->where('news_id', $id)->countAllResults();
 
     // Lấy danh sách bình luận và thông tin khách hàng
     $comments = $commentsModel
@@ -251,7 +270,8 @@ public function blogDetail($id)
     // Chuẩn bị dữ liệu cho view
     $data = [
         'news' => $news,
-        'comments' => $comments
+        'comments' => $comments,
+        'totalComments' => $totalComments,
     ];
 
     return view('home/blogdetail', $data);

@@ -18,7 +18,7 @@ Contact
 	<div class="home">
 		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/contact_background.jpg'); ?>"></div>
 		<div class="home_content">
-			<div class="home_title">contact</div>
+			<div class="home_title">liên hệ</div>
 		</div>
 	</div>
 
@@ -31,7 +31,7 @@ Contact
 
 					<!-- Contact Form -->
 					<div class="contact_form_container">
-						<div class="contact_title text-center">get in touch</div>
+						<div class="contact_title text-center">Liên hệ</div>
 						<form action="<?= base_url('submit-consultation') ?>" method="POST" id="contact_form" class="contact_form text-center">
 							<input type="text" name="name" id="contact_form_name" class="contact_form_name input_field" placeholder="Tên" required="required">
 							<input type="email" name="email" id="contact_form_email" class="contact_form_email input_field" placeholder="E-mail" required="required">
@@ -69,7 +69,7 @@ Contact
 						<div class="logo_container about_logo">
 							<div class="logo"><a href="#"><img src="<?= base_url('Home-css/images/logo.png'); ?>" alt="">travelix</a></div>
 						</div>
-						<p class="about_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis vu lputate eros, iaculis consequat nisl. Nunc et suscipit urna. Integer eleme ntum orci eu vehicula iaculis consequat nisl. Nunc et suscipit urna pretium.</p>
+						<p class="about_text">Nơi khơi nguồn cảm hứng cho những chuyến đi khám phá và trải nghiệm mới lạ. Chúng tôi cung cấp thông tin chi tiết về các địa điểm du lịch hấp dẫn, hành trình khám phá thiên nhiên kỳ thú, cùng với các gợi ý độc đáo giúp bạn tận hưởng những chuyến phượt đáng nhớ. Với đội ngũ giàu kinh nghiệm và đam mê, chúng tôi cam kết mang đến cho bạn những dịch vụ tốt nhất, từ lập kế hoạch chuyến đi đến hỗ trợ trong suốt hành trình. Hãy để chúng tôi đồng hành cùng bạn trên con đường chinh phục những miền đất mới!</p>
 						<ul class="about_social_list">
 							<li class="about_social_item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
 							<li class="about_social_item"><a href="#"><i class="fa fa-facebook-f"></i></a></li>
@@ -89,19 +89,19 @@ Contact
 						<ul class="contact_info_list">
 							<li class="contact_info_item d-flex flex-row">
 								<div><div class="contact_info_icon"><img src="<?= base_url('Home-css/images/placeholder.svg'); ?>" alt=""></div></div>
-								<div class="contact_info_text">4127 Raoul Wallenber 45b-c Gibraltar</div>
+								<div class="contact_info_text">Số 45B-C, Đường Quang Trung, Quận Hà Đông, Hà Nội</div>
 							</li>
 							<li class="contact_info_item d-flex flex-row">
 								<div><div class="contact_info_icon"><img src="<?= base_url('Home-css/images/phone-call.svg'); ?>" alt=""></div></div>
-								<div class="contact_info_text">2556-808-8613</div>
+								<div class="contact_info_text">+84373562881</div>
 							</li>
 							<li class="contact_info_item d-flex flex-row">
 								<div><div class="contact_info_icon"><img src="<?= base_url('Home-css/images/message.svg'); ?>" alt=""></div></div>
-								<div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Hello" target="_top">contactme@gmail.com</a></div>
+								<div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Hello" target="_top">nicktestcake@gmail.com</a></div>
 							</li>
 							<li class="contact_info_item d-flex flex-row">
 								<div><div class="contact_info_icon"><img src="<?= base_url('Home-css/images/planet-earth.svg'); ?>" alt=""></div></div>
-								<div class="contact_info_text"><a href="https://colorlib.com">www.colorlib.com</a></div>
+								<div class="contact_info_text"><a href="https://colorlib.com">www.travelix.com</a></div>
 							</li>
 						</ul>
 					</div>
@@ -127,5 +127,6 @@ Contact
 	<?= $this->endSection(); ?>
 	<?= $this->section('Home-scripts') ?>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/js/contact_custom.js'); ?>"></script>
 	<?= $this->endSection(); ?>

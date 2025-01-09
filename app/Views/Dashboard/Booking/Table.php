@@ -38,9 +38,10 @@
                     <option value="pending" <?= $booking['payment_status'] == 'pending' ? 'selected' : '' ?>>Đang chờ</option>
                     <option value="completed" <?= $booking['payment_status'] == 'completed' ? 'selected' : '' ?>>Đã thanh toán</option>
                     <option value="failed" <?= $booking['payment_status'] == 'failed' ? 'selected' : '' ?>>Đã hủy</option>
-                    <option value="failed" <?= $booking['payment_status'] == 'order_completed' ? 'selected' : '' ?>>Đã hoànn thành</option>
+                    <option value="order_completed" <?= $booking['payment_status'] == 'order_completed' ? 'selected' : '' ?>>Đã hoàn thành</option>
                 </select>
             </td>
+
 
             <td>
                 <a href="<?= route_to('Table_Bookings_Edit', $booking['id']) ?>" class="btn btn-primary" title="Sửa">
@@ -63,28 +64,28 @@
 <script src="<?= base_url('js/datatable.js') ?>"></script>
 <script>
     $(document).ready(function () {
-        $('.payment-status').change(function () {
-            let bookingId = $(this).data('id');
-            let newStatus = $(this).val();
+    $('#table').on('change', '.payment-status', function () {
+        let bookingId = $(this).data('id');
+        let newStatus = $(this).val();
 
-            $.ajax({
-                url: '<?= route_to('Table_Bookings_Update_Payment_Status') ?>',
-                type: 'POST',
-                data: {
-                    id: bookingId,
-                    payment_status: newStatus,
-                    <?= csrf_token() ?>: '<?= csrf_hash() ?>'
-                },
-                success: function (response) {
-                    alert('Trạng thái đã được cập nhật!');
-                    location.reload(); // Tải lại trang để hiển thị dữ liệu mới (tùy chọn)
-                },
-                error: function (xhr, status, error) {
-                    alert('Có lỗi xảy ra: ' + error);
-                }
-            });
+        $.ajax({
+            url: '<?= route_to('Table_Bookings_Update_Payment_Status') ?>',
+            type: 'POST',
+            data: {
+                id: bookingId,
+                payment_status: newStatus,
+                <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+            },
+            success: function (response) {
+                alert('Trạng thái đã được cập nhật!');
+            },
+            error: function (xhr, status, error) {
+                alert('Có lỗi xảy ra: ' + error);
+            }
         });
     });
+});
+
 </script>
 
 

@@ -50,7 +50,7 @@ $(document).ready(function()
 	initMoreOptions();
 	initListingSlider();
 	initLightbox();
-	initGoogleMap();
+	// initGoogleMap();
 	initSearchForm();
 
 	/* 

@@ -25,9 +25,7 @@ Checkout
     </div>
 </div>
 <section class="container">
-    <h1 class="text-center checkout-header">
-        Tổng Quan Về Chuyến Đi
-    </h1>
+   
     <form action="javascript:void(0);" class="checkout-container" method="post">
         <!-- Contact Information -->
         <div class="checkout-info">
@@ -180,6 +178,8 @@ Checkout
 <?= $this->endSection(); ?>
 
 <?= $this->section('Home-scripts') ?>
+<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
+<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
 <script>
 let totalPrice = <?= $totalPrice ?>;
 let totalAdults = 0;

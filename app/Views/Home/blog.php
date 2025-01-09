@@ -19,7 +19,7 @@ Blog
 	<div class="home">
 		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/blog_background.jpg'); ?>"></div>
 		<div class="home_content">
-			<div class="home_title">the blog</div>
+			<div class="home_title">bản tin</div>
 		</div>
 	</div>
 
@@ -71,31 +71,31 @@ Blog
 
 						<!-- phân trang  -->
 						<div class="blog_navigation">
-    <ul>
-        <!-- Previous Button -->
-        <li class="blog_dot <?= ($pager->getCurrentPage() == 1) ? 'disabled' : '' ?>">
-            <a href="<?= ($pager->getCurrentPage() > 1) ? site_url('blog?page=' . ($pager->getCurrentPage() - 1)) : '#' ?>">
-                <div></div><<
-            </a>
-        </li>
+							<ul>
+								<!-- Previous Button -->
+								<li class="blog_dot <?= ($pager->getCurrentPage() == 1) ? 'disabled' : '' ?>">
+									<a href="<?= ($pager->getCurrentPage() > 1) ? site_url('blog?page=' . ($pager->getCurrentPage() - 1)) : '#' ?>">
+										<div></div><<
+									</a>
+								</li>
 
-        <!-- Page Numbers -->
-        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <li class="blog_dot <?= ($i == $pager->getCurrentPage()) ? 'active' : '' ?>">
-                <a href="<?= site_url('blog?page=' . $i) ?>">
-                    <div></div><?= sprintf('%02d', $i) ?>.
-                </a>
-            </li>
-        <?php endfor; ?>
+								<!-- Page Numbers -->
+								<?php for ($i = 1; $i <= $totalPages; $i++): ?>
+									<li class="blog_dot <?= ($i == $pager->getCurrentPage()) ? 'active' : '' ?>">
+										<a href="<?= site_url('blog?page=' . $i) ?>">
+											<div></div><?= sprintf('%02d', $i) ?>.
+										</a>
+									</li>
+								<?php endfor; ?>
 
-        <!-- Next Button -->
-        <li class="blog_dot <?= ($pager->getCurrentPage() == $totalPages) ? 'disabled' : '' ?>">
-            <a href="<?= ($pager->getCurrentPage() < $totalPages) ? site_url('blog?page=' . ($pager->getCurrentPage() + 1)) : '#' ?>">
-                <div></div>>>
-            </a>
-        </li>
-    </ul>
-</div>
+								<!-- Next Button -->
+								<li class="blog_dot <?= ($pager->getCurrentPage() == $totalPages) ? 'disabled' : '' ?>">
+									<a href="<?= ($pager->getCurrentPage() < $totalPages) ? site_url('blog?page=' . ($pager->getCurrentPage() + 1)) : '#' ?>">
+										<div></div>>>
+									</a>
+								</li>
+							</ul>
+						</div>
 
 
 				</div>
@@ -106,8 +106,8 @@ Blog
 
 					<!-- Sidebar Search -->
 					<div class="sidebar_search">
-						<form action="#">
-							<input id="sidebar_search_input" type="search" class="sidebar_search_input" placeholder="" required="required">
+						<form action="<?= route_to('Tour_blog') ?>" method="get">
+							<input id="sidebar_search_input" name="q" type="search" class="sidebar_search_input" placeholder="" required="required">
 							<button id="sidebar_search_button" type="submit" class="sidebar_search_button trans_300" value="Submit">
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
@@ -167,69 +167,41 @@ Blog
 					<!-- Sidebar Latest Posts -->
 
 					<div class="sidebar_latest_posts">
-						<div class="sidebar_title">Latest Posts</div>
-						<div class="latest_posts_container">
-							<ul>
+								<div class="sidebar_title">Bài viết mới nhất</div>
+								<div class="latest_posts_container">
+									<ul>
+										<?php if (!empty($latestPosts)): ?>
+											<?php foreach ($latestPosts as $post): ?>
+												<li class="latest_post clearfix">
+													<div class="latest_post_image">
+														<a href="<?= base_url('blog/' . $post['id']); ?>">
+															<img src="<?= base_url( $post['image']); ?>" alt="<?= esc($post['title']); ?>"width="80" height="70">
+														</a>
+													</div>
+													<div class="latest_post_content">
+														<div class="latest_post_title trans_200">
+															<a href="<?= base_url('blog/' . $post['id']); ?>"><?= esc($post['title']); ?></a>
+														</div>
+														<div class="latest_post_meta">
+															<div class="latest_post_author trans_200">
+																<a href="#">Tác giả :<?= esc($post['author_id']); ?></a>
+															</div>
+															<div class="latest_post_date trans_200">
+																<a href="#"><?= date('M d, Y', strtotime($post['created_at'])); ?></a>
+															</div>
+														</div>
+													</div>
+												</li>
+											<?php endforeach; ?>
+										<?php else: ?>
+											<li class="latest_post clearfix">
+												<p>No latest posts available.</p>
+											</li>
+										<?php endif; ?>
+									</ul>
+								</div>
+							</div>
 
-								<!-- Latest Post -->
-								<li class="latest_post clearfix">
-									<div class="latest_post_image">
-										<a href="#"><img src="<?= base_url('Home-css/images/latest_1.jpg'); ?>" alt=""></a>
-									</div>
-									<div class="latest_post_content">
-										<div class="latest_post_title trans_200"><a href="#">A simple blog post</a></div>
-										<div class="latest_post_meta">
-											<div class="latest_post_author trans_200"><a href="#">by Jane Smith</a></div>
-											<div class="latest_post_date trans_200"><a href="#">Aug 25, 2016</a></div>
-										</div>
-									</div>
-								</li>
-
-								<!-- Latest Post -->
-								<li class="latest_post clearfix">
-									<div class="latest_post_image">
-										<a href="#"><img src="<?= base_url('Home-css/images/latest_2.jpg'); ?>" alt=""></a>
-									</div>
-									<div class="latest_post_content">
-										<div class="latest_post_title trans_200"><a href="#">Dream destination for you</a></div>
-										<div class="latest_post_meta">
-											<div class="latest_post_author trans_200"><a href="#">by Jane Smith</a></div>
-											<div class="latest_post_date trans_200"><a href="#">Aug 25, 2016</a></div>
-										</div>
-									</div>
-								</li>
-
-								<!-- Latest Post -->
-								<li class="latest_post clearfix">
-									<div class="latest_post_image">
-										<a href="#"><img src="<?= base_url('Home-css/images/latest_3.jpg'); ?>" alt=""></a>
-									</div>
-									<div class="latest_post_content">
-										<div class="latest_post_title trans_200"><a href="#">Tips to travel light</a></div>
-										<div class="latest_post_meta">
-											<div class="latest_post_author trans_200"><a href="#">by Jane Smith</a></div>
-											<div class="latest_post_date trans_200"><a href="#">Aug 25, 2016</a></div>
-										</div>
-									</div>
-								</li>
-
-								<!-- Latest Post -->
-								<li class="latest_post clearfix">
-									<div class="latest_post_image">
-										<a href="#"><img src="<?= base_url('Home-css/images/latest_4.jpg'); ?>" alt=""></a>
-									</div>
-									<div class="latest_post_content">
-										<div class="latest_post_title trans_200"><a href="#">How to pick your vacation</a></div>
-										<div class="latest_post_meta">
-											<div class="latest_post_author trans_200"><a href="#">by Jane Smith</a></div>
-											<div class="latest_post_date trans_200"><a href="#">Aug 25, 2016</a></div>
-										</div>
-									</div>
-								</li>
-
-							</ul>
-						</div>
-					</div>
 
 					<!-- Sidebar Gallery -->
 					<div class="sidebar_gallery">

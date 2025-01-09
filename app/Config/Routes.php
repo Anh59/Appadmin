@@ -59,6 +59,8 @@ $routes->group('api_Customers',function($routes) {
 });
 
 $routes->get('index', 'Home::index1',['as'=>'Tour_index']);
+$routes->get('/home/search', 'Home::search');
+
 $routes->get('about', 'Home::index2',['as'=>'Tour_about']);
 $routes->get('blog', 'NewsController::newsList',['as'=>'Tour_blog']);
 
@@ -280,4 +282,5 @@ $routes->get('logout', 'UserController::logout');
 $routes->group('tour', ['namespace' => 'App\Controllers'], function($routes) {
     $routes->get('offers', 'SingleController::index',['as'=>'Tour_offers']); // Hiển thị danh sách các tour
     $routes->get('detail/(:num)', 'SingleController::single_listing/$1'); // Hiển thị chi tiết tour với ID
+    $routes->get('search', 'SingleController::search');
 });

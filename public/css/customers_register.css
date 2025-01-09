@@ -7,19 +7,27 @@
     font-family: 'Poppins', sans-serif;
 }
 
-html, body {
+/* html, body {
     display: grid;
     height: 100vh;
     width: 100%;
     place-items: center;
     background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
-}
+} */
 
 ::selection {
     background: #ff80bf;
 }
-
-.container {
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Chiều cao 100% viewport */
+    margin: 0; /* Loại bỏ khoảng trống mặc định của body */
+    background: #fff; /* Màu nền trang */
+}
+.container1 {
+    
     background: #fff;
     max-width: 400px;
     width: 100%;
@@ -28,19 +36,19 @@ html, body {
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
 }
 
-.container h2 {
+.container1 h2 {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 20px;
     text-align: center;
 }
 
-.container form {
+.container1 form {
     display: flex;
     flex-direction: column;
 }
 
-.container form input {
+.container1 form input {
     width: 100%;
     height: 45px;
     margin-top: 15px;
@@ -90,8 +98,8 @@ html, body {
 .option a:hover {
     text-decoration: underline;
 }
-.container .facebook a,
-.container .google a {
+.container1 .facebook a,
+.container1 .google a {
     display: block;
     height: 45px;
     width: 100%;
@@ -104,28 +112,28 @@ html, body {
     transition: all 0.3s ease;
 }
 
-.container .facebook i,
-.container .google i {
+.container1 .facebook i,
+.container1 .google i {
     padding-right: 12px;
     font-size: 20px;
 }
 
-.container .google a {
+.container1 .google a {
     background: linear-gradient(to right, #00acee 0%, #1abeff 100%);
     margin: 20px 0 15px 0;
 }
 
-.container .google a:hover {
+.container1 .google a:hover {
     background: linear-gradient(to left, #00acee 0%, #1abeff 100%);
     margin: 20px 0 15px 0;
 }
 
-.container .facebook a {
+.container1 .facebook a {
     background: linear-gradient(to right, #3b5998 0%, #476bb8 100%);
     margin: 20px 0 50px 0;
 }
 
-.container .facebook a:hover {
+.container1 .facebook a:hover {
     background: linear-gradient(to left, #3b5998 0%, #476bb8 100%);
     margin: 20px 0 50px 0;
 }

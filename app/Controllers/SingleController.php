@@ -129,6 +129,66 @@ public function single_listing($id): string
     ]);
 }
 
+// Search function in the controller
+public function search(): string
+{
+    $searchTerm = $this->request->getGet('search_term');
+    $transportType = $this->request->getGet('transport_type'); // Lấy giá trị transport_type nếu có
+
+    // Kiểm tra xem $searchTerm có phải là chuỗi hợp lệ hay không
+    if (!is_string($searchTerm) || empty($searchTerm)) {
+        // Nếu không có từ khóa tìm kiếm hợp lệ, trả về danh sách tour bình thường
+        return redirect()->to(base_url('/tour/offers'));
+    }
+
+    $tourModel = new \App\Models\ToursModel();
+    $imageModel = new \App\Models\ImagesModel();
+    $reviewModel = new \App\Models\ReviewsModel();
+    $transportModel = new \App\Models\TransportsModel();
+
+    // Tìm các tour có tên hoặc mô tả phù hợp với từ khóa tìm kiếm
+    $tours = $tourModel->like('name', $searchTerm)
+                       ->orLike('description', $searchTerm)
+                       ->findAll();
+
+    // Xử lý phân trang
+    $currentPage = $this->request->getGet('page') ?? 1;
+    $toursPerPage = 4;
+    $totalTours = count($tours);
+    $totalPages = ceil($totalTours / $toursPerPage);
+    $offset = ($currentPage - 1) * $toursPerPage;
+    $tours = array_slice($tours, $offset, $toursPerPage);
+
+    // Lấy thêm thông tin cho từng tour (hình ảnh và đánh giá)
+    if (!empty($tours)) {
+        foreach ($tours as &$tour) {
+            $image = $imageModel->where('tour_id', $tour['id'])->first();
+            $tour['image_url'] = $image ? base_url($image['image_url']) : '';
+
+            $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
+            if (!empty($reviews)) {
+                $tour['rating'] = array_sum(array_column($reviews, 'rating')) / count($reviews);
+                $tour['review_count'] = count($reviews);
+                $tour['review_title'] = 'Very good';
+            } else {
+                $tour['rating'] = 0;
+                $tour['review_count'] = 0;
+                $tour['review_title'] = 'No reviews yet';
+            }
+        }
+    }
+
+    // Truyền dữ liệu sang view
+    return view('Home/tour-offers', [
+        'tours' => $tours,
+        'totalPages' => $totalPages,
+        'currentPage' => $currentPage,
+        'searchTerm' => $searchTerm,
+        'transportType' => $transportType, // Truyền transportType vào view
+    ]);
+}
+
+
 
     
 

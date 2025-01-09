@@ -1,14 +1,25 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ Sơ Của Tôi</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<?= $this->extend('Home/layout-home'); ?>
 
-</head>
-<body>
+<?= $this->section('title') ?>
+Thành công
+<?= $this->endSection() ?>
+
+<?= $this->section('Home-css') ?>
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head_responsive.css'); ?>">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="<?= base_url('css/customers_sign.css') ?>">
+<?= $this->endSection() ?>
+
+<?= $this->section('Home-content') ?>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
+    <div class="home_content">
+        <div class="home_title">Đăng nhập</div>
+    </div>
+</div>
+<?= view('alerts') ?>
 <?php if (session()->getFlashdata('error')): ?>
         <div class="alert alert-danger alert-dismissible fade show" id="alert-message-error">
             <?= session()->getFlashdata('error') ?>
@@ -29,19 +40,19 @@
             <!-- Sidebar -->
             <div class="col-md-3">
             <div class="card">
-    <div class="card-body text-center">
-        <!-- Hiển thị avatar người dùng -->
-        <img 
-            src="<?= session('customer_avatar') ?: base_url('uploads/avatar/default-avatar.png') ?>" 
-            alt="User profile picture" 
-            class="rounded-circle mb-3" 
-            width="80" 
-            height="80">
-        
-        <!-- Hiển thị tên người dùng -->
-        <h5 class="card-title"><?= esc(session('customer_name')) ?></h5>
-    </div>
-</div>
+        <div class="card-body text-center">
+            <!-- Hiển thị avatar người dùng -->
+            <img 
+                src="<?= session('customer_avatar') ?: base_url('uploads/avatar/default-avatar.png') ?>" 
+                alt="User profile picture" 
+                class="rounded-circle mb-3" 
+                width="80" 
+                height="80">
+            
+            <!-- Hiển thị tên người dùng -->
+            <h5 class="card-title"><?= esc(session('customer_name')) ?></h5>
+        </div>
+        </div>
 
                 <div class="list-group mt-3">
                     <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="collapse" data-bs-target="#personal-info">
@@ -80,12 +91,14 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
 
-
-</html>
-<script>
+<?= $this->endSection(); ?>
+	<?= $this->section('Home-scripts') ?>
+	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
+	<script>
       document.addEventListener('DOMContentLoaded', () => {
         const errorAlert = document.getElementById('alert-message-error');
         const successAlert = document.getElementById('alert-message-success');
@@ -105,3 +118,5 @@
         }
     });
 </script>
+	<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
+	<?= $this->endSection(); ?>

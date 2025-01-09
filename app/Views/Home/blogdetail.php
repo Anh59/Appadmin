@@ -64,10 +64,10 @@ blogdetail
                                 <div class="hotel_review_container d-flex flex-column align-items-center justify-content-center">
                                     <div class="hotel_review">
                                         <div class="hotel_review_content">
-                                            <div class="hotel_review_title">Very Good</div>
-                                            <div class="hotel_review_subtitle">100 reviews</div>
+                                        <div class="hotel_review_title"><?= date('M Y', strtotime($news['created_at'])) ?></div>
+                                        <div class="hotel_review_subtitle"><?= $totalComments ?> bình luận</div>
                                         </div>
-                                        <div class="hotel_review_rating text-center"><?= date('d M Y', strtotime($news['created_at'])) ?></div>
+                                        <div class="hotel_review_rating text-center"><?= date('d', strtotime($news['created_at'])) ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@ blogdetail
                     <div class="row">
                         <div class="col-lg-1">
                             <div class="review_image">
-                                <img src="<?= base_url('uploads/avatars/' . ($comment['user_avatar'] ?? 'default_avatar.png')); ?>" alt="Avatar">
+                                <img src="<?=  $comment['user_avatar'] ?? 'default_avatar.png'; ?>" alt="Avatar">
                             </div>
                         </div>
                         <div class="col-lg-11">

@@ -1,7 +1,7 @@
 <?= $this->extend('Home/layout-home'); ?>
 
 <?= $this->section('title') ?>
-Thành công
+Xác nhận thành công
 <?= $this->endSection() ?>
 
 <?= $this->section('Home-css') ?>
@@ -15,7 +15,7 @@ Thành công
 <div class="home">
     <div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
     <div class="home_content">
-        <div class="home_title">Thanh Toán chuyến đi</div>
+        <div class="home_title">Xác nhận thành công</div>
     </div>
 </div>
 <div class="container text-center mt-5">
@@ -40,6 +40,6 @@ Thành công
 </div>
 <?= $this->endSection(); ?>
 	<?= $this->section('Home-scripts') ?>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+    <script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
 	<?= $this->endSection(); ?>

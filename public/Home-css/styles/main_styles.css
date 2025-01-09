@@ -1426,8 +1426,10 @@ section
 }
 .offers_image_container
 {
-	width: 100%;
-	height: 100%;
+	position: relative;
+    width: 100%;
+    padding-top: 75%; /* Tỉ lệ 4:3, có thể thay đổi để phù hợp */
+    overflow: hidden;
 }
 .offers_image_background
 {
@@ -1439,6 +1441,9 @@ section
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
+}
+.offers_image_background:hover {
+    transform: scale(1.1); /* Tùy chọn: phóng to khi hover */
 }
 .offer_name
 {
@@ -1585,6 +1590,21 @@ section
 	-o-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 	width: auto !important;
+}
+.test_image {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Tỉ lệ 16:9 */
+    overflow: hidden;
+    background-color: #f4f4f4; /* Màu nền cho khung ảnh nếu ảnh không tải được */
+}
+.test_image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
 }
 .test_content_container
 {

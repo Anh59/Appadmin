@@ -1,21 +1,27 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
-    
-    <!-- Thêm CSS từ giao diện mới -->
-    <link rel="stylesheet" href="<?= base_url('css/customers_sign.css') ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+<?= $this->extend('Home/layout-home'); ?>
 
-    <!-- Thêm jQuery từ CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <?= view('alerts') ?>
+<?= $this->section('title') ?>
+Thành công
+<?= $this->endSection() ?>
 
-    <div class="container">
+<?= $this->section('Home-css') ?>
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head_responsive.css'); ?>">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="<?= base_url('css/customers_sign.css') ?>">
+<?= $this->endSection() ?>
+
+<?= $this->section('Home-content') ?>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
+    <div class="home_content">
+        <div class="home_title">Đăng nhập</div>
+    </div>
+</div>
+<?= view('alerts') ?>
+<div class="center">
+<div class="container1">
       <form id="loginForm">
         <div class="title">Login</div>
         <div class="input-box underline">
@@ -41,7 +47,14 @@
         <a href="#"><i class="fab fa-facebook-f"></i>Sign in With Facebook</a>
       </div>
     </div>
+</div>
 
+
+<?= $this->endSection(); ?>
+	<?= $this->section('Home-scripts') ?>
+	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
     <script>
     $(document).ready(function() {
         $('#loginForm').on('submit', function(e) {
@@ -68,6 +81,5 @@
         });
     });
 </script>
-
-</body>
-</html>
+	<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
+	<?= $this->endSection(); ?>

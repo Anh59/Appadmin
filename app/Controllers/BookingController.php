@@ -109,7 +109,7 @@ class BookingController extends ResourceController
         
             $bookingModel = new BookingModel();
             $paymentMethod = $data['payment_method'];
-            $paymentStatus = ($paymentMethod === 'COD') ? 'pending' : 'initiated';
+            $status = ($paymentMethod === 'COD') ? 'pending' : 'initiated';//
         
             // Kiểm tra sự tồn tại của discount_value trong mảng $data
             $discount_value = isset($data['discount_value']) ? $data['discount_value'] : 0;
@@ -126,7 +126,7 @@ class BookingController extends ResourceController
                 'booking_date' => date('Y-m-d H:i:s'),
                 'total_price' => $data['total_price'],
                 'payment_method' => $paymentMethod,
-                'payment_status' => $paymentStatus, // Sử dụng payment_status
+                'status' => $status, // Sử dụng payment_status thì trạng thái momo sẽ trống 
                 'discount_code' => $data['discount_code'] ?? null,
                 'discount_value' => $discount_value,
             ];

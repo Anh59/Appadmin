@@ -1,6 +1,15 @@
 <?= $this->extend('Customer/profile'); ?>
 
 <?= $this->section('content'); ?>
+<style>
+.carousel-control-prev, 
+.carousel-control-next {
+    background-color: transparent; /* Loại bỏ nền đen */
+    border: none; /* Loại bỏ viền */
+   /* Đặt màu nút thành đen hoặc bất kỳ màu bạn muốn */
+}
+
+</style>
 <div class="container py-4">
     <div class="d-flex align-items-center mb-3">
         <a href="<?= route_to('history_order') ?>" class="btn btn-circle me-2" title="Quay lại">
@@ -25,11 +34,11 @@
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#tourImagesCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
+                            <span class="visually-hidden"></span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#tourImagesCarousel" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
+                            <span class="visually-hidden"></span>
                         </button>
                     </div>
                 <?php else: ?>
@@ -80,11 +89,11 @@
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#roomImagesCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
+                        <span class="visually-hidden"></span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#roomImagesCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+                        <span class="visually-hidden"></span>
                     </button>
                 </div>
             <?php else: ?>

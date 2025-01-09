@@ -18,14 +18,21 @@
         <?php foreach ($bookings as $booking): ?>
             <div class="card mb-3">
                 <div class="row g-0">
-                    <div class="col-md-3">
-                        <!-- Hiển thị hình ảnh của tour -->
-                        <?php if ($booking['tour_image']): ?>
-                            <img src="<?= base_url(relativePath: esc($booking['tour_image'])) ?>" class="img-fluid rounded-start" alt="<?= esc($booking['tour_name']) ?>">
-                        <?php else: ?>
-                            <img src="https://via.placeholder.com/150" class="img-fluid rounded-start" alt="Hình ảnh tour không có sẵn">
-                        <?php endif; ?>
-                    </div>
+                <div class="col-md-3 d-flex align-items-center justify-content-center">
+    <!-- Hiển thị hình ảnh của tour -->
+                <?php if ($booking['tour_image']): ?>
+                    <img src="<?= base_url(relativePath: esc($booking['tour_image'])) ?>" 
+                        class="img-fluid rounded" 
+                        alt="<?= esc($booking['tour_name']) ?>" 
+                        style="width: 100%; height: 200px; object-fit: cover;">
+                <?php else: ?>
+                    <img src="https://via.placeholder.com/150" 
+                        class="img-fluid rounded" 
+                        alt="Hình ảnh tour không có sẵn" 
+                        style="width: 100%; height: 200px; object-fit: cover;">
+                <?php endif; ?>
+            </div>
+
                     <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="card-title"><?= esc($booking['tour_name']) ?></h5>

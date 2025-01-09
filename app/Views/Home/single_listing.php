@@ -9,6 +9,7 @@ single_listing
 <link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/plugins/colorbox/colorbox.css'); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/single_listing_styles.css'); ?>">
 <link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/single_listing_responsive.css'); ?>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <?= $this->endSection() ?>
 
 
@@ -522,7 +523,7 @@ single_listing
 
 <!-- Reviews Section -->
 <div class="reviews">
-    <div class="reviews_title">Reviews</div>
+    <div class="reviews_title">Đánh giá</div>
     <div class="reviews_container">
         <!-- Hiển thị đánh giá -->
         <?php if (!empty($reviews)): ?>
@@ -565,7 +566,8 @@ single_listing
 						<!-- Location on Map -->
 
 						<div class="location_on_map">
-							<div class="location_on_map_title">location on map</div>
+							<div class="location_on_map_title">
+							vị trí trên bản đồ</div>
 
 							<!-- Google Map -->
 		
@@ -720,7 +722,57 @@ function createBooking(roomId, participants, rooms, additionalRequest) {
 	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/plugins/colorbox/jquery.colorbox-min.js'); ?>"></script>
 	<script src="<?= base_url('Home-css/plugins/OwlCarousel2-2.2.1/owl.carousel.js'); ?>"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
+	 <!-- cập nhật api bản đồ mới -->
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script>
+    var locationAddress = <?= json_encode($tour['location']); ?>; // Địa chỉ truyền từ PHP
+
+    function initMap() {
+        // Gọi API Nominatim để lấy tọa độ từ địa chỉ
+        var apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationAddress)}`;
+        
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var lat = data[0].lat; // Lấy latitude từ kết quả
+                    var lon = data[0].lon; // Lấy longitude từ kết quả
+                    var myLatlng = [lat, lon];
+
+                    // Khởi tạo bản đồ
+                    var map = L.map('map').setView(myLatlng, 17);
+
+                    // Thêm lớp bản đồ từ OpenStreetMap
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                    // Thêm marker
+                    L.marker(myLatlng).addTo(map)
+                        .bindPopup(locationAddress)
+                        .openPopup();
+                } else {
+                    // Nếu không tìm thấy kết quả
+                    document.getElementById('map').innerHTML = `
+                        <div style="text-align: center; color: red; padding: 20px;">
+                            <strong>Không tìm thấy vị trí.</strong>
+                        </div>`;
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi khi gọi API Nominatim:", error);
+                document.getElementById('map').innerHTML = `
+                    <div style="text-align: center; color: red; padding: 20px;">
+                        <strong>Không thể tải bản đồ.</strong>
+                    </div>`;
+            });
+    }
+
+    // Khởi tạo bản đồ khi trang tải xong
+    document.addEventListener('DOMContentLoaded', function() {
+        initMap();
+    });
+</script>
 	<script src="<?= base_url('Home-css/js/single_listing_custom.js'); ?>"></script>
 	
 	<?= $this->endSection(); ?>

@@ -18,21 +18,22 @@
     <?php foreach ($bookings as $booking): ?>
         <div class="card mb-3">
             <div class="row g-0 align-items-center">
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <!-- Hiển thị hình ảnh của tour -->
                     <?php if ($booking['tour_image']): ?>
-                        <img src="<?= base_url(esc($booking['tour_image'])) ?>" class="img-fluid rounded-start" alt="<?= esc($booking['tour_name']) ?>">
+                        <img src="<?= base_url(esc($booking['tour_image'])) ?>" class="img-fluid rounded-start" alt="<?= esc($booking['tour_name']) ?>" 
+                        style="width: 100%; height: 200px; object-fit: cover;">
                     <?php else: ?>
                         <img src="https://via.placeholder.com/150" class="img-fluid rounded-start" alt="Hình ảnh tour không có sẵn">
                     <?php endif; ?>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-5">
                     <div class="card-body">
                         <h5 class="card-title"><?= esc($booking['tour_name']) ?></h5>
                         <p class="card-text">
                             <span>Mã đơn hàng: <?= esc($booking['id']) ?></span><br>
                             <span>Ngày đặt: <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></span><br>
-                            <span>Trạng thái: <span class="badge bg-success"><?= esc($booking['status_text']) ?></span></span>       
+                            <span>Trạng thái: <span class="badge bg-success" style="color: white;"><?= esc($booking['status_text']) ?></span></span>       
                         </p>
                         <p class="card-text">
                             <span>Tổng tiền: <strong><?= number_format($booking['total_price'], 0, ',', '.') ?> VND</strong></span>

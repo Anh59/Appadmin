@@ -10,7 +10,7 @@ class BookingModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = [
         'customer_id', 'tour_id', 'participants', 'room_quantity', 
-        'booking_date','payment_method', 'payment_status', 'total_price', 'created_at', 'updated_at'
+        'booking_date','payment_method', 'payment_status', 'total_price', 'created_at', 'updated_at,payment_updated_at'
     ];
     protected $beforeUpdate = ['updatePaymentTimestamp'];
 
