@@ -37,7 +37,7 @@
                 ?>
                 <?= esc($shortDescription) ?>
             </td>
-            <td><?= esc($tour['price_per_person']) ?></td>
+            <td><?= number_format(esc($tour['price_per_person']), 0, ',', '.') ?> đ</td>
             <td>
                 <a href="<?= route_to('Table_Tours_Details', $tour['id']) ?>" class="btn btn-info" title="Chi Tiết">
                     <i class="fas fa-info-circle"></i>

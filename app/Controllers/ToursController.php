@@ -105,76 +105,77 @@ class ToursController extends Controller
 
 
     public function store()
-    {
-        $tourModel = new ToursModel();
-        $imageModel = new ImagesModel();
-        $roomModel = new RoomsModel();
-        $transportModel = new TransportsModel();
-    
-        // Lấy transport_id từ form
-        $transportId = $this->request->getPost('transport_id');
-    
-        // Kiểm tra xem transport_id có hợp lệ không (có giá trị và tồn tại trong bảng transports)
-        if (!$transportId || !$transportModel->find($transportId)) {
-            return redirect()->back()->with('error', 'Phương tiện không hợp lệ.');
-        }
-    
-        // Lưu nhiều phòng (nếu có)
-        $roomIds = $this->request->getPost('room_ids'); // Dữ liệu từ checkbox
-    
-        // Kiểm tra nếu không có phòng nào được chọn
-        if (empty($roomIds)) {
-            return redirect()->back()->with('error', 'Không thể tạo tour nếu chưa có phòng được chọn.');
-        }
-    
-        // Lấy nội dung mô tả từ Quill và loại bỏ các thẻ HTML không cần thiết
-        $description = $this->request->getPost('description');
-        // Loại bỏ các thẻ HTML không cần thiết, ví dụ chỉ lấy text thuần (nếu cần)
-        $description = strip_tags($description);  // Sử dụng strip_tags để loại bỏ tất cả các thẻ HTML
-    
-        // Lưu thông tin tour
-        $tourData = [
-            'name' => $this->request->getPost('name'),
-            'description' => $description,  // Lưu nội dung mô tả đã xử lý
-            'price_per_person' => $this->request->getPost('price_per_person'),
-            'transport_id' => $transportId,  // Lưu transport_id vào bảng tours
-        ];
-        $tourId = $tourModel->insert($tourData);
-    
-        // Lưu hình ảnh
-        $images = $this->request->getFiles('image_url');  // Lấy mảng các tệp ảnh
-    
-        // Kiểm tra nếu ảnh đã được upload
-        if (!empty($images['image_url'])) {
-            foreach ($images['image_url'] as $image) {
-                // Kiểm tra nếu tệp hợp lệ (trong trường hợp này $image là đối tượng UploadedFile)
-                if ($image->isValid() && !$image->hasMoved()) {
-                    // Di chuyển tệp vào thư mục lưu trữ
-                    $imageName = str_replace(' ', '_', $image->getName()); // Thay thế dấu cách bằng dấu gạch dưới hoặc bạn có thể dùng urlencode()
-                    $image->move(FCPATH . 'uploads', $imageName);
-    
-                    // Lưu thông tin ảnh vào bảng images
-                    $imageData = [
-                        'tour_id' => $tourId,
-                        'image_url' => 'uploads/' . $image->getName(), // Đường dẫn tệp đã lưu
-                    ];
-                    $imageModel->insert($imageData);
-                }
-            }
-        }
-    
-        // Gán phòng vào tour
-        foreach ($roomIds as $roomId) {
-            $room = $roomModel->find($roomId);
-            if ($room && $room['tour_id'] === null) {  // Chỉ gán nếu phòng chưa có tour nào gán
-                $roomModel->update($roomId, [
-                    'tour_id' => $tourId,  // Gán tour vào phòng
-                ]);
-            }
-        }
-    
-        return redirect()->route('Table_Tours');
+{
+    $tourModel = new ToursModel();
+    $imageModel = new ImagesModel();
+    $roomModel = new RoomsModel();
+    $transportModel = new TransportsModel();
+
+    // Lấy transport_id từ form
+    $transportId = $this->request->getPost('transport_id');
+
+    // Kiểm tra xem transport_id có hợp lệ không
+    if (!$transportId || !$transportModel->find($transportId)) {
+        return redirect()->back()->with('error', 'Phương tiện không hợp lệ.');
     }
+
+    // Lưu nhiều phòng (nếu có)
+    $roomIds = $this->request->getPost('room_ids'); // Dữ liệu từ checkbox
+
+    // Kiểm tra nếu không có phòng nào được chọn
+    if (empty($roomIds)) {
+        return redirect()->back()->with('error', 'Không thể tạo tour nếu chưa có phòng được chọn.');
+    }
+
+    // // Lấy nội dung mô tả từ Quill và loại bỏ các thẻ HTML không cần thiết
+    // $description = $this->request->getPost('description');
+    // // Loại bỏ các thẻ HTML không cần thiết
+    // $description = strip_tags($description);  // Sử dụng strip_tags để loại bỏ tất cả các thẻ HTML
+
+    // Lưu thông tin tour
+    $tourData = [
+        'name' => $this->request->getPost('name'),
+        'description' => $this->request->getPost('description'),  // Lưu nội dung mô tả đã xử lý
+        'price_per_person' => $this->request->getPost('price_per_person'),
+        'transport_id' => $transportId,  // Lưu transport_id vào bảng tours
+        'start_date' => $this->request->getPost('start_date'),  // Thêm ngày bắt đầu    
+        'end_date' => $this->request->getPost('end_date'),  // Thêm ngày kết thúc
+        'location' => $this->request->getPost('location'),  // Thêm địa điểm
+        'participants' => $this->request->getPost('participants'),  // Thêm số người tham gia
+    ];
+    $tourId = $tourModel->insert($tourData);
+
+    // Lưu hình ảnh
+    $images = $this->request->getFiles('image_url');  // Lấy mảng các tệp ảnh
+
+    if (!empty($images['image_url'])) {
+        foreach ($images['image_url'] as $image) {
+            if ($image->isValid() && !$image->hasMoved()) {
+                $imageName = str_replace(' ', '_', $image->getName()); // Thay thế dấu cách bằng dấu gạch dưới
+                $image->move(FCPATH . 'uploads', $imageName);
+
+                $imageData = [
+                    'tour_id' => $tourId,
+                    'image_url' => 'uploads/' . $image->getName(), // Đường dẫn tệp đã lưu
+                ];
+                $imageModel->insert($imageData);
+            }
+        }
+    }
+
+    // Gán phòng vào tour
+    foreach ($roomIds as $roomId) {
+        $room = $roomModel->find($roomId);
+        if ($room && $room['tour_id'] === null) {  // Chỉ gán nếu phòng chưa có tour nào gán
+            $roomModel->update($roomId, [
+                'tour_id' => $tourId,  // Gán tour vào phòng
+            ]);
+        }
+    }
+
+    return redirect()->route('Table_Tours');
+}
+
     
 
 
@@ -248,26 +249,33 @@ public function update($id)
         'description' => $this->request->getPost('description'),
         'price_per_person' => $this->request->getPost('price_per_person'),
         'transport_id' => $transportId,
+        'location' => $this->request->getPost('location'),
+        'participants' => $this->request->getPost('participants'),
+        'start_date' => $this->request->getPost('start_date'),
+        'end_date' => $this->request->getPost('end_date'),
     ];
     $tourModel->update($id, $tourData);
 
     // Lấy các hình ảnh đã được chọn để xóa
-    $deleteImages = $this->request->getPost('delete_images') ?: [];
-
-    // Xóa hình ảnh đã chọn trong form
-    if (!empty($deleteImages)) {
-        foreach ($deleteImages as $imageId) {
-            $image = $imageModel->find($imageId);
-            if ($image) {
-                // Xóa ảnh từ thư mục
-                if (file_exists(FCPATH . $image['image_url'])) {
-                    unlink(FCPATH . $image['image_url']);
+    // Lấy các hình ảnh đã được chọn để xóa
+    $deleteImages = $this->request->getPost('delete_images') ?? [];
+    // dd($deleteImages);
+    
+        // Xóa hình ảnh đã chọn trong form nếu danh sách không rỗng
+        if (!empty($deleteImages)) {
+            foreach ($deleteImages as $imageId) {
+                $image = $imageModel->find($imageId);
+                if ($image) {
+                    // Xóa ảnh từ thư mục
+                    if (file_exists(FCPATH . $image['image_url'])) {
+                        unlink(FCPATH . $image['image_url']);
+                    }
+                    // Xóa ảnh trong cơ sở dữ liệu
+                    $imageModel->delete($imageId);
                 }
-                // Xóa ảnh trong cơ sở dữ liệu
-                $imageModel->delete($imageId);
             }
         }
-    }
+
 
     // Lấy danh sách ảnh mới tải lên
     $uploadedImages = [];
@@ -314,6 +322,7 @@ public function update($id)
 
     return redirect()->route('Table_Tours')->with('success', 'Cập nhật tour thành công!');
 }
+
 
 
 public function delete($id)

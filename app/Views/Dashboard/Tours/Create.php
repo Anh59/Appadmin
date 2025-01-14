@@ -34,6 +34,25 @@
                 <input type="file" class="form-control" id="image_url" name="image_url[]" accept="image/*" multiple required>
                 <div id="image-preview" style="margin-top: 10px;"></div>
             </div>
+            <div class="form-group">
+                <label for="start_date">Ngày Bắt Đầu</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">Ngày Kết Thúc</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Địa Điểm</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="participants">Số Người Tham Gia</label>
+                <input type="number" class="form-control" id="participants" name="participants" required>
+            </div>
 
             <div class="form-group">
                 <label for="transport_id">Chọn Phương Tiện</label>
@@ -52,7 +71,7 @@
                 ?>
 
                 <?php if (empty($availableRooms)): ?>
-                    <p>Hiện đang hết phòng! Hãy kiểm tra lại danh sách phòng hoặc <a href="<?= route_to('create_room') ?>">tạo phòng mới</a>.</p>
+                    <p>Hiện đang hết phòng! Hãy kiểm tra lại danh sách phòng hoặc <a href="<?= route_to('Table_Rooms_Create') ?>">tạo phòng mới</a>.</p>
                 <?php else: ?>
                     <?php foreach ($availableRooms as $room): ?>
                         <div class="form-check form-check-inline">

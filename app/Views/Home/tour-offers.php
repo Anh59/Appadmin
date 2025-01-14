@@ -200,7 +200,7 @@ Offers
                     </div>
                     <div class="col-lg-8">
                         <div class="offers_content">
-                            <div class="offers_price"><?= $tour['price_per_person']; ?>vnđ<span>/ người</span></div>
+						<div class="offers_price"><?= number_format($tour['price_per_person'], 0, ',', '.') ?> vnđ<span>/ người</span></div>
                             <div class="rating_r rating_r_<?= round($tour['rating']); ?> offers_rating" data-rating="<?= round($tour['rating']); ?>">
                                 <?php for ($i = 0; $i < 5; $i++): ?>
                                     <i class="fa <?= $i < round($tour['rating']) ? 'fa-star' : 'fa-star-o'; ?>"></i>

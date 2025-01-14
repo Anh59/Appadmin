@@ -128,7 +128,7 @@ Checkout
                 Thanh toán bằng PayPal
             </label>
             <label class="payment-option">
-                <input name="payment_method" value="momo" required type="radio"/>
+                <input name="payment_method" value="MoMo" required type="radio"/>
                 <img alt="Icon representing MoMo payment" height="40" src="https://storage.googleapis.com/a1aa/image/eueIOs5YIwlMWUwXJYqDAYCPrfdgEFx8T85UTpZhmfaES0kPB.jpg" width="40"/>
                 Thanh toán bằng Momo
             </label>
@@ -173,6 +173,8 @@ Checkout
             <button class="checkout-btn mt-3" type="submit">Xác Nhận và Thanh Toán</button>
         </div>
     </form>
+    <div id="qr-code-container"></div>
+
 </section>
 
 <?= $this->endSection(); ?>
@@ -355,7 +357,13 @@ $(document).ready(function() {
                     if (response.redirect_url) {
                         // Chuyển hướng về URL
                         window.location.href = response.redirect_url;
-                    } else {
+                    } 
+                       if (response.qr_code_url) {
+                            // Hiển thị mã QR trên trang
+                            $('#qr-code-container').html('<img src="' + response.qr_code_url + '" alt="QR Code">');
+                            alert(response.message); // Hiển thị thông báo thành công
+                        } 
+                    else {
                         alert('Có lỗi xảy ra, không tìm thấy URL để chuyển hướng.');
                     }
                 } else {

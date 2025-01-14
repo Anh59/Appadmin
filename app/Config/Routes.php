@@ -59,7 +59,7 @@ $routes->group('api_Customers',function($routes) {
 });
 
 $routes->get('index', 'Home::index1',['as'=>'Tour_index']);
-$routes->get('/home/search', 'Home::search');
+$routes->get('/home/search', 'Home::search'); 
 
 $routes->get('about', 'Home::index2',['as'=>'Tour_about']);
 $routes->get('blog', 'NewsController::newsList',['as'=>'Tour_blog']);
@@ -95,6 +95,10 @@ $routes->post('checkout/apply_discount', 'BookingController::applyDiscount');
 $routes->post('checkout/process_payment', 'BookingController::processPayment');
 $routes->get('booking/thanks', 'BookingController::thanks');
 $routes->post('booking/ipn_momo', 'BookingController::ipnMoMo');
+
+$routes->get('booking/vietqr_payment/(:num)', 'BookingController::vietqr_payment/$1');
+$routes->get('api/checkPaymentStatus/(:num)', 'BookingController::checkPaymentStatus/$1');
+
 
 $routes->post('onlinecheckout','OnlinecheckoutController:Onlinecheck',['as'=>'Onlinecheckout']);
 $routes->get('onlinecheckout','OnlinecheckoutController:Onlinecheck',['as'=>'Onlinecheckout']);

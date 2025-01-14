@@ -10,30 +10,40 @@ Thành công
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="<?= base_url('css/customers_sign.css') ?>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css">
+<style>
+    .swal2-popup.small-swal-popup {
+    padding: 8px;
+    font-size: 12px;
+    max-width: 300px;
+}
+
+
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('Home-content') ?>
 <div class="home">
     <div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
     <div class="home_content">
-        <div class="home_title">Đăng nhập</div>
+        <div class="home_title">thông tin cá nhân</div>
     </div>
 </div>
 <?= view('alerts') ?>
-<?php if (session()->getFlashdata('error')): ?>
+    <!-- <?php if (session()->getFlashdata('error')): ?>
         <div class="alert alert-danger alert-dismissible fade show" id="alert-message-error">
             <?= session()->getFlashdata('error') ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
 
-    <!-- Thông báo thành công -->
     <?php if (session()->getFlashdata('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" id="alert-message-success">
             <?= session()->getFlashdata('success') ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php endif; ?>
+    <?php endif; ?> -->
+
 
     <div class="container my-5">
         <div class="row">
@@ -97,26 +107,54 @@ Thành công
 	<?= $this->section('Home-scripts') ?>
 	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js"></script>
 	<script>
       document.addEventListener('DOMContentLoaded', () => {
-        const errorAlert = document.getElementById('alert-message-error');
-        const successAlert = document.getElementById('alert-message-success');
+    // Lấy thông báo từ session
+    const errorMessage = <?= json_encode(esc(session()->getFlashdata('error') ?: '')) ?>;
+    const successMessage = <?= json_encode(esc(session()->getFlashdata('success') ?: '')) ?>;
 
-        if (errorAlert) {
-            setTimeout(() => {
-                errorAlert.classList.add('fade-out');
-                setTimeout(() => errorAlert.remove(), 500); // Xóa hẳn sau hiệu ứng
-            }, 10000); // 10 giây
-        }
 
-        if (successAlert) {
-            setTimeout(() => {
-                successAlert.classList.add('fade-out');
-                setTimeout(() => successAlert.remove(), 500); // Xóa hẳn sau hiệu ứng
-            }, 10000); // 10 giây
+
+    // Hiển thị thông báo lỗi
+    if (errorMessage) {
+        Swal.fire({
+            position: "top-end",
+            icon: 'error',
+            title: 'Có lỗi xảy ra',
+            html: errorMessage,
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+            popup: 'small-swal-popup'
         }
-    });
+        });
+    }
+
+    // Hiển thị thông báo thành công
+    if (successMessage) {
+        Swal.fire({
+            position: "top-end",
+            icon: 'success',
+            title: 'Thành công',
+            html: successMessage,
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            customClass: {
+            popup: 'small-swal-popup'
+        }
+        });
+    }
+});
+
 </script>
 	<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
 	<?= $this->endSection(); ?>

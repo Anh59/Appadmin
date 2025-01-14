@@ -110,7 +110,6 @@ class BookingController extends ResourceController
             $bookingModel = new BookingModel();
             $paymentMethod = $data['payment_method'];
             $status = ($paymentMethod === 'COD') ? 'pending' : 'initiated';//
-        
             // Kiểm tra sự tồn tại của discount_value trong mảng $data
             $discount_value = isset($data['discount_value']) ? $data['discount_value'] : 0;
         
@@ -207,10 +206,15 @@ class BookingController extends ResourceController
                 }
         
                 if ($paymentMethod === 'paypal') {
-                    $response['redirect_url'] = "https://www.paypal.com/checkout?amount={$data['total_price']}&bookingId={$bookingId}";
+                    return $this->processVietQRPayment($bookingId, $totalAmount, $data);
                 }
         
-                if ($paymentMethod === 'momo') {
+                if ($paymentMethod === 'MoMo') {
+                    $bookingModel->update($bookingId, [
+                        'status' => 'completed',
+                        'payment_status' => 'completed', // Optional, you may want to add this field to track payment completion
+                        'payment_updated_at' => date('Y-m-d H:i:s'),
+                    ]);// thêm mặc định vào
                     return $this->processMoMoPayment($bookingId, $totalAmount, $data);
                 }
         
@@ -236,7 +240,7 @@ class BookingController extends ResourceController
             $orderInfo = "Thanh toán đặt tour #" . $bookingId;
             $amount = $totalAmount;
             $orderId = $bookingId . '_' . time();
-            $redirectUrl = site_url("booking/thanks");
+            $redirectUrl = site_url("booking/config_order");
             $ipnUrl = site_url("booking/ipn_momo");
             $extraData = json_encode(['tour_id' => $data['tour_id'], 'booking_id' => $bookingId]);
 
@@ -384,8 +388,92 @@ class BookingController extends ResourceController
         ]);
     }
 }
+public function processVietQRPayment($bookingId, $totalAmount, $data)
+{
+    $endpoint = "https://api.vietqr.io/v2/generate";
+    
+    // Thông tin tài khoản và cấu hình VietQR
+    $accountNo = "4800931765"; // Số tài khoản
+    $accountName = "VU TRUNG ANH"; // Tên tài khoản
+    $acqId = "970418"; // Mã ngân hàng
+    $addInfo = "Thanh toan dat tour #$bookingId"; // Thông tin thêm
 
-        
+    $payload = [
+        'accountNo' => $accountNo,
+        'accountName' => $accountName,
+        'acqId' => $acqId,
+        'amount' => $totalAmount,
+        'addInfo' => $addInfo,
+        'template' => 'compact',
+    ];
+
+    // Cấu hình request
+    $headers = [
+        'x-client-id: YOUR_CLIENT_ID_HERE',
+        'x-api-key: YOUR_API_KEY_HERE',
+        'Content-Type: application/json',
+    ];
+
+    $qrCodeResponse = $this->execPostRequest1($endpoint, json_encode($payload), $headers);
+    $jsonResult = json_decode($qrCodeResponse, true);
+    // log_message('error', 'VietQR Response: ' . json_encode($jsonResult));
+    if (isset($jsonResult['code']) && $jsonResult['code'] === "00" && isset($jsonResult['data']['qrDataURL'])) {
+        $qrCodeImage = $jsonResult['data']['qrDataURL'];
+    
+        // Lưu trạng thái thanh toán ban đầu là "pending"
+        $bookingModel = new BookingModel();
+        $bookingModel->update($bookingId, [
+            'payment_status' => 'pending',
+            'payment_method' => 'vietqr',
+            'payment_updated_at' => date('Y-m-d H:i:s'),
+        ]);
+    
+        // Trả về URL mã QR để người dùng thanh toán
+        return $this->response->setJSON([
+            'success' => true,
+            'message' => 'Vui lòng quét mã QR để thanh toán.',
+            'qr_code_url' => $qrCodeImage,
+            // 'redirect_url' => site_url('booking/vietqr_payment/' . urlencode($bookingId))
+        ]); 
+    } else {
+        // Xử lý lỗi nếu không tạo được mã QR
+        return $this->response->setJSON([
+            'success' => false,
+            'message' => 'Không thể tạo mã QR. Vui lòng thử lại.',
+        ]);
+    }
+}
+private function execPostRequest1($url, $data, $headers = [])
+{
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}       
+public function checkPaymentStatus($bookingId)
+{
+    // Kiểm tra trạng thái thanh toán của bookingId từ cơ sở dữ liệu
+    $bookingModel = new BookingModel();
+    $booking = $bookingModel->find($bookingId);
+
+    if ($booking && $booking['payment_status'] === 'completed') {
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Thanh toán thành công.'
+        ]);
+    }
+
+    return $this->response->setJSON([
+        'status' => 'pending',
+        'message' => 'Thanh toán chưa hoàn tất.'
+    ]);
+}
+       
         
 
 
