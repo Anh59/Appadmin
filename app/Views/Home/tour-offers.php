@@ -83,26 +83,23 @@ Offers
 							<!-- Search Panel -->
 
 							<div class="search_panel active">
-							<form action="<?= base_url('/tour/search'); ?>" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
-									
-									<!-- Destination Input -->
+								<form action="<?= base_url('/tour/search'); ?>" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+		<!-- Destination Input -->
 									<div class="search_item">
 										<div>Tìm kiếm</div>
 										<input type="text" class="destination search_input" name="search_term" value="<?= isset($searchTerm) ? $searchTerm : ''; ?>" placeholder="Nhập tên tour hoặc điểm đến" required="required">
 									</div>
 									<div class="search_item">
 										<div>NGÀY BẮT ĐẦU</div>
-										<input type="text" class="check_in search_input" placeholder="YYYY-MM-DD">
+										<input type="date" class="check_in search_input" name="start_date" value="<?= isset($startDate) ? $startDate : ''; ?>">
 									</div>
 									<div class="search_item">
 										<div>NGÀY KẾT THÚC</div>
-										<input type="text" class="check_out search_input" placeholder="YYYY-MM-DD">
+										<input type="date" class="check_out search_input" name="end_date" value="<?= isset($endDate) ? $endDate : ''; ?>">
 									</div>
-									
-								
-									
 									<button class="button search_button">TÌM KIẾM<span></span><span></span><span></span></button>
 								</form>
+
 							</div>
 
 							
@@ -128,8 +125,8 @@ Offers
 								<span class="sorting_text">Giá</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
-									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }' data-parent=".price_sorting"><span>show all</span></li>
-									<li class="sort_btn" data-isotope-option='{ "sortBy": "price" }' data-parent=".price_sorting"><span>ascending</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }' data-parent=".price_sorting"><span>Tất cả giá</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "price" }' data-parent=".price_sorting"><span>giá tăng dần</span></li>
 								</ul>
 							</li>
 							<li>
@@ -137,38 +134,38 @@ Offers
 								<i class="fa fa-chevron-down"></i>
 								<ul>
 									<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>mặc định</span></li>
-									<li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'><span>theo thứ tự chữ cái</span></li>
+									<li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'><span>theo chữ cái</span></li>
 								</ul>
 							</li>
 							<li>
 								<span class="sorting_text">Số sao</span>
 								<i class="fa fa-chevron-down"></i>
 								<ul>
-									<li class="filter_btn" data-filter="*"><span>Tất cả</span></li>
+									<li class="filter_btn" data-filter="*"><span>Tất cả sao</span></li>
 									<li class="sort_btn" data-isotope-option='{ "sortBy": "stars" }'><span>Tăng dần</span></li>
+									<li class="filter_btn" data-filter=".rating_1"><span>1</span></li>
+									<li class="filter_btn" data-filter=".rating_2"><span>2</span></li>
 									<li class="filter_btn" data-filter=".rating_3"><span>3</span></li>
 									<li class="filter_btn" data-filter=".rating_4"><span>4</span></li>
 									<li class="filter_btn" data-filter=".rating_5"><span>5</span></li>
 								</ul>
 							</li>
-							<!-- <li class="distance_item">
-								<span class="sorting_text">distance from center</span>
-								<i class="fa fa-chevron-down"></i>
-								<ul>
-									<li class="num_sorting_btn"><span>distance</span></li>
-									<li class="num_sorting_btn"><span>distance</span></li>
-									<li class="num_sorting_btn"><span>distance</span></li>
-								</ul>
-							</li> -->
-							<li>
-								<span class="sorting_text">Đánh giá</span>
-								<i class="fa fa-chevron-down"></i>
-								<ul>
-									<li class="num_sorting_btn"><span>5</span></li>
-									<li class="num_sorting_btn"><span>4</span></li>
-									<li class="num_sorting_btn"><span>3</span></li>
-								</ul>
-							</li>
+		
+								<li>
+									<div class="price_slider" style="display: flex; align-items: center;">
+										<input 
+											type="range" 
+											class="num_sorting_btn" 
+											min="100000" 
+											max="5000000" 
+											step="50000" 
+											value="1000000" 
+											id="price_range" 
+											style="flex-grow: 1; margin-right: 10px;"
+										/>
+										<span id="price_display" class="num_sorting_btn" style="min-width: 120px;">1,000,000 đ</span>
+									</div>
+								</li>
 						</ul>
 					</div>
 				</div>
@@ -181,52 +178,54 @@ Offers
 						<!-- Offers Item -->
 
 						<div class="offers_grid">
-    <?php if (!empty($tours)): ?>
-        <?php foreach ($tours as $tour): ?>
-            <div class="offers_item">
-                <div class="row">
-                    <div class="col-lg-1 temp_col"></div>
-                    <div class="col-lg-3 col-1680-4">
-                        <div class="offers_image_container">
-                            <?php if (!empty($tour['image_url'])): ?>
-                                <div class="offers_image_background" style="background-image:url('<?= $tour['image_url']; ?>')"></div>
-                            <?php else: ?>
-                                <div class="offers_image_background" style="background-image:url('<?= base_url('default-image.jpg'); ?>')"></div> <!-- Hình ảnh mặc định -->
-                            <?php endif; ?>
-                            <div class="offer_name">
-                                <a href="<?= base_url('tour/detail/' . $tour['id']); ?>"><?= $tour['name']; ?></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="offers_content">
-						<div class="offers_price"><?= number_format($tour['price_per_person'], 0, ',', '.') ?> vnđ<span>/ người</span></div>
-                            <div class="rating_r rating_r_<?= round($tour['rating']); ?> offers_rating" data-rating="<?= round($tour['rating']); ?>">
-                                <?php for ($i = 0; $i < 5; $i++): ?>
-                                    <i class="fa <?= $i < round($tour['rating']) ? 'fa-star' : 'fa-star-o'; ?>"></i>
-                                <?php endfor; ?>
-                            </div>
-                            <p class="offers_text"><?= strlen($tour['description']) > 150 ? substr($tour['description'], 0, 150) . '...' : $tour['description']; ?></p>
-                            <div class="button book_button">
-                                <a href="<?= base_url('tour/detail/' . $tour['id']); ?>">xem</a>
-                            </div>
+						<?php if (!empty($tours)): ?>
+							<?php foreach ($tours as $tour): ?>
+								<div class="offers_item">
+									<div class="row">
+										<div class="col-lg-1 temp_col"></div>
+										<div class="col-lg-3 col-1680-4">
+											<div class="offers_image_container">
+												<?php if (!empty($tour['image_url'])): ?>
+													<div class="offers_image_background" style="background-image:url('<?= $tour['image_url']; ?>')"></div>
+												<?php else: ?>
+													<div class="offers_image_background" style="background-image:url('<?= base_url('default-image.jpg'); ?>')"></div> <!-- Hình ảnh mặc định -->
+												<?php endif; ?>
+												<div class="offer_name">
+													<a href="<?= base_url('tour/detail/' . $tour['id']); ?>"><?= $tour['name']; ?></a>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-8">
+											<div class="offers_content">
+											<div class="offers_price"><?= number_format($tour['price_per_person'], 0, ',', '.') ?> đ<span>/ người</span></div>
+											<p><strong>Thời gian:</strong> <?= $tour['start_date']; ?> - <?= $tour['end_date']; ?></p>
 
-                            <div class="offer_reviews">
-                                <div class="offer_reviews_content">
-                                    <div class="offer_reviews_title"><?= $tour['review_title']; ?></div>
-                                    <div class="offer_reviews_subtitle"><?= $tour['review_count']; ?> đánh giá</div>
-                                </div>
-                                <div class="offer_reviews_rating text-center"><?= number_format($tour['rating'], 1); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>No tours found.</p>
-    <?php endif; ?>
-</div>
+												<div class="rating_r rating_r_<?= round($tour['rating']); ?> offers_rating" data-rating="<?= round($tour['rating']); ?>">
+													<?php for ($i = 0; $i < 5; $i++): ?>
+														<i class="fa <?= $i < round($tour['rating']) ? 'fa-star' : 'fa-star-o'; ?>"></i>
+													<?php endfor; ?>
+												</div>
+												<p class="offers_text"><?= strlen($tour['description']) > 150 ? substr($tour['description'], 0, 50) . '...' : $tour['description']; ?></p>
+												<div class="button book_button">
+													<a href="<?= base_url('tour/detail/' . $tour['id']); ?>">xem</a>
+												</div>
+
+												<div class="offer_reviews">
+													<div class="offer_reviews_content">
+														<div class="offer_reviews_title"><?= $tour['review_title']; ?></div>
+														<div class="offer_reviews_subtitle"><?= $tour['review_count']; ?> đánh giá</div>
+													</div>
+													<div class="offer_reviews_rating text-center"><?= number_format($tour['rating'], 1); ?></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<p>No tours found.</p>
+						<?php endif; ?>
+					</div>
 <!-- Hiển thị phân trang -->
 <div class="blog_navigation">
     <ul>

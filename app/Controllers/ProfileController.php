@@ -124,10 +124,12 @@ class ProfileController extends BaseController
         if ($newEmail != $oldEmail) {
             $existingCustomer = $customerModel->where('email', $newEmail)->first();
             if ($existingCustomer) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => 'Email này đã được đăng ký. Vui lòng chọn email khác.',
-                ]);
+                // return $this->response->setJSON([
+                //     'status' => 'error',
+                //     'message' => 'Email này đã được đăng ký. Vui lòng chọn email khác.',
+                // ]);
+                session()->setFlashdata('error', 'Email này đã được đăng ký. Vui lòng chọn email khác.');
+                return redirect()->route('changePersonalInfo');
             }
     
             // Gửi OTP và lưu email chờ xác nhận
@@ -514,7 +516,7 @@ public function submitReview($bookingId)
     $reviewsModel->save($reviewData);
 
     // Quay lại trang lịch sử đơn hàng với thông báo
-    return redirect()->route('/history_order')->with('message', 'Đánh giá của bạn đã được lưu.');
+    return redirect()->route('history_order')->with('success', 'Đánh giá của bạn đã được lưu.');
 }
 
 public function delete_order($bookingId)

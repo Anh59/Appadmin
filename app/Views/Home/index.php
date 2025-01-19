@@ -170,26 +170,21 @@ Index
 
 							<div class="search_panel active">
 							<form action="<?= base_url('/tour/search'); ?>" id="search_form_1" class="search_panel_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
-									
-									<!-- Destination Input -->
-									<div class="search_item">
-										<div>TÌM KIẾM</div>
-										<input type="text" class="destination search_input" name="search_term" value="<?= isset($searchTerm) ? $searchTerm : ''; ?>" placeholder="Nhập tên tour hoặc điểm đến" required="required">
+    <div class="search_item">
+        <div>Tìm kiếm</div>
+        <input type="text" class="destination search_input" name="search_term" value="<?= isset($searchTerm) ? $searchTerm : ''; ?>" placeholder="Nhập tên tour hoặc điểm đến" required="required">
+    </div>
+    <div class="search_item">
+        <div>NGÀY BẮT ĐẦU</div>
+        <input type="date" class="check_in search_input" name="start_date" value="<?= isset($startDate) ? $startDate : ''; ?>">
+    </div>
+    <div class="search_item">
+        <div>NGÀY KẾT THÚC</div>
+        <input type="date" class="check_out search_input" name="end_date" value="<?= isset($endDate) ? $endDate : ''; ?>">
+    </div>
+    <button class="button search_button">TÌM KIẾM<span></span><span></span><span></span></button>
+</form>
 
-									</div>
-									<div class="search_item">
-										<div>NGÀY BẮT ĐẦU</div>
-										<input type="text" class="check_in search_input" placeholder="YYYY-MM-DD">
-									</div>
-									<div class="search_item">
-										<div>NGAY KẾT THÚC</div>
-										<input type="text" class="check_out search_input" placeholder="YYYY-MM-DD">
-									</div>
-									
-								
-									
-									<button class="button search_button">TÌM KIẾM<span></span><span></span><span></span></button>
-								</form>
 							</div>
 
 							

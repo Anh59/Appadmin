@@ -60,53 +60,11 @@
         }
     }
 
-    // Tự động ẩn thông báo sau 10 giây
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     const errorAlert = document.getElementById('alert-message-error');
-    //     const successAlert = document.getElementById('alert-message-success');
+  
 
-    //     if (errorAlert) {
-    //         setTimeout(() => {
-    //             errorAlert.classList.add('fade-out');
-    //             setTimeout(() => errorAlert.remove(), 500); // Xóa hẳn sau hiệu ứng
-    //         }, 10000); // 10 giây
-    //     }
 
-    //     if (successAlert) {
-    //         setTimeout(() => {
-    //             successAlert.classList.add('fade-out');
-    //             setTimeout(() => successAlert.remove(), 500); // Xóa hẳn sau hiệu ứng
-    //         }, 10000); // 10 giây
-    //     }
-    // });
-
-    // Kiểm tra mật khẩu hợp lệ
-    function validatePassword() {
-        const password = document.getElementById('new_password').value;
-        const confirmPassword = document.getElementById('confirm_password').value;
-
-        const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-        if (!passwordPattern.test(password)) {
-            alert('Mật khẩu mới không hợp lệ! Phải ít nhất 8 ký tự, bao gồm chữ cái, số và ký tự đặc biệt.');
-            return false;
-        }
-
-        if (password !== confirmPassword) {
-            alert('Mật khẩu mới và mật khẩu xác nhận không khớp!');
-            return false;
-        }
-
-        return true;
-    }
 </script>
 
-<style>
-    /* Hiệu ứng mờ dần trước khi xóa */
-    .fade-out {
-        opacity: 0;
-        transition: opacity 0.5s ease-out;
-    }
-</style>
+
 
 <?= $this->endSection(); ?>

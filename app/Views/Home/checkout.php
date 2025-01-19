@@ -154,11 +154,11 @@ Checkout
                 </div>
                 <div class="summary-item">
                     <span>Giảm giá:</span>
-                    <span id="discount">0 VND</span>
+                    <span id="discount">0 đ</span>
                 </div>
                 <div class="summary-item">
                     <span>Tổng tiền:</span>
-                    <span id="total-amount">0 VND</span>
+                    <span id="total-amount">0 đ</span>
                 </div>
             </div>
 
@@ -358,7 +358,7 @@ $(document).ready(function() {
                         // Chuyển hướng về URL
                         window.location.href = response.redirect_url;
                     } 
-                       if (response.qr_code_url) {
+                    else if (response.qr_code_url) {
                             // Hiển thị mã QR trên trang
                             $('#qr-code-container').html('<img src="' + response.qr_code_url + '" alt="QR Code">');
                             alert(response.message); // Hiển thị thông báo thành công

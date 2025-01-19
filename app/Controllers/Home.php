@@ -147,44 +147,55 @@ class Home extends BaseController
         return view('Home/blogdetail');
     }
 
-    public function search()
-    {
-        $searchTerm = $this->request->getGet('search_term');
-        $checkIn = $this->request->getGet('check_in');
-        $checkOut = $this->request->getGet('check_out');
-      
+    public function search(): string
+{
+    $searchTerm = $this->request->getGet('search_term');
+    $startDate = $this->request->getGet('start_date');
+    $endDate = $this->request->getGet('end_date');
 
-        // Kiểm tra dữ liệu đầu vào
-        if (empty($searchTerm)) {
-            return redirect()->back()->with('error', 'Please enter a destination.');
-        }
-
-        // Lấy dữ liệu từ database
-        $tourModel = new ToursModel();
-        $imageModel = new ImagesModel();
-        $reviewModel = new ReviewsModel();
-
-        $tours = $tourModel->like('name', $searchTerm)
-                           ->orLike('description', $searchTerm)
-                           ->findAll();
-
-        // Thêm thông tin bổ sung (hình ảnh và đánh giá) cho từng tour
-        foreach ($tours as &$tour) {
-            $image = $imageModel->where('tour_id', $tour['id'])->first();
-            $tour['image_url'] = $image ? base_url($image['image_url']) : '';
-
-            $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
-            $tour['rating'] = $reviews ? array_sum(array_column($reviews, 'rating')) / count($reviews) : 0;
-            $tour['review_count'] = count($reviews);
-        }
-
-        // Truyền dữ liệu tới view kết quả
-        return view('Home/tour-offers', [
-            'tours' => $tours,
-            'searchTerm' => $searchTerm,
-            'checkIn' => $checkIn,
-            'checkOut' => $checkOut,
-   
-        ]);
+    if (!is_string($searchTerm) || empty($searchTerm)) {
+        return redirect()->to(base_url('/tour/offers'))->with('error', 'Vui lòng nhập từ khóa tìm kiếm.');
     }
+
+    $tourModel = new \App\Models\ToursModel();
+    $imageModel = new \App\Models\ImagesModel();
+    $reviewModel = new \App\Models\ReviewsModel();
+
+    // Tìm kiếm với điều kiện từ khóa và ngày
+    $query = $tourModel->groupStart()
+                       ->like('name', $searchTerm)
+                       ->orLike('description', $searchTerm)
+                       ->groupEnd();
+
+    if ($startDate && $endDate) {
+        $query->groupStart()
+              ->where('start_date <=', $endDate)
+              ->where('end_date >=', $startDate)
+              ->groupEnd();
+    } elseif ($startDate) {
+        $query->where('end_date >=', $startDate);
+    } elseif ($endDate) {
+        $query->where('start_date <=', $endDate);
+    }
+
+    $tours = $query->findAll();
+
+    // Xử lý thông tin bổ sung
+    foreach ($tours as &$tour) {
+        $image = $imageModel->where('tour_id', $tour['id'])->first();
+        $tour['image_url'] = $image ? base_url($image['image_url']) : '';
+        $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
+        $tour['rating'] = $reviews ? array_sum(array_column($reviews, 'rating')) / count($reviews) : 0;
+        $tour['review_count'] = count($reviews);
+    }
+
+    return view('Home/tour-offers', [
+        'tours' => $tours,
+        'searchTerm' => $searchTerm,
+        'startDate' => $startDate,
+        'endDate' => $endDate,
+    ]);
 }
+
+}
+ 

@@ -143,59 +143,91 @@ $(document).ready(function()
 
 	*/
 
-    function initIsotopeFiltering()
-    {
-    	var sortBtn = $('.sort_btn');
-    	var filterBtn = $('.filter_btn');
+// Initialize Isotope Filtering
+function initIsotopeFiltering() {
+    var sortBtn = $('.sort_btn');
+    var filterBtn = $('.filter_btn');
 
-    	if($('.offers_grid').length)
-    	{
-    		var grid = $('.offers_grid').isotope({
-    			itemSelector: '.offers_item',
-	            getSortData: {
-	            	price: function(itemElement)
-	            	{
-	            		var priceEle = $(itemElement).find('.offers_price').text().replace( '$', '' );
-	            		return parseFloat(priceEle);
-	            	},
-	            	name: '.offer_name',
-	            	stars: function(itemElement)
-	            	{
-	            		var starsEle = $(itemElement).find('.offers_rating');
-	            		var stars = starsEle.attr("data-rating");
-	            		return stars;
-	            	}
-	            },
-	            animationOptions: {
-	                duration: 750,
-	                easing: 'linear',
-	                queue: false
-	            }
-	        });
+    if ($('.offers_grid').length) {
+        // Initialize Isotope grid
+        var grid = $('.offers_grid').isotope({
+            itemSelector: '.offers_item',
+            layoutMode: 'fitRows',
+            getSortData: {
+                price: function (itemElement) {
+                    var priceEle = $(itemElement).find('.offers_price').text().replace(/\D/g, ''); // Remove all non-numeric characters
+                    return parseFloat(priceEle) || 0;
+                },
+                name: '.offer_name',
+                stars: function (itemElement) {
+                    var starsEle = $(itemElement).find('.offers_rating');
+                    var stars = starsEle.attr('data-rating');
+                    return parseFloat(stars) || 0;
+                }
+            },
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+        });
 
-    		// Sorting
-	        sortBtn.each(function()
-	        {
-	        	$(this).on('click', function()
-	        	{
-	        		var parent = $(this).parent().parent().find('.sorting_text');
-	        		parent.text($(this).text());
-	        		var option = $(this).attr('data-isotope-option');
-	        		option = JSON.parse( option );
-    				grid.isotope( option );
-	        	});
-	        });
+        // Sorting functionality
+        sortBtn.each(function () {
+            $(this).on('click', function () {
+                var parent = $(this).parent().parent().find('.sorting_text');
+                parent.text($(this).text());
+                var option = $(this).attr('data-isotope-option');
 
-	        // Filtering
-	        $('.filter_btn').on('click', function()
-	        {
-	        	var parent = $(this).parent().parent().find('.sorting_text');
-	        	parent.text($(this).text());
-		        var filterValue = $(this).attr('data-filter');
-  				grid.isotope({ filter: filterValue });
-	        });
-    	}
+                try {
+                    option = JSON.parse(option);
+                    grid.isotope(option);
+                } catch (e) {
+                    console.error('Invalid sorting option:', option);
+                }
+            });
+        });
+
+        // Filtering functionality
+        filterBtn.each(function () {
+            $(this).on('click', function () {
+                var parent = $(this).parent().parent().find('.sorting_text');
+                parent.text($(this).text());
+                var filterValue = $(this).attr('data-filter');
+
+                grid.isotope({ 
+                    filter: function () {
+                        if (filterValue === "*") return true; // Show all items
+                        var itemRating = parseFloat($(this).find('.offers_rating').attr('data-rating')) || 0;
+                        return $(this).hasClass(filterValue) || Math.floor(itemRating) === parseInt(filterValue.replace('.rating_', ''));
+                    }
+                });
+            });
+        });
+
+		 // Filtering by price range (new functionality)
+		 var priceRange = $('#price_range');
+		 priceRange.on('input', function () {
+			 var minPrice = parseFloat($(this).val()) || 0; // Giá tối thiểu được lấy từ thanh trượt
+			 $('#price_display').text(
+				 new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(minPrice)
+			 ); // Cập nhật giá trị hiển thị
+ 
+			 // Lọc các mục dựa trên giá tiền
+			 grid.isotope({
+				 filter: function () {
+					 var itemPrice = parseFloat($(this).find('.offers_price').text().replace(/\D/g, '')) || 0; // Giá của tour
+					 return itemPrice >= minPrice; // Hiển thị các tour từ giá trị tối thiểu trở lên
+				 }
+			 });
+		 });
     }
+}
+
+// Document Ready
+$(document).ready(function () {
+    initIsotopeFiltering();
+});
 
     /* 
 

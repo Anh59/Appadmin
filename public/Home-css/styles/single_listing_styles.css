@@ -1417,6 +1417,15 @@ section
 {
 	width: 100%;
 }
+/* phần sửa css */
+.hotel_slider img {
+    width: 100%; /* Hình ảnh chiếm toàn bộ chiều rộng của slide */
+    height: 100px; /* Chiều cao cố định, có thể điều chỉnh theo nhu cầu */
+    object-fit: cover; /* Đảm bảo hình ảnh được cắt và không bị méo */
+    border-radius: 5px; /* Tùy chọn: làm bo góc cho hình ảnh */
+}
+
+/* Tùy chỉnh cho ảnh trong colorbox */
 .hotel_slider_nav
 {
 	position: absolute;

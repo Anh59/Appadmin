@@ -114,7 +114,7 @@ public function single_listing($id): string
         } else {
             $tour['rating'] = 0;
             $tour['review_count'] = 0;
-            $tour['review_title'] = 'No reviews yet';
+            $tour['review_title'] = 'Chưa đánh giá';
         }
 
         // Lấy thông tin phòng cho tour
@@ -133,23 +133,42 @@ public function single_listing($id): string
 public function search(): string
 {
     $searchTerm = $this->request->getGet('search_term');
-    $transportType = $this->request->getGet('transport_type'); // Lấy giá trị transport_type nếu có
+    $transportType = $this->request->getGet('transport_type');
+    $startDate = $this->request->getGet('start_date'); 
+    $endDate = $this->request->getGet('end_date');     
 
     // Kiểm tra xem $searchTerm có phải là chuỗi hợp lệ hay không
     if (!is_string($searchTerm) || empty($searchTerm)) {
-        // Nếu không có từ khóa tìm kiếm hợp lệ, trả về danh sách tour bình thường
         return redirect()->to(base_url('/tour/offers'));
     }
 
     $tourModel = new \App\Models\ToursModel();
     $imageModel = new \App\Models\ImagesModel();
     $reviewModel = new \App\Models\ReviewsModel();
-    $transportModel = new \App\Models\TransportsModel();
 
-    // Tìm các tour có tên hoặc mô tả phù hợp với từ khóa tìm kiếm
-    $tours = $tourModel->like('name', $searchTerm)
+    // Tìm các tour phù hợp với từ khóa và loại phương tiện
+    $query = $tourModel->groupStart()
+                       ->like('name', $searchTerm)
                        ->orLike('description', $searchTerm)
-                       ->findAll();
+                       ->groupEnd(); // Nhóm các điều kiện LIKE
+
+    if (!empty($transportType)) {
+        $query->where('transport_id', $transportType);
+    }
+
+    // Tìm theo ngày bắt đầu và ngày kết thúc nếu có
+    if ($startDate && $endDate) {
+        $query->groupStart()  // Bắt đầu nhóm điều kiện cho ngày
+              ->where('start_date <=', $endDate)
+              ->where('end_date >=', $startDate)
+              ->groupEnd(); // Kết thúc nhóm điều kiện cho ngày
+    } elseif ($startDate) {
+        $query->where('end_date >=', $startDate);
+    } elseif ($endDate) {
+        $query->where('start_date <=', $endDate);
+    }
+
+    $tours = $query->findAll();
 
     // Xử lý phân trang
     $currentPage = $this->request->getGet('page') ?? 1;
@@ -159,23 +178,15 @@ public function search(): string
     $offset = ($currentPage - 1) * $toursPerPage;
     $tours = array_slice($tours, $offset, $toursPerPage);
 
-    // Lấy thêm thông tin cho từng tour (hình ảnh và đánh giá)
-    if (!empty($tours)) {
-        foreach ($tours as &$tour) {
-            $image = $imageModel->where('tour_id', $tour['id'])->first();
-            $tour['image_url'] = $image ? base_url($image['image_url']) : '';
+    // Lấy thêm thông tin cho từng tour
+    foreach ($tours as &$tour) {
+        $image = $imageModel->where('tour_id', $tour['id'])->first();
+        $tour['image_url'] = $image ? base_url($image['image_url']) : '';
 
-            $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
-            if (!empty($reviews)) {
-                $tour['rating'] = array_sum(array_column($reviews, 'rating')) / count($reviews);
-                $tour['review_count'] = count($reviews);
-                $tour['review_title'] = 'Very good';
-            } else {
-                $tour['rating'] = 0;
-                $tour['review_count'] = 0;
-                $tour['review_title'] = 'No reviews yet';
-            }
-        }
+        $reviews = $reviewModel->where('tour_id', $tour['id'])->findAll();
+        $tour['rating'] = !empty($reviews) ? array_sum(array_column($reviews, 'rating')) / count($reviews) : 0;
+        $tour['review_count'] = count($reviews);
+        $tour['review_title'] = !empty($reviews) ? 'Rất tốt' : 'không có đánh giá';
     }
 
     // Truyền dữ liệu sang view
@@ -184,14 +195,11 @@ public function search(): string
         'totalPages' => $totalPages,
         'currentPage' => $currentPage,
         'searchTerm' => $searchTerm,
-        'transportType' => $transportType, // Truyền transportType vào view
+        'transportType' => $transportType,
+        'startDate' => $startDate,
+        'endDate' => $endDate,
     ]);
 }
-
-
-
-    
-
 
     
 }   

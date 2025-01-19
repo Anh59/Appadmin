@@ -14,6 +14,8 @@
             <th>Hình Ảnh</th>
             <th>Tên Tour</th>
             <th>Mô Tả</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
             <th>Giá</th>
             <th>Chức Năng</th>
         </tr>
@@ -37,6 +39,8 @@
                 ?>
                 <?= esc($shortDescription) ?>
             </td>
+            <td><?=$tour['start_date']?></td>
+            <td><?=$tour['end_date']?></td>
             <td><?= number_format(esc($tour['price_per_person']), 0, ',', '.') ?> đ</td>
             <td>
                 <a href="<?= route_to('Table_Tours_Details', $tour['id']) ?>" class="btn btn-info" title="Chi Tiết">

@@ -14,11 +14,7 @@
         <button type="submit" class="btn btn-primary">Xác nhận</button>
     </form>
 
-    <?php if (session()->getFlashdata('error')): ?>
-        <div class="alert alert-danger mt-3">
-            <?= session()->getFlashdata('error'); ?>
-        </div>
-    <?php endif; ?>
+
 </div>
 
 <?= $this->endSection(); ?>

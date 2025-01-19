@@ -374,7 +374,7 @@ single_listing
 								</div>
 
 									<div class="hotel_map_link_container">
-										<div class="hotel_map_link">See Location on Map</div>
+										<div class="hotel_map_link">Xem vị trí trên bản đồ</div>
 									</div>
 								</div>
 							</div>
@@ -391,7 +391,7 @@ single_listing
 					<div class="hotel_review">
 						<div class="hotel_review_content">
 							<div class="hotel_review_title"><?= $tour['review_title']; ?></div>
-							<div class="hotel_review_subtitle"><?= $tour['review_count']; ?> reviews</div>
+							<div class="hotel_review_subtitle"><?= $tour['review_count']; ?> đánh giá</div>
 						</div>
 						<div class="hotel_review_rating text-center"><?= number_format($tour['rating'], 1); ?></div>
 					</div>
@@ -411,7 +411,7 @@ single_listing
 									</div>
 								<?php endforeach; ?>
 							<?php else: ?>
-								<p>No images available for this tour.</p>
+								<p>hình ảnh không có sẵn</p>
 							<?php endif; ?>
 						</div>
 
@@ -553,7 +553,7 @@ single_listing
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p>No reviews yet.</p>
+            <p>Hiện tại không có đánh giá nào.</p>
         <?php endif; ?>
     </div>
 </div>

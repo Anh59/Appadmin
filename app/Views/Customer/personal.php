@@ -7,7 +7,7 @@
 
 <div class="card-body media align-items-center profile-pic">
     <img id="profile-picture" 
-         src="<?= isset($user['image_url']) ? $user['image_url'] : 'https://bootdey.com/img/Content/avatar/avatar1.png' ?>" 
+         src="<?= isset($user['image_url']) ?: base_url('uploads/avatar/default-avatar.png') ?>" 
          alt="Profile Picture" 
          class="rounded-circle" 
          style="width: 100px; height: 100px;">
