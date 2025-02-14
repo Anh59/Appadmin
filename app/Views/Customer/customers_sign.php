@@ -33,7 +33,7 @@ Thành công
           <div class="underline"></div>
         </div>
         <div class="input-box button action-box">
-            <a href="<?= route_to('customes_forgot_password') ?>" class="forgot-password">Forgot password?</a>
+            <a style="color: #007bff;" href="<?= route_to('customes_forgot_password') ?>" class="forgot-password">Forgot password?</a>
             <button type="submit">Continue</button>
         </div>
       </form>   

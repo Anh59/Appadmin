@@ -1,15 +1,25 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quên Mật Khẩu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="<?= base_url('css/customers_register.css') ?>"> <!-- Đường dẫn đến file CSS -->
-</head>
-<body>
-    <!-- Bao gồm các hàm SweetAlert2 -->
-    <?= view('alerts') ?>
+<?= $this->extend('Home/layout-home'); ?>
+
+<?= $this->section('title') ?>
+Thành công
+<?= $this->endSection() ?>
+
+<?= $this->section('Home-css') ?>
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('Home-css/styles/head_responsive.css'); ?>">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="<?= base_url('css/customers_register.css') ?>">
+<?= $this->endSection() ?>
+
+<?= $this->section('Home-content') ?>
+<div class="home">
+    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="<?= base_url('Home-css/images/about_background.jpg'); ?>"></div>
+    <div class="home_content">
+        <div class="home_title">Đăng nhập</div>
+    </div>
+</div>
+<?= view('alerts') ?>
 
     <div class="container">
         <h2 class="title">Quên Mật Khẩu</h2>
@@ -57,7 +67,12 @@
 </div>
     </div>
 
+
+<?= $this->endSection(); ?>
+	<?= $this->section('Home-scripts') ?>
+	<script src="<?= base_url('Home-css/plugins/parallax-js-master/parallax.min.js'); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
     <script>
         $(document).ready(function() {
             // Xử lý khi form nhập email được submit
@@ -129,5 +144,5 @@
             });
         });
     </script>
-</body>
-</html>
+	<script src="<?= base_url('Home-css/js/head.js'); ?>"></script>
+	<?= $this->endSection(); ?>

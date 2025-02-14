@@ -52,7 +52,7 @@
                     <h4 class="card-title mb-3">Thông tin chuyến du lịch</h4>
                     <p><strong>Tên chuyến du lịch:</strong> <?= esc($booking['tour_name']) ?></p>
                     <p><strong>Ngày đặt:</strong> <?= date('d/m/Y', strtotime($booking['booking_date'])) ?></p>
-                    <p><strong>Thời gian:</strong> 4 ngày 3 đêm</p>
+                    <p><strong>Thời gian:</strong> 2 ngày</p>
                     <p><strong>Địa điểm:</strong> <?= esc($booking['tour_location']) ?></p>
                     <p><strong>Giá vé:</strong> <?= number_format($booking['price_per_person'], 0, ',', '.') ?> VND/người</p>
                     <p><strong>Số lượng người tham gia:</strong> <?= esc($booking['participants']) ?></p>

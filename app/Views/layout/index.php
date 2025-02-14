@@ -210,7 +210,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">APP Discuss</span>
+      <span class="brand-text font-weight-light">Travelix</span>
     </a>
 
     <!-- Sidebar -->
@@ -1047,6 +1047,7 @@
           </div>
 
               <!-- /.col -->
+              <?php if (isset($breadcrumb) && is_array($breadcrumb)): ?>
               <div class="col-sm-6">
                   <ol class="breadcrumb float-sm-right">
                       <?php foreach ($breadcrumb as $crumb): ?>
@@ -1055,7 +1056,8 @@
                           </li>
                       <?php endforeach; ?>
                   </ol>
-              </div><!-- /.col -->
+              </div>
+          <?php endif; ?><!-- /.col -->
           </div><!-- /.row -->
 </div>
 

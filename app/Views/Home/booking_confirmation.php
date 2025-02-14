@@ -65,6 +65,10 @@
                 <td><?= htmlspecialchars($tour['name']); ?></td>
             </tr>
             <tr>
+                <th>Thờiời gian</th>
+                <td>2 ngày</td>
+            </tr>
+            <tr>
                 <th>Số Người Tham Gia</th>
                 <td><?= htmlspecialchars($participants); ?></td>
             </tr>

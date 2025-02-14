@@ -37,7 +37,7 @@ class GroupController extends BaseController
             'success' => session()->getFlashdata('success'),
             'error' => session()->getFlashdata('error'),
         ];
-
+        // dd($data);
         return view('Dashboard/group/create', $data);
     }
 

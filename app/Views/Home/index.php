@@ -402,7 +402,7 @@ Index
 		<div class="container">
 			<div class="row">
 				<div class="col text-center">
-					<h2 class="section_title">Những ưu đãi tốt nhất với phòng</h2>
+					<h2 class="section_title">Những ưu đãi tốt nhất với chuyến đi </h2>
 				</div>	
 			</div>
 			<div class="row offers_items">
@@ -420,7 +420,7 @@ Index
 									</div>
 									<div class="col-lg-6">
 										<div class="offers_content">
-											<div class="offers_price"><?= $tour['price_per_person']; ?><span>/người</span></div>
+											<div class="offers_price"><?= $tour['price_per_person']; ?> đ<span>/người</span></div>
 											<p class="offers_text"><?= substr($tour['description'], 0, 100); ?>...</p>
 											<div class="offers_link"><a href="tour_detail.php?id=<?= $tour['id']; ?>">xem thêm</a></div>
 										</div>
