@@ -21,13 +21,13 @@ Kiến thức cần có
 ## Project đang được xây dựng 1 phần được làm bằng API còn hầu như được kết nối trực tiếp
 
 ### Đã xây dựng được
-## Dashboard : http://localhost/login
+## Dashboard : http://localhost:8080/login
 1. Thông kê doanh thu và các thông tin cơ bản 
 2. Chức năng cấp quyền cho chức ->(add/edit/delete)
 3. Chức năng quản lý tài khoản khách hàng , nhân viên->(add/edit/delete)
 4. Chức năng quản lý dịch vụ (phòng nghỉ , phương tiện , chuyến đi)->(add/edit/delete)
 5. Chức năng quản lý dịch (Mã giảm giá, đơn hàng , tin tức , liên hệ)->(add/edit/delete/detail)
-## Website : http://localhost/index
+## Website : http://localhost:8080/index
 1. Đăng nhập (có thể đăng nhập trực tiếp bằng tài khoản google)
 - Chức năng quên mật khẩu người dùng : Cần thực hiện nhập email đã đăng ký -> xác nhận OTP được gửi về email -> nhập mật khẩu mới
 2. Đăng ký (khi đăng ký cần xác nhận OTP trong email)
@@ -43,10 +43,10 @@ Kiến thức cần có
 4. Lịch sử đặt hàng (chi tiết , đặt lại, đánh giá )
 
 ## Tài khoản sử dụng 
-1. Tài khoản Admin   http://localhost/login
+1. Tài khoản Admin   http://localhost:8080/login
 email : admin@example.com
 password: admin123
 2. Tài khoản nhân viên
 email: nhanvien@gmail.com
 password : nhanvien123
-3. Tài khoản khách hàng tự tạo bằng google http://localhost/index
+3. Tài khoản khách hàng tự tạo bằng google http://localhost:8080/index
